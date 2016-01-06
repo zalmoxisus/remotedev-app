@@ -15,5 +15,5 @@ export function subscribe(subscriber) {
 }
 
 export function dispatchRemotely(action) {
-  channel.publish({ type: 'DISPATCH', action });
+  socket.emit('respond', { type: 'DISPATCH', action });
 }
