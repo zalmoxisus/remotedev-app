@@ -8,7 +8,7 @@ const entry = [
   'webpack/hot/only-dev-server'
 ];
 
-export default baseConfig({
+const config = baseConfig({
   input: {
     app: [path.join(__dirname, '../src/web/index'), ...entry]
   },
@@ -47,3 +47,7 @@ export default baseConfig({
   }],
   entry
 });
+
+config.devtool = 'eval';
+
+export default config;
