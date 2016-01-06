@@ -4,7 +4,7 @@ import baseConfig from './base.config';
 export default baseConfig({
   input: {
     background: [path.join(__dirname, '../src/chromeApp/index')],
-    window: [path.join(__dirname, '../src/chromeApp/window/index')]
+    app: [path.join(__dirname, '../src/web/index')]
   },
   output: {
     path: path.join(__dirname, '../build/app/js')
