@@ -1,10 +1,12 @@
 export default function createDevToolsStore(onDispatch) {
   let currentState = {
-    committedState: {},
-    stagedActions: [],
+    actionsById: {},
     computedStates: [],
-    skippedActions: {},
-    currentStateIndex: 0
+    currentStateIndex: 0,
+    monitorState: {},
+    nextActionId: 0,
+    skippedActionIds: [],
+    stagedActionIds: []
   };
   let listeners = [];
   let initiated = false;
