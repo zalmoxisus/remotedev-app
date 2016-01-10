@@ -8,7 +8,7 @@ export function subscribe(subscriber) {
   socket = socketCluster.connect(socketOptions);
 
   socket.emit('login', {}, (err, channelName) => {
-    // TODO: process errors
+    if (err) { console.error(err); return; }
     channel = socket.subscribe(channelName);
     channel.watch(subscriber);
   });
