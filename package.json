@@ -11,11 +11,10 @@
     "compress:electron": "npm run build:electron && gulp compress:electron",
     "compress:app": "npm run build:app && gulp compress:app",
     "clean": "rm -rf build/ && rm -rf dev/",
+    "prepublish": "eslint ./src/app && rm -rf ./lib && babel ./src/app --out-dir lib",
     "lint": "eslint ."
   },
-  "bin": {
-    "electron": "./node_modules/.bin/electron"
-  },
+  "files": ["lib"],
   "repository": {
     "type": "git",
     "url": "https://github.com/zalmoxisus/remotedev-app"
@@ -29,6 +28,7 @@
   "author": "Mihail Diordiev <zalmoxisus@gmail.com> (https://github.com/zalmoxisus)",
   "license": "MIT",
   "devDependencies": {
+    "babel-cli": "^6.3.15",
     "babel-core": "^6.3.26",
     "babel-eslint": "^5.0.0-beta6",
     "babel-loader": "^6.2.0",
