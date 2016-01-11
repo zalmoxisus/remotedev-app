@@ -4,12 +4,9 @@ import socketOptions from '../constants/socketOptions';
 let socket;
 let channel;
 
-export function subscribe(subscriber, options) {
+export function subscribe(subscriber, options = socketOptions) {
   if (socket) socket.disconnect();
-  socket = socketCluster.connect({
-    ...socketOptions,
-    ...options
-  });
+  socket = socketCluster.connect(options);
 
   socket.emit('login', {}, (err, channelName) => {
     if (err) { console.error(err); return; }
