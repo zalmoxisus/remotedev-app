@@ -17,8 +17,9 @@ const styles = {
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
     minWidth: '300px'
   },
-  icon: {
-    marginRight: '-4px'
+  buttonText: {
+    verticalAlign: 'middle',
+    marginLeft: '2px'
   }
 };
 
