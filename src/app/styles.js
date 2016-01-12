@@ -4,6 +4,12 @@ const styles = {
     display: 'flex',
     flexFlow: 'column nowrap'
   },
+  modal: {
+    content: { padding: 0, bottom: 'auto' }
+  },
+  window: {
+    width: 'auto', height: 'auto'
+  },
   buttonBar: {
     padding: '5px',
     textAlign: 'center',

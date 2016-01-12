@@ -36,9 +36,9 @@ export default class extends Component {
       <div style={styles.container}>
         <DevTools store={this.store} />
         <ButtonBar openModal={this.openModal} closeModal={this.closeModal} />
-        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}>
-          {this.modalContent}
-        </Modal>
+        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}
+          style={styles.modal}
+        >{this.modalContent}</Modal>
       </div>
     );
   }
