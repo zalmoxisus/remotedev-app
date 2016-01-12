@@ -11,14 +11,20 @@ import PushButton from 'react-desktop/lib/Button/PushButton.osx';
 import Switch from './Switch';
 import styles from '../styles';
 
-export default class extends Component {
+export default class Settings extends Component {
   static propTypes = {
     closeModal: PropTypes.func.isRequired
   };
 
   constructor(props) {
     super(props);
-    this.state = { selectedTab: 'connection', isLocal: false };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.state = {
+      selectedTab: 'connection',
+      isLocal: false,
+      hostname: localStorage.getItem('s:hostname') || 'localhost',
+      port: localStorage.getItem('s:port') || '8000'
+    };
   }
 
   changeTab(name) {
@@ -26,6 +32,18 @@ export default class extends Component {
   }
   isTab(name) {
     return this.state.selectedTab === name;
+  }
+
+  handleSubmit() {
+    if (this.state.isLocal) {
+      localStorage.setItem('s:hostname', this.state.hostname);
+      localStorage.setItem('s:port', this.state.port);
+    } else {
+      localStorage.removeItem('s:hostname');
+      localStorage.removeItem('s:port');
+    }
+    console.log(this.state.isLocal, this.state.hostname, this.state.port);
+    this.props.closeModal();
   }
 
   render() {
@@ -38,7 +56,7 @@ export default class extends Component {
             selected={this.isTab('connection')}
             onPress={() => { this.changeTab('connection'); }}
           >
-            <Form onSubmit={() => { alert('form submitted'); }}>
+            <Form onSubmit={this.handleSubmit}>
               <Form.Row>
                 <Switch on={this.state.isLocal}
                   onClick={() => this.setState({ isLocal: !this.state.isLocal })}
@@ -47,16 +65,20 @@ export default class extends Component {
 
               <Form.Row>
                 <Label>Host name:</Label>
-                <TextField defaultValue="localhost"/>
+                <TextField defaultValue={this.state.hostname}
+                  onChange={e => {this.state.hostname = e.target.value;}}
+                />
               </Form.Row>
 
               <Form.Row>
                 <Label>Port:</Label>
-                <TextField defaultValue="8000"/>
+                <TextField defaultValue={this.state.port}
+                  onChange={e => {this.state.port = e.target.value;}}
+                />
               </Form.Row>
 
               <Form.Row>
-                <PushButton onPress="submit" push color="blue">Button With Color</PushButton>
+                <PushButton onPress="submit" push color="blue">Save</PushButton>
                 <PushButton push onClick={closeModal}>Cancel</PushButton>
               </Form.Row>
             </Form>
