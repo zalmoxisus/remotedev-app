@@ -7,8 +7,8 @@ import Form from 'react-desktop/lib/Form/Form.common';
 import Label from 'react-desktop/lib/Label/Label.osx';
 import TextField from 'react-desktop/lib/TextInput/TextField.osx';
 import PushButton from 'react-desktop/lib/Button/PushButton.osx';
-import Checkbox from 'react-desktop/lib/Checkbox/Checkbox.windows';
 // import { Window, TitleBar, Box, Form, Label, TextField, PushButton, SegmentedControl } from 'react-desktop/lib/OSX';
+import Switch from './Switch';
 import styles from '../styles';
 
 export default class extends Component {
@@ -18,7 +18,7 @@ export default class extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { selectedTab: 'connection' };
+    this.state = { selectedTab: 'connection', isLocal: false };
   }
 
   changeTab(name) {
@@ -40,7 +40,9 @@ export default class extends Component {
           >
             <Form onSubmit={() => { alert('form submitted'); }}>
               <Form.Row>
-                <Checkbox label="Use localhost"/>
+                <Switch on={this.state.isLocal}
+                  onClick={() => this.setState({ isLocal: !this.state.isLocal })}
+                >Use local server</Switch>
               </Form.Row>
 
               <Form.Row>
