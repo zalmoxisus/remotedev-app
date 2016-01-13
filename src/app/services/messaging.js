@@ -5,6 +5,7 @@ let socket;
 let channel;
 
 export function subscribe(subscriber, options = socketOptions) {
+  if (channel) channel.unwatch();
   if (socket) socket.disconnect();
   socket = socketCluster.connect(options);
 
