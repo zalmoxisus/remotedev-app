@@ -6,7 +6,7 @@ import DevTools from './containers/DevTools';
 import createRemoteStore from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 
-export default class extends Component {
+export default class App extends Component {
   static propTypes = {
     socketOptions: PropTypes.shape({
       hostname: PropTypes.string,
