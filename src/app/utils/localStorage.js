@@ -1,7 +1,11 @@
+import localStorage from 'chrome-storage-local';
+
 export function getSettings() {
-  const hostname = localStorage.getItem('s:hostname');
-  const port = localStorage.getItem('s:port');
-  if (hostname && port) return { hostname, port: Number(port) };
+  if (!localStorage.isChromeStorage) {
+    const hostname = localStorage.getItem('s:hostname');
+    const port = localStorage.getItem('s:port');
+    if (hostname && port) return { hostname, port: Number(port) };
+  }
   return null;
 }
 

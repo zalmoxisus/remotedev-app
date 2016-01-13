@@ -28,7 +28,7 @@ export default class extends Component {
   saveSettings(isLocal, options) {
     this.socketOptions = saveToStorage(
       !isLocal, ['hostname', 'port'], options
-    ) || this.props.socketOptions;
+    ) || undefined;
     this.store = createRemoteStore(this.socketOptions);
     this.closeModal();
   }
