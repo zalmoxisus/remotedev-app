@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
+import { saveToStorage, getSettings } from './utils/localStorage';
 import styles from './styles';
 import DevTools from './containers/DevTools';
 import createRemoteStore from './store/createRemoteStore';
@@ -16,7 +17,7 @@ export default class extends Component {
 
   constructor(props) {
     super(props);
-    this.socketOptions = this.getSettings() || props.socketOptions;
+    this.socketOptions = getSettings() || props.socketOptions;
     this.store = createRemoteStore(this.socketOptions);
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -24,23 +25,10 @@ export default class extends Component {
     this.state = { modalIsOpen: false };
   }
 
-  getSettings() {
-    const hostname = localStorage.getItem('s:hostname');
-    const port = localStorage.getItem('s:port');
-    if (hostname && port) return { hostname, port: Number(port) };
-    return null;
-  }
   saveSettings(isLocal, options) {
-    if (isLocal) {
-      const { hostname, port } = options;
-      localStorage.setItem('s:hostname', hostname);
-      localStorage.setItem('s:port', port);
-      this.socketOptions = { hostname, port };
-    } else {
-      localStorage.removeItem('s:hostname');
-      localStorage.removeItem('s:port');
-      this.socketOptions = this.props.socketOptions;
-    }
+    this.socketOptions = saveToStorage(
+      !isLocal, ['hostname', 'port'], options
+    ) || this.props.socketOptions;
     this.store = createRemoteStore(this.socketOptions);
     this.closeModal();
   }
