@@ -11,7 +11,8 @@
     "compress:electron": "npm run build:electron && gulp compress:electron",
     "compress:app": "npm run build:app && gulp compress:app",
     "clean": "rm -rf build/ && rm -rf dev/",
-    "prepublish": "eslint ./src/app && rm -rf ./lib && babel ./src/app --out-dir lib",
+    "build": "rm -rf ./lib && babel ./src/app --out-dir lib",
+    "prepublish": "eslint ./src/app && npm run build",
     "lint": "eslint ."
   },
   "main": "lib/index.js",
