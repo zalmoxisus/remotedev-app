@@ -13,17 +13,28 @@ import styles from '../styles';
 
 export default class Settings extends Component {
   static propTypes = {
-    closeModal: PropTypes.func.isRequired
+    closeModal: PropTypes.func.isRequired,
+    saveSettings: PropTypes.func.isRequired,
+    socketOptions: PropTypes.object
   };
 
   constructor(props) {
     super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    let isLocal;
+    this.options = {};
+    if (props.socketOptions) {
+      isLocal = true;
+      this.options.hostname = props.socketOptions.hostname;
+      this.options.port = props.socketOptions.port;
+    } else {
+      isLocal = false;
+      this.options.hostname = 'localhost';
+      this.options.port = '8000';
+    }
+
     this.state = {
       selectedTab: 'connection',
-      isLocal: false,
-      hostname: localStorage.getItem('s:hostname') || 'localhost',
-      port: localStorage.getItem('s:port') || '8000'
+      isLocal
     };
   }
 
@@ -34,20 +45,8 @@ export default class Settings extends Component {
     return this.state.selectedTab === name;
   }
 
-  handleSubmit() {
-    if (this.state.isLocal) {
-      localStorage.setItem('s:hostname', this.state.hostname);
-      localStorage.setItem('s:port', this.state.port);
-    } else {
-      localStorage.removeItem('s:hostname');
-      localStorage.removeItem('s:port');
-    }
-    console.log(this.state.isLocal, this.state.hostname, this.state.port);
-    this.props.closeModal();
-  }
-
   render() {
-    const closeModal = this.props.closeModal;
+    const { saveSettings, closeModal } = this.props;
     return (
       <Window style={styles.window}>
         <TitleBar title="Settings" controls={false} onClosePress={closeModal}/>
@@ -56,7 +55,7 @@ export default class Settings extends Component {
             selected={this.isTab('connection')}
             onPress={() => { this.changeTab('connection'); }}
           >
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={() => { saveSettings(this.state.isLocal, this.options); } }>
               <Form.Row>
                 <Switch on={this.state.isLocal}
                   onClick={() => this.setState({ isLocal: !this.state.isLocal })}
@@ -65,15 +64,15 @@ export default class Settings extends Component {
 
               <Form.Row>
                 <Label>Host name:</Label>
-                <TextField defaultValue={this.state.hostname}
-                  onChange={e => {this.state.hostname = e.target.value;}}
+                <TextField defaultValue={this.options.hostname}
+                  onChange={e => {this.options.hostname = e.target.value;}}
                 />
               </Form.Row>
 
               <Form.Row>
                 <Label>Port:</Label>
-                <TextField defaultValue={this.state.port}
-                  onChange={e => {this.state.port = e.target.value;}}
+                <TextField defaultValue={this.options.port}
+                  onChange={e => {this.options.port = e.target.value;}}
                 />
               </Form.Row>
 
