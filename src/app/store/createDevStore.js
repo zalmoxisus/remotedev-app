@@ -1,13 +1,14 @@
 export default function createDevToolsStore(onDispatch) {
-  let currentState = {
+  const initialState = {
     actionsById: {},
     computedStates: [],
-    currentStateIndex: 0,
+    currentStateIndex: -1,
     monitorState: {},
     nextActionId: 0,
     skippedActionIds: [],
     stagedActionIds: []
   };
+  let currentState = { ...initialState };
   let listeners = [];
   let initiated = false;
 
@@ -18,6 +19,10 @@ export default function createDevToolsStore(onDispatch) {
 
   function getState() {
     return currentState;
+  }
+
+  function getInitialState() {
+    return initialState;
   }
 
   function isSet() {
@@ -45,6 +50,7 @@ export default function createDevToolsStore(onDispatch) {
     subscribe,
     liftedStore: {
       dispatch,
+      getInitialState,
       getState,
       setState,
       subscribe,
