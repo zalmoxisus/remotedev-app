@@ -3,6 +3,8 @@ import socketOptions from '../constants/socketOptions';
 
 let socket;
 let channel;
+let lastID;
+let lastAType;
 
 export function subscribe(subscriber, options = socketOptions) {
   if (channel) channel.unwatch();
@@ -12,10 +14,23 @@ export function subscribe(subscriber, options = socketOptions) {
   socket.emit('login', {}, (err, channelName) => {
     if (err) { console.error(err); return; }
     channel = socket.subscribe(channelName);
-    channel.watch(subscriber);
+    channel.watch(req => {
+      if (!req.id || req.id === lastID) subscriber(req);
+      else {
+        lastID = req.id;
+        if (lastAType === 'INIT') subscriber(req);
+        else {
+          socket.emit('sc-' + lastID, { type: 'UPDATE' });
+        }
+      }
+      lastAType = req.type;
+    });
   });
 }
 
 export function dispatchRemotely(action) {
-  socket.emit('respond', { type: 'DISPATCH', action });
+  socket.emit(
+    lastID ? 'sc-' + lastID : 'respond',
+    { type: 'DISPATCH', action }
+  );
 }
