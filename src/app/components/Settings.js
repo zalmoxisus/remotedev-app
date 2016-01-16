@@ -62,14 +62,14 @@ export default class Settings extends Component {
                 >Use local server</Switch>
               </Form.Row>
 
-              <Form.Row>
+              <Form.Row visible={this.state.isLocal}>
                 <Label>Host name:</Label>
                 <TextField defaultValue={this.options.hostname}
                   onChange={e => {this.options.hostname = e.target.value;}}
                 />
               </Form.Row>
 
-              <Form.Row>
+              <Form.Row visible={this.state.isLocal}>
                 <Label>Port:</Label>
                 <TextField defaultValue={this.options.port}
                   onChange={e => {this.options.port = e.target.value;}}
