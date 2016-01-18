@@ -15,10 +15,11 @@ export function subscribe(subscriber, options = socketOptions) {
     if (err) { console.error(err); return; }
     channel = socket.subscribe(channelName);
     channel.watch(req => {
-      if (!req.id || req.id === lastID) subscriber(req);
+      const data = req.data || req;
+      if (!req.id || req.id === lastID) subscriber(data);
       else {
         lastID = req.id;
-        if (lastAType === 'INIT') subscriber(req);
+        if (lastAType === 'INIT') subscriber(data);
         else {
           socket.emit('sc-' + lastID, { type: 'UPDATE' });
         }
