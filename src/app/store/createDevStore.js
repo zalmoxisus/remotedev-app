@@ -8,17 +8,20 @@ export default function createDevToolsStore(onDispatch) {
     skippedActionIds: [],
     stagedActionIds: []
   };
-  let currentState = { ...initialState };
+  let currentState = [];
   let listeners = [];
   let initiated = false;
+  let instance;
 
   function dispatch(action) {
-    if (action.type[0] !== '@') onDispatch(action);
+    if (action.type[0] !== '@') onDispatch(action, instance);
     return action;
   }
 
   function getState() {
-    return currentState;
+    return (
+      (instance ? currentState[instance] : initialState) || initialState
+    );
   }
 
   function getInitialState() {
@@ -29,10 +32,16 @@ export default function createDevToolsStore(onDispatch) {
     return initiated;
   }
 
-  function setState(state) {
-    currentState = state;
+  function setState(state, id) {
+    const isNew = !currentState[id];
+    currentState[id] = state;
     listeners.forEach(listener => listener());
     initiated = true;
+    return isNew;
+  }
+
+  function setInstance(id) {
+    instance = id;
   }
 
   function subscribe(listener) {
@@ -53,6 +62,7 @@ export default function createDevToolsStore(onDispatch) {
       getInitialState,
       getState,
       setState,
+      setInstance,
       subscribe,
       isSet
     }

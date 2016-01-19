@@ -3,10 +3,8 @@ import socketOptions from '../constants/socketOptions';
 
 let socket;
 let channel;
-let lastID;
-let lastAType;
 
-export function subscribe(subscriber, options = socketOptions) {
+export function subscribe(subscriber, options = socketOptions, onInstancesChanged) {
   if (channel) channel.unwatch();
   if (socket) socket.disconnect();
   socket = socketCluster.connect(options);
@@ -15,23 +13,24 @@ export function subscribe(subscriber, options = socketOptions) {
     if (err) { console.error(err); return; }
     channel = socket.subscribe(channelName);
     channel.watch(req => {
-      const data = req.data || req;
-      if (!req.id || req.id === lastID) subscriber(data);
-      else {
-        lastID = req.id;
-        if (lastAType === 'INIT') subscriber(data);
-        else {
-          socket.emit('sc-' + lastID, { type: 'UPDATE' });
-        }
+      let data;
+      if (req.data) {
+        data = req.data;
+        data.id = req.id;
+      } else data = req;
+
+      if (data.type === 'DISCONNECTED') {
+        onInstancesChanged(req.id, undefined, true);
+        return;
       }
-      lastAType = req.type;
+      subscriber(data);
     });
   });
 }
 
-export function dispatchRemotely(action) {
+export function dispatchRemotely(action, id) {
   socket.emit(
-    lastID ? 'sc-' + lastID : 'respond',
+    'sc-' + id,
     { type: 'DISPATCH', action }
   );
 }

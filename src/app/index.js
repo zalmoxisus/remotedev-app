@@ -5,6 +5,7 @@ import styles from './styles';
 import DevTools from './containers/DevTools';
 import createRemoteStore from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
+import Instances from './components/Instances';
 
 export default class App extends Component {
   static propTypes = {
@@ -18,18 +19,36 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.socketOptions = getSettings() || props.socketOptions;
-    this.store = createRemoteStore(this.socketOptions);
+    this.store = this.createStore();
+    this.state = { modalIsOpen: false, instances: {} };
+
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.saveSettings = this.saveSettings.bind(this);
-    this.state = { modalIsOpen: false };
+  }
+
+  handleInstancesChanged = (instance, name, toRemove) => {
+    const instances = this.state.instances;
+    if (toRemove) {
+      delete instances[instance];
+    }
+    else instances[instance] = name || instance;
+    this.setState({ instances });
+  };
+
+  createStore() {
+    return createRemoteStore(
+      this.socketOptions,
+      this.handleInstancesChanged,
+      true
+    );
   }
 
   saveSettings(isLocal, options) {
     this.socketOptions = saveToStorage(
       !isLocal, ['hostname', 'port'], options
     ) || undefined;
-    this.store = createRemoteStore(this.socketOptions);
+    this.store = this.createStore();
     this.closeModal();
   }
 
@@ -45,6 +64,7 @@ export default class App extends Component {
   render() {
     return (
       <div style={styles.container}>
+        <div style={styles.buttonBar}><Instances instances={this.state.instances}/></div>
         <DevTools
           store={this.store}
           key={this.socketOptions ? this.socketOptions.hostname : null}
