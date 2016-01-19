@@ -3,9 +3,10 @@ import Modal from 'react-modal';
 import { saveToStorage, getSettings } from './utils/localStorage';
 import styles from './styles';
 import DevTools from './containers/DevTools';
-import { createRemoteStore, updateStoreInstance } from './store/createRemoteStore';
+import { createRemoteStore, updateStoreInstance, enableSync } from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 import Instances from './components/Instances';
+import SyncToggle from './components/SyncToggle';
 
 export default class App extends Component {
   static propTypes = {
@@ -18,14 +19,18 @@ export default class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { modalIsOpen: false, instances: {}, instance: 'auto' };
+    this.state = {
+      modalIsOpen: false,
+      instances: {},
+      instance: 'auto',
+      shouldSync: false
+    };
     this.socketOptions = getSettings() || props.socketOptions;
     this.store = this.createStore();
 
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.saveSettings = this.saveSettings.bind(this);
-    this.handleSelectInstance = this.handleSelectInstance.bind(this);
   }
 
   handleInstancesChanged = (instance, name, toRemove) => {
@@ -40,7 +45,13 @@ export default class App extends Component {
   handleSelectInstance = e => {
     const instance = e.target.value;
     updateStoreInstance(instance);
-    this.setState({ instance });
+    this.setState({ instance, shouldSync: false });
+  };
+
+  handleSyncToggle = () => {
+    const shouldSync = !this.state.shouldSync;
+    enableSync(shouldSync);
+    this.setState({ shouldSync });
   };
 
   createStore() {
@@ -73,6 +84,11 @@ export default class App extends Component {
       <div style={styles.container}>
         <div style={styles.buttonBar}>
           <Instances instances={this.state.instances} onSelect={this.handleSelectInstance}/>
+          <SyncToggle
+            on={this.state.shouldSync}
+            onClick={this.handleSyncToggle}
+            style={this.state.instance === 'auto' ? { display: 'none' } : null}
+          />
         </div>
         <DevTools
           store={this.store}

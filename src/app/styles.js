@@ -41,6 +41,9 @@ const styles = {
     backgroundColor: 'rgb(79, 90, 101)',
     color: '#fff',
     width: '100%'
+  },
+  syncToggle: {
+    marginLeft: '10px'
   }
 };
 
