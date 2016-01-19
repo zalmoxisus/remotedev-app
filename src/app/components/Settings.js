@@ -57,8 +57,10 @@ export default class Settings extends Component {
           >
             <Form onSubmit={() => { saveSettings(this.state.isLocal, this.options); } }>
               <Form.Row>
-                <Switch on={this.state.isLocal}
+                <Switch
+                  on={this.state.isLocal}
                   onClick={() => this.setState({ isLocal: !this.state.isLocal })}
+                  labelStyle={styles.switchLabel}
                 >Use local server</Switch>
               </Form.Row>
 

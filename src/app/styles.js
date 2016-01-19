@@ -29,6 +29,11 @@ const styles = {
     verticalAlign: 'middle',
     marginLeft: '2px'
   },
+  switchLabel: {
+    paddingTop: '5px',
+    paddingLeft: '60px',
+    paddingRight: '25px'
+  },
   instances: {
     border: '1px solid #8A96A2',
     fontSize: '14px',

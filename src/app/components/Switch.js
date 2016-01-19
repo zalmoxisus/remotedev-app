@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react';
 const styles = {
   main: {
     border: '1px solid #ccc',
-    width: '50px',
+    width: '47px',
     height: '26px',
     borderRadius: '13px',
     cursor: 'pointer',
@@ -25,12 +25,8 @@ const styles = {
     background: 'green'
   },
   toggleOn: {
-    left: '23px'
-  },
-  label: {
-    paddingTop: '5px',
-    paddingLeft: '65px',
-    paddingRight: '30px'
+    left: '20px',
+    color: 'green'
   }
 };
 
@@ -38,18 +34,24 @@ export default class Switch extends Component {
   static propTypes = {
     on: PropTypes.bool.isRequired,
     onClick: PropTypes.func.isRequired,
+    onIcon: PropTypes.any,
+    offIcon: PropTypes.any,
+    style: PropTypes.object,
+    labelStyle: PropTypes.object,
     children: PropTypes.any
   };
 
   render() {
     return (
-      <div>
+      <div style={this.props.style}>
         <div style={this.props.on ? { ...styles.main, ...styles.on } : styles.main}
           onClick={this.props.onClick}
         >
-          <div style={this.props.on ? { ...styles.toggle, ...styles.toggleOn } : styles.toggle }></div>
+          <div style={this.props.on ? { ...styles.toggle, ...styles.toggleOn } : styles.toggle }>
+            { this.props.on ? this.props.onIcon : this.props.offIcon }
+          </div>
         </div>
-        <div style={styles.label}>{this.props.children}</div>
+        {this.props.children ? <div style={this.props.labelStyle}>{this.props.children}</div> : null}
       </div>
     );
   }
