@@ -1,3 +1,4 @@
+import { stringify } from 'jsan';
 import socketCluster from 'socketcluster-client';
 import socketOptions from '../constants/socketOptions';
 
@@ -32,5 +33,12 @@ export function dispatchRemotely(action, id) {
   socket.emit(
     'sc-' + id,
     { type: 'DISPATCH', action }
+  );
+}
+
+export function dispatchSync(state, id) {
+  socket.emit(
+    'respond',
+    { type: 'SYNC', id, state: stringify(state) }
   );
 }

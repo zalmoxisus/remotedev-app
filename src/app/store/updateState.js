@@ -20,7 +20,7 @@ function recompute(previousLiftedState, storeState, action, nextActionId = 1) {
   return liftedState;
 }
 
-export default function updateState(store, request, onInstancesChanged, instance) {
+export default function updateState(store, request, onInstancesChanged, instance, sync) {
   const payload = parseJSON(request.payload);
   if (!payload) return null;
 
@@ -55,6 +55,8 @@ export default function updateState(store, request, onInstancesChanged, instance
 
   const isNew = store.liftedStore.setState(newState, request.id);
   if (isNew) onInstancesChanged(request.id, request.name);
+
+  if (request.id === instance) sync(newState, instance);
 
   return newState;
 }
