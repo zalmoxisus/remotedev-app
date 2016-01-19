@@ -8,7 +8,7 @@ import Label from 'react-desktop/lib/Label/Label.osx';
 import TextField from 'react-desktop/lib/TextInput/TextField.osx';
 import PushButton from 'react-desktop/lib/Button/PushButton.osx';
 // import { Window, TitleBar, Box, Form, Label, TextField, PushButton, SegmentedControl } from 'react-desktop/lib/OSX';
-import Switch from './Switch';
+import Switch from 'react-switcher';
 import styles from '../styles';
 
 export default class Settings extends Component {
@@ -57,11 +57,7 @@ export default class Settings extends Component {
           >
             <Form onSubmit={() => { saveSettings(this.state.isLocal, this.options); } }>
               <Form.Row>
-                <Switch
-                  on={this.state.isLocal}
-                  onClick={() => this.setState({ isLocal: !this.state.isLocal })}
-                  labelStyle={styles.switchLabel}
-                >Use local server</Switch>
+                <Switch on={this.state.isLocal}  onClick={() => this.setState({ isLocal: !this.state.isLocal })} labelStyle={styles.switchLabel}>Use local server</Switch>
               </Form.Row>
 
               <Form.Row visible={this.state.isLocal}>

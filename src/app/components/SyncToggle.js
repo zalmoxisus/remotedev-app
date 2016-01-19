@@ -1,7 +1,7 @@
 import React from 'react';
 import PinIcon from 'react-icons/lib/ti/pin';
 import GoIcon from 'react-icons/lib/go/sync';
-import Switch from './Switch';
+import Switch from 'react-switcher';
 import styles from '../styles';
 
 export default ({ on, onClick, style }) => (
