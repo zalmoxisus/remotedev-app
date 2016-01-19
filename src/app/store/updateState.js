@@ -20,7 +20,7 @@ function recompute(previousLiftedState, storeState, action, nextActionId = 1) {
   return liftedState;
 }
 
-export default function updateState(store, request, onInstancesChanged, autoInstance) {
+export default function updateState(store, request, onInstancesChanged, instance) {
   const payload = parseJSON(request.payload);
   if (!payload) return null;
 
@@ -28,7 +28,7 @@ export default function updateState(store, request, onInstancesChanged, autoInst
   let action = {};
   if (request.action) action = parseJSON(request.action) || {};
 
-  if (autoInstance) store.liftedStore.setInstance(request.id);
+  if (instance === 'auto') store.liftedStore.setInstance(request.id);
 
   switch (request.type) {
     case 'INIT':

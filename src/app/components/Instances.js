@@ -6,7 +6,8 @@ import Settings from './Settings';
 
 export default class Instances extends Component {
   static propTypes = {
-    instances: PropTypes.object.isRequired
+    instances: PropTypes.object.isRequired,
+    onSelect: PropTypes.func.isRequired
   };
 
   constructor(props) {
@@ -23,7 +24,7 @@ export default class Instances extends Component {
 
   render() {
     return (
-      <select style={styles.instances}>
+      <select style={styles.instances} onChange={this.props.onSelect}>
         {
           (this.select || this.initialSelect).map(
             option => <option key={option[1]} value={option[1]}>{option[0]}</option>
