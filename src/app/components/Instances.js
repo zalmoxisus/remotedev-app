@@ -33,4 +33,4 @@ export default class Instances extends Component {
       </select>
     );
   }
-};
+}
