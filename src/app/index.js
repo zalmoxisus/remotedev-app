@@ -3,6 +3,7 @@ import Modal from 'react-modal';
 import { saveToStorage, getSettings } from './utils/localStorage';
 import styles from './styles';
 import DevTools from './containers/DevTools';
+import SliderMonitor from './containers/SliderMonitor';
 import { createRemoteStore, updateStoreInstance, enableSync } from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 import Instances from './components/Instances';
@@ -96,6 +97,12 @@ export default class App extends Component {
             (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance
           }
         />
+        <div><SliderMonitor
+          store={this.store}
+          key={
+            'slider' + (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance
+          }
+        /></div>
         <ButtonBar
           openModal={this.openModal} closeModal={this.closeModal}
           saveSettings={this.saveSettings}

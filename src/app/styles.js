@@ -23,7 +23,8 @@ const styles = {
     flexDirection: 'row',
     backgroundColor: '#353B46',
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
-    minWidth: '300px'
+    minWidth: '300px',
+    zIndex: '1'
   },
   buttonText: {
     verticalAlign: 'middle',
