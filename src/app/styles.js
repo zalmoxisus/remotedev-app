@@ -10,6 +10,13 @@ const styles = {
   window: {
     width: 'auto', height: 'auto'
   },
+  logMonitor: {
+    flexGrow: '1',
+    position: 'relative'
+  },
+  sliderMonitor: {
+    minWidth: '750px'
+  },
   buttonBar: {
     padding: '5px',
     textAlign: 'center',

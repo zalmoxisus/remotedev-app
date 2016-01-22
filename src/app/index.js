@@ -97,7 +97,7 @@ export default class App extends Component {
             (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance
           }
         />
-        <div><SliderMonitor
+        <div style={styles.sliderMonitor}><SliderMonitor
           store={this.store}
           key={
             'slider' + (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance
