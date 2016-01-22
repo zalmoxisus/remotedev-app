@@ -29,10 +29,10 @@ export function subscribe(subscriber, options = socketOptions, onInstancesChange
   });
 }
 
-export function dispatchRemotely(action, id) {
+export function dispatchRemotely(action, id, state) {
   socket.emit(
     'sc-' + id,
-    { type: 'DISPATCH', action }
+    { type: 'DISPATCH', action, state: state ? stringify(state) : undefined }
   );
 }
 

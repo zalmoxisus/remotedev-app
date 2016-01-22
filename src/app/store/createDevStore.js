@@ -14,7 +14,13 @@ export default function createDevToolsStore(onDispatch) {
   let instance;
 
   function dispatch(action) {
-    if (action.type[0] !== '@') onDispatch(action, instance);
+    if (action.type[0] !== '@') {
+      if (action.type === 'JUMP_TO_STATE') {
+        let state = getState();
+        onDispatch(action, instance, state.computedStates[action.index]);
+        setState({ ...state, currentStateIndex: action.index }, instance);
+      } else onDispatch(action, instance);
+    }
     return action;
   }
 
