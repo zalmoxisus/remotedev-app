@@ -13,17 +13,6 @@ export default function createDevToolsStore(onDispatch) {
   let initiated = false;
   let instance;
 
-  function dispatch(action) {
-    if (action.type[0] !== '@') {
-      if (action.type === 'JUMP_TO_STATE') {
-        let state = getState();
-        onDispatch(action, instance, state.computedStates[action.index].state);
-        setState({ ...state, currentStateIndex: action.index }, instance);
-      } else onDispatch(action, instance);
-    }
-    return action;
-  }
-
   function getState() {
     return (
       (instance ? currentState[instance] : initialState) || initialState
@@ -48,6 +37,17 @@ export default function createDevToolsStore(onDispatch) {
 
   function setInstance(id) {
     instance = id;
+  }
+
+  function dispatch(action) {
+    if (action.type[0] !== '@') {
+      if (action.type === 'JUMP_TO_STATE') {
+        let state = getState();
+        onDispatch(action, instance, state.computedStates[action.index].state);
+        setState({ ...state, currentStateIndex: action.index }, instance);
+      } else onDispatch(action, instance);
+    }
+    return action;
   }
 
   function subscribe(listener) {
