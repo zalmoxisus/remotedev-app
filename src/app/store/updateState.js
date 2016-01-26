@@ -28,7 +28,7 @@ export default function updateState(store, request, onInstancesChanged, instance
   let action = {};
   if (request.action) action = parseJSON(request.action) || {};
 
-  if (instance === 'auto') store.liftedStore.setInstance(request.id);
+  if (!instance || instance === 'auto') store.liftedStore.setInstance(request.id);
 
   switch (request.type) {
     case 'INIT':
@@ -56,7 +56,7 @@ export default function updateState(store, request, onInstancesChanged, instance
   const isNew = store.liftedStore.setState(newState, request.id);
   if (isNew) onInstancesChanged(request.id, request.name);
 
-  if (request.id === instance) sync(newState, instance);
+  if (sync && request.id === instance) sync(newState, instance);
 
   return newState;
 }
