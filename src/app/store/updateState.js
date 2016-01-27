@@ -54,7 +54,7 @@ export default function updateState(store, request, onInstancesChanged, instance
   }
 
   store.liftedStore.setState(newState, request.id, () => {
-    onInstancesChanged(request.id, request.name);
+    if (onInstancesChanged) onInstancesChanged(request.id, request.name);
   });
 
   if (sync && request.id === instance) sync(newState, instance);
