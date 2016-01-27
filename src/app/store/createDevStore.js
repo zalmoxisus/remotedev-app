@@ -13,10 +13,10 @@ export default function createDevToolsStore(onDispatch) {
   let initiated = false;
   let instance;
 
-  function getState() {
-    return (
-      (instance ? currentState[instance] : initialState) || initialState
-    );
+  function getState(id) {
+    if (id) return currentState[id];
+    if (instance) return currentState[instance] || initialState;
+    return initialState;
   }
 
   function getInitialState() {
@@ -27,16 +27,27 @@ export default function createDevToolsStore(onDispatch) {
     return initiated;
   }
 
-  function setState(state, id) {
-    const isNew = !currentState[id];
-    currentState[id] = state;
+  function update() {
     listeners.forEach(listener => listener());
-    initiated = true;
-    return isNew;
   }
 
-  function setInstance(id) {
+  function setState(state, id, onChanged) {
+    const isNew = !currentState[id];
+    if (isNew && onChanged) onChanged();
+    currentState[id] = state;
+    update();
+    initiated = true;
+  }
+
+  function setInstance(id, toUpdate) {
     instance = id;
+    if (toUpdate && instance && instance !== 'auto') update();
+  }
+
+  function deleteInstance(id) {
+    delete currentState[id];
+    instance = Object.keys(currentState)[0];
+    update();
   }
 
   function dispatch(action) {
@@ -69,6 +80,7 @@ export default function createDevToolsStore(onDispatch) {
       getState,
       setState,
       setInstance,
+      deleteInstance,
       subscribe,
       isSet
     }

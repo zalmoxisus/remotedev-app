@@ -40,7 +40,7 @@ export default function updateState(store, request, onInstancesChanged, instance
       break;
     case 'ACTION':
       newState = recompute(
-        store.liftedStore.getState(),
+        store.liftedStore.getState(request.id),
         payload,
         action,
         request.nextActionId
@@ -53,8 +53,9 @@ export default function updateState(store, request, onInstancesChanged, instance
       return null;
   }
 
-  const isNew = store.liftedStore.setState(newState, request.id);
-  if (isNew) onInstancesChanged(request.id, request.name);
+  store.liftedStore.setState(newState, request.id, () => {
+    onInstancesChanged(request.id, request.name);
+  });
 
   if (sync && request.id === instance) sync(newState, instance);
 
