@@ -15,14 +15,12 @@ export default class Instances extends Component {
     this.initialSelect = [['Autoselect instances', 'auto']];
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.select = [...this.initialSelect];
-    Object.keys(nextProps.instances).forEach(key => {
-      this.select.push([nextProps.instances[key], key]);
-    });
-  }
-
   render() {
+    this.select = [...this.initialSelect];
+    Object.keys(this.props.instances).forEach(key => {
+      this.select.push([this.props.instances[key], key]);
+    });
+
     return (
       <select style={styles.instances} onChange={this.props.onSelect}>
         {
