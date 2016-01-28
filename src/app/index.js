@@ -39,6 +39,11 @@ export default class App extends Component {
     if (toRemove) {
       delete instances[instance];
       this.store.liftedStore.deleteInstance(instance);
+      if (this.state.instance === instance) {
+        updateStoreInstance('auto');
+        this.setState({ instance: 'auto', shouldSync: false, instances });
+        return;
+      }
     }
     else instances[instance] = name || instance;
     this.setState({ instances });
