@@ -31,7 +31,7 @@ const styles = {
     backgroundColor: '#353B46',
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
     minWidth: '300px',
-    zIndex: '1'
+    minHeight: '35px'
   },
   buttonText: {
     verticalAlign: 'middle',
@@ -48,10 +48,13 @@ const styles = {
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
     backgroundColor: 'rgb(79, 90, 101)',
     color: '#fff',
-    width: '100%'
+    width: '100%',
+    height: '27px',
+    marginTop: '3px'
   },
   syncToggle: {
-    marginLeft: '10px'
+    marginLeft: '10px',
+    marginTop: '3px'
   }
 };
 
