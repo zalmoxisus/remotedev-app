@@ -1,6 +1,6 @@
 {
   "name": "remotedev-app",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Remote Redux DevTools web, electron and chrome app.",
   "scripts": {
     "start": "gulp",
