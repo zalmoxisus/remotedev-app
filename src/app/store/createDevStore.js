@@ -14,7 +14,7 @@ export default function createDevToolsStore(onDispatch) {
   let instance;
 
   function getState(id) {
-    if (id) return currentState[id];
+    if (id) return currentState[id] || initialState;
     if (instance) return currentState[instance] || initialState;
     return initialState;
   }
