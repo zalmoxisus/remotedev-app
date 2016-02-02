@@ -15,7 +15,8 @@ export default class App extends Component {
       hostname: PropTypes.string,
       port: PropTypes.number,
       autoReconnect: PropTypes.bool
-    })
+    }),
+    noButtonBar: PropTypes.bool
   };
 
   constructor(props) {
@@ -109,11 +110,13 @@ export default class App extends Component {
             'slider' + (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance
           }
         /></div>
-        <ButtonBar
-          openModal={this.openModal} closeModal={this.closeModal}
-          saveSettings={this.saveSettings}
-          socketOptions={this.socketOptions}
-        />
+        {this.props.noButtonBar ? null :
+          <ButtonBar
+            openModal={this.openModal} closeModal={this.closeModal}
+            saveSettings={this.saveSettings}
+            socketOptions={this.socketOptions}
+          />
+        }
         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}
           style={styles.modal}
         >{this.modalContent}</Modal>
