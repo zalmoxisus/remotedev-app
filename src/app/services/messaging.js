@@ -10,6 +10,10 @@ export function subscribe(subscriber, options = socketOptions, onInstancesChange
   if (socket) socket.disconnect();
   socket = socketCluster.connect(options);
 
+  socket.on('error', function (err) {
+    console.error(err);
+  });
+
   socket.emit('login', {}, (err, channelName) => {
     if (err) { console.error(err); return; }
     channel = socket.subscribe(channelName);
