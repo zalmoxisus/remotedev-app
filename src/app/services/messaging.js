@@ -10,25 +10,29 @@ export function subscribe(subscriber, options = socketOptions, onInstancesChange
   if (socket) socket.disconnect();
   socket = socketCluster.connect(options);
 
+  function watch(req) {
+    let data;
+    if (req.data) {
+      data = req.data;
+      data.id = req.id;
+    } else data = req;
+
+    if (data.type === 'DISCONNECTED') {
+      onInstancesChanged(req.id, undefined, true);
+      return;
+    }
+    subscriber(data);
+  }
+
   socket.on('error', function (err) {
     console.error(err);
   });
 
-  socket.emit('login', {}, (err, channelName) => {
-    if (err) { console.error(err); return; }
-    channel = socket.subscribe(channelName);
-    channel.watch(req => {
-      let data;
-      if (req.data) {
-        data = req.data;
-        data.id = req.id;
-      } else data = req;
-
-      if (data.type === 'DISCONNECTED') {
-        onInstancesChanged(req.id, undefined, true);
-        return;
-      }
-      subscriber(data);
+  socket.on('connect', function () {
+    socket.emit('login', {}, (err, channelName) => {
+      if (err) { console.error(err); return; }
+      channel = socket.subscribe(channelName);
+      channel.watch(watch);
     });
   });
 }
