@@ -15,7 +15,7 @@ const styles = {
     position: 'relative'
   },
   sliderMonitor: {
-    minWidth: '750px'
+    minWidth: '300px'
   },
   buttonBar: {
     padding: '5px',
