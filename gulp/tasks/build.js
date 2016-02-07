@@ -4,6 +4,7 @@ import webpack from 'webpack';
 import appConfig from '../../webpack/app.config';
 import electronConfig from '../../webpack/electron.config';
 import webConfig from '../../webpack/web.config';
+import libConfig from '../../webpack/lib.config';
 
 const build = (config, callback) => {
   let myConfig = Object.create(config);
@@ -24,4 +25,7 @@ gulp.task('webpack:build:electron', (callback) => {
 });
 gulp.task('webpack:build:web', (callback) => {
   build(webConfig, callback);
+});
+gulp.task('webpack:build:umd', (callback) => {
+  build(libConfig, callback);
 });

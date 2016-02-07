@@ -8,16 +8,19 @@
     "build:electron": "rm -rf ./build/electron/ && rm -rf ./build/executables/ && gulp build:electron && gulp pack:electron",
     "build:web": "gulp build:web",
     "build:app": "gulp build:app",
+    "build:umd": "gulp build:umd",
+    "build:umd:min": "NODE_ENV=production gulp build:umd",
     "compress:electron": "npm run build:electron && gulp compress:electron",
     "compress:app": "npm run build:app && gulp compress:app",
     "clean": "rm -rf build/ && rm -rf dev/",
     "build": "rm -rf ./lib && babel ./src/app --out-dir lib",
-    "prepublish": "eslint ./src/app && npm run build",
+    "prepublish": "eslint ./src/app && npm run build && npm run build:umd && npm run build:umd:min",
     "lint": "eslint ."
   },
   "main": "lib/index.js",
   "files": [
-    "lib"
+    "lib",
+    "dist"
   ],
   "repository": {
     "type": "git",
