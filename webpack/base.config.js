@@ -1,7 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 
-const baseConfig = ({ input, output = {}, globals = {}, plugins, loaders, entry = [] }) => ({
+const baseConfig = ({ input, output = {}, globals = {}, plugins, loaders, entry = [], externals = {} }) => ({
   entry: input,
   output: {
     filename: '[name].bundle.js',
@@ -40,7 +40,8 @@ const baseConfig = ({ input, output = {}, globals = {}, plugins, loaders, entry 
         loaders: ['style', 'raw']
       }
     ]
-  }
+  },
+  externals
 });
 
 export default baseConfig;
