@@ -6,7 +6,6 @@ const copy = (dest) => () => {
 };
 
 gulp.task('copy:dev', copy('./dev'));
-gulp.task('copy:build:web', copy('./build/web'));
 
 gulp.task('copy:build:app', () => {
   copy('./build/app')();
@@ -15,5 +14,4 @@ gulp.task('copy:build:app', () => {
 
 gulp.task('copy:build:electron', () => {
   gulp.src(['./src/electron/**', '!./src/electron/resources', '!./src/electron/resources/**']).pipe(gulp.dest('./build/electron'));
-  copy('./build/electron')();
 });
