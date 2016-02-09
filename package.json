@@ -14,13 +14,14 @@
     "compress:app": "npm run build:app && gulp compress:app",
     "clean": "rm -rf build/ && rm -rf dev/",
     "build": "rm -rf ./lib && babel ./src/app --out-dir lib",
-    "prepublish": "eslint ./src/app && npm run build && npm run build:umd && npm run build:umd:min",
+    "prepublish": "eslint ./src/app && npm run build && npm run build:web && npm run build:umd && npm run build:umd:min",
     "lint": "eslint ."
   },
   "main": "lib/index.js",
   "files": [
     "lib",
-    "dist"
+    "dist",
+    "build/web"
   ],
   "repository": {
     "type": "git",
