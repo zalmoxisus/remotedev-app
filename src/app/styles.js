@@ -53,6 +53,10 @@ const styles = {
     height: '27px',
     marginTop: '3px'
   },
+  monitors: {
+    width: '150px',
+    marginRight: '3px'
+  },
   syncToggle: {
     marginLeft: '10px',
     marginTop: '3px'

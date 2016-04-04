@@ -4,10 +4,16 @@ import { saveToStorage, getSettings } from './utils/localStorage';
 import styles from './styles';
 import DevTools from './containers/DevTools';
 import SliderMonitor from './containers/SliderMonitor';
+import Inspector from './containers/Inspector';
 import { createRemoteStore, updateStoreInstance, enableSync } from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 import Instances from './components/Instances';
 import SyncToggle from './components/SyncToggle';
+
+const monitors = [
+  { key: 'default', title: 'Default' },
+  { key: 'inspector', title: 'Inspector' }
+];
 
 export default class App extends Component {
   static propTypes = {
@@ -22,6 +28,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      monitor: 'default',
       modalIsOpen: false,
       instances: {},
       instance: 'auto',
@@ -56,6 +63,10 @@ export default class App extends Component {
     this.setState({ instance, shouldSync: false });
   };
 
+  handleSelectMonitor = e => {
+    this.setState({ monitor: e.target.value });
+  };
+
   handleSyncToggle = () => {
     const shouldSync = !this.state.shouldSync;
     enableSync(shouldSync);
@@ -87,10 +98,44 @@ export default class App extends Component {
     this.setState({ modalIsOpen: false });
   }
 
+  renderSlider(key) {
+    return (
+      <div style={styles.sliderMonitor} key={`slider${key}wrap`}>
+        <SliderMonitor store={this.store} key={`slider${key}`} />
+      </div>
+    );
+  }
+
+  renderDevTools() {
+    const key = (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance;
+    switch (this.state.monitor) {
+      case 'inspector':
+        return [
+          <Inspector store={this.store} key={`inspector${key}`} />,
+          this.renderSlider(key)
+        ];
+      default:
+        return [
+          <DevTools store={this.store} key={key} />,
+          this.renderSlider(key)
+        ];
+    }
+  }
+
   render() {
     return (
       <div style={styles.container}>
         <div style={styles.buttonBar}>
+          <select
+            style={{ ...styles.instances, ...styles.monitors }}
+            onChange={this.handleSelectMonitor}
+          >
+            {
+              monitors.map((item, i) =>
+                <option key={i} value={item.key}>{item.title}</option>
+              )
+            }
+          </select>
           <Instances instances={this.state.instances} onSelect={this.handleSelectInstance}/>
           <SyncToggle
             on={this.state.shouldSync}
@@ -98,18 +143,7 @@ export default class App extends Component {
             style={this.state.instance === 'auto' ? { display: 'none' } : null}
           />
         </div>
-        <DevTools
-          store={this.store}
-          key={
-            (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance
-          }
-        />
-        <div style={styles.sliderMonitor}><SliderMonitor
-          store={this.store}
-          key={
-            'slider' + (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance
-          }
-        /></div>
+        {this.renderDevTools()}
         {this.props.noButtonBar ? null :
           <ButtonBar
             openModal={this.openModal} closeModal={this.closeModal}
