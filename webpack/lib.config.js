@@ -10,7 +10,7 @@ const config = {
     path: path.join(__dirname, '../dist'),
     filename: 'remotedev-app.js'
   },
-  plugins: [  
+  plugins: [
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin()
   ],
