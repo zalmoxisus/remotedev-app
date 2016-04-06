@@ -9,6 +9,11 @@ export function getSettings() {
   return null;
 }
 
+export function getSelectMonitor() {
+  if (localStorage.isChromeStorage) return null;
+  return localStorage.getItem('select-monitor');
+}
+
 export function saveToStorage(remove, keys, values) {
   if (remove) {
     keys.forEach(key => {
@@ -23,4 +28,9 @@ export function saveToStorage(remove, keys, values) {
     obj[key] = values[key];
   });
   return obj;
+}
+
+export function saveSelectMonitor(name) {
+  localStorage.setItem('select-monitor', name);
+  return name;
 }

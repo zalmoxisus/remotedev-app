@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
-import { saveToStorage, getSettings } from './utils/localStorage';
+import { saveToStorage, getSettings, getSelectMonitor, saveSelectMonitor } from './utils/localStorage';
 import styles from './styles';
 import DevTools from './containers/DevTools';
 import SliderMonitor from './containers/SliderMonitor';
@@ -17,6 +17,7 @@ const monitors = [
 
 export default class App extends Component {
   static propTypes = {
+    selectMonitor: PropTypes.string,
     socketOptions: PropTypes.shape({
       hostname: PropTypes.string,
       port: PropTypes.number,
@@ -28,7 +29,7 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      monitor: 'default',
+      monitor: getSelectMonitor() || props.selectMonitor || 'default',
       modalIsOpen: false,
       instances: {},
       instance: 'auto',
@@ -64,7 +65,7 @@ export default class App extends Component {
   };
 
   handleSelectMonitor = e => {
-    this.setState({ monitor: e.target.value });
+    this.setState({ monitor: saveSelectMonitor(e.target.value) });
   };
 
   handleSyncToggle = () => {
@@ -132,7 +133,10 @@ export default class App extends Component {
           >
             {
               monitors.map((item, i) =>
-                <option key={i} value={item.key}>{item.title}</option>
+                <option key={i}
+                  value={item.key}
+                  selected={item.key === this.state.monitor}
+                >{item.title}</option>
               )
             }
           </select>
