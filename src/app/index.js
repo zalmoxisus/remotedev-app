@@ -2,18 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 import { saveToStorage, getSettings, getSelectMonitor, saveSelectMonitor } from './utils/localStorage';
 import styles from './styles';
-import LogMonitor from './containers/LogMonitor';
-import SliderMonitor from './containers/SliderMonitor';
-import Inspector from './containers/Inspector';
+import DevTools, { sideMonitors } from './containers/DevTools';
 import { createRemoteStore, updateStoreInstance, enableSync } from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 import Instances from './components/Instances';
 import SyncToggle from './components/SyncToggle';
-
-const monitors = [
-  { key: 'logMonitor', title: 'Log monitor' },
-  { key: 'inspector', title: 'Inspector' }
-];
 
 export default class App extends Component {
   static propTypes = {
@@ -99,31 +92,9 @@ export default class App extends Component {
     this.setState({ modalIsOpen: false });
   }
 
-  renderSlider(key) {
-    return (
-      <div style={styles.sliderMonitor} key={`slider${key}wrap`}>
-        <SliderMonitor store={this.store} key={`slider${key}`} />
-      </div>
-    );
-  }
-
-  renderDevTools() {
-    const key = (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance;
-    switch (this.state.monitor) {
-      case 'inspector':
-        return [
-          <Inspector store={this.store} key={`inspector${key}`} />,
-          this.renderSlider(key)
-        ];
-      default:
-        return [
-          <LogMonitor store={this.store} key={key} />,
-          this.renderSlider(key)
-        ];
-    }
-  }
-
   render() {
+    const { monitor } = this.state;
+    const key = (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance;
     return (
       <div style={styles.container}>
         <div style={styles.buttonBar}>
@@ -132,7 +103,7 @@ export default class App extends Component {
             onChange={this.handleSelectMonitor}
           >
             {
-              monitors.map((item, i) =>
+              sideMonitors.map((item, i) =>
                 <option key={i}
                   value={item.key}
                   selected={item.key === this.state.monitor}
@@ -147,7 +118,10 @@ export default class App extends Component {
             style={this.state.instance === 'auto' ? { display: 'none' } : null}
           />
         </div>
-        {this.renderDevTools()}
+        <DevTools monitor={monitor} store={this.store} key={`${monitor}-${key}`} />
+        <div style={styles.sliderMonitor}>
+          <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
+        </div>
         {this.props.noButtonBar ? null :
           <ButtonBar
             openModal={this.openModal} closeModal={this.closeModal}
