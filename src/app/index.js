@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
 import { saveToStorage, getSettings, getSelectMonitor, saveSelectMonitor } from './utils/localStorage';
 import styles from './styles';
-import DevTools from './containers/DevTools';
+import LogMonitor from './containers/LogMonitor';
 import SliderMonitor from './containers/SliderMonitor';
 import Inspector from './containers/Inspector';
 import { createRemoteStore, updateStoreInstance, enableSync } from './store/createRemoteStore';
@@ -11,7 +11,7 @@ import Instances from './components/Instances';
 import SyncToggle from './components/SyncToggle';
 
 const monitors = [
-  { key: 'default', title: 'Default' },
+  { key: 'logMonitor', title: 'Log monitor' },
   { key: 'inspector', title: 'Inspector' }
 ];
 
@@ -117,7 +117,7 @@ export default class App extends Component {
         ];
       default:
         return [
-          <DevTools store={this.store} key={key} />,
+          <LogMonitor store={this.store} key={key} />,
           this.renderSlider(key)
         ];
     }
