@@ -1,6 +1,7 @@
 import parseJSON from '../utils/parseJSON';
+import commitExcessActions from './commitExcessActions';
 
-function recompute(previousLiftedState, storeState, action, nextActionId = 1) {
+function recompute(previousLiftedState, storeState, action, nextActionId = 1, isExcess) {
   const actionId = nextActionId - 1;
   const liftedState = { ...previousLiftedState };
   liftedState.stagedActionIds = [...liftedState.stagedActionIds, actionId];
@@ -17,6 +18,9 @@ function recompute(previousLiftedState, storeState, action, nextActionId = 1) {
   liftedState.nextActionId = nextActionId;
   liftedState.computedStates = [...liftedState.computedStates, { state: storeState }];
   liftedState.currentStateIndex++;
+
+  if (isExcess) commitExcessActions(liftedState);
+
   return liftedState;
 }
 
@@ -43,7 +47,8 @@ export default function updateState(store, request, onInstancesChanged, instance
         store.liftedStore.getState(request.id),
         payload,
         action,
-        request.nextActionId
+        request.nextActionId,
+        request.isExcess
       );
       break;
     case 'STATE':
