@@ -1,4 +1,4 @@
-export default function createDevToolsStore(onDispatch) {
+export default function createDevStore(onDispatch) {
   const initialState = {
     actionsById: {},
     computedStates: [],
@@ -53,9 +53,14 @@ export default function createDevToolsStore(onDispatch) {
   function dispatch(action) {
     if (action.type === 'JUMP_TO_STATE') {
       let state = getState();
-      onDispatch(action, instance, state.computedStates[action.index].state);
+      onDispatch('DISPATCH', action, instance, state.computedStates[action.index].state);
       setState({ ...state, currentStateIndex: action.index }, instance);
-    } else onDispatch(action, instance);
+    } else onDispatch('DISPATCH', action, instance);
+    return action;
+  }
+
+  function dispatchAction(action) {
+    onDispatch('ACTION', action, instance);
     return action;
   }
 
@@ -69,7 +74,7 @@ export default function createDevToolsStore(onDispatch) {
   }
 
   return {
-    dispatch,
+    dispatch: dispatchAction,
     getState,
     subscribe,
     liftedStore: {

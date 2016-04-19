@@ -119,6 +119,9 @@ export default class App extends Component {
           />
         </div>
         <DevTools monitor={monitor} store={this.store} key={`${monitor}-${key}`} />
+        <DevTools monitor="DispatchMonitor"
+          store={this.store} dispatchFn={this.store.dispatch} key={`Dispatch-${key}`}
+        />
         <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
         </div>

@@ -3,17 +3,23 @@ import { createDevTools } from 'redux-devtools';
 import LogMonitor from 'redux-devtools-log-monitor';
 import SliderMonitor from 'redux-slider-monitor';
 import InspectorMonitor from 'redux-devtools-inspector';
+import DispatchMonitor from 'redux-devtools-dispatch';
 
 export const sideMonitors = [
   { key: 'LogMonitor', title: 'Log monitor' },
   { key: 'InspectorMonitor', title: 'Inspector' }
 ];
 
-function getMonitor(type) {
+function getMonitor(type, props) {
   switch (type) {
-    case 'SliderMonitor': return createElement(SliderMonitor);
-    case 'InspectorMonitor': return createElement(InspectorMonitor);
-    default: return createElement(LogMonitor, { preserveScrollTop: false });
+    case 'SliderMonitor':
+      return createElement(SliderMonitor);
+    case 'InspectorMonitor':
+      return createElement(InspectorMonitor);
+    case 'DispatchMonitor':
+      return createElement(DispatchMonitor, { dispatchFn: props.dispatchFn });
+    default:
+      return createElement(LogMonitor, { preserveScrollTop: false });
   }
 }
 
@@ -28,7 +34,7 @@ export default class extends Component {
 
   render() {
     const { monitor, ...rest } = this.props;
-    const DevTools = createDevTools(getMonitor(monitor));
+    const DevTools = createDevTools(getMonitor(monitor, rest));
     return <DevTools {...rest} />;
   }
 }
