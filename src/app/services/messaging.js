@@ -5,6 +5,20 @@ import socketOptions from '../constants/socketOptions';
 let socket;
 let channel;
 
+export function dispatchRemotely(type, action, id, state) {
+  socket.emit(
+    id ? 'sc-' + id : 'respond',
+    { type, action, state: state ? stringify(state) : undefined }
+  );
+}
+
+export function dispatchSync(state, id) {
+  socket.emit(
+    'respond',
+    { type: 'SYNC', id, state: stringify(state) }
+  );
+}
+
 export function subscribe(subscriber, options = socketOptions, onInstancesChanged) {
   if (channel) channel.unwatch();
   if (socket) socket.disconnect();
@@ -36,18 +50,4 @@ export function subscribe(subscriber, options = socketOptions, onInstancesChange
       dispatchRemotely('UPDATE');
     });
   });
-}
-
-export function dispatchRemotely(type, action, id, state) {
-  socket.emit(
-    id ? 'sc-' + id : 'respond',
-    { type, action, state: state ? stringify(state) : undefined }
-  );
-}
-
-export function dispatchSync(state, id) {
-  socket.emit(
-    'respond',
-    { type: 'SYNC', id, state: stringify(state) }
-  );
 }
