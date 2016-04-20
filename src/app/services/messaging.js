@@ -33,6 +33,7 @@ export function subscribe(subscriber, options = socketOptions, onInstancesChange
       if (err) { console.error(err); return; }
       channel = socket.subscribe(channelName);
       channel.watch(watch);
+      dispatchRemotely('UPDATE');
     });
   });
 }
