@@ -36,7 +36,8 @@ const styles = {
   },
   buttonText: {
     verticalAlign: 'middle',
-    marginLeft: '2px'
+    marginLeft: '3px',
+    WebkitUserSelect: 'none'
   },
   switchLabel: {
     paddingTop: '5px',

@@ -28,6 +28,7 @@ export default class App extends Component {
     super();
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.toggleDispatcher = this.toggleDispatcher.bind(this);
     this.saveSettings = this.saveSettings.bind(this);
   }
 
@@ -35,6 +36,7 @@ export default class App extends Component {
     this.state = {
       monitor: getSelectMonitor() || this.props.selectMonitor || 'default',
       modalIsOpen: false,
+      dispatcherIsOpen: false,
       instances: {},
       instance: 'auto',
       shouldSync: false
@@ -92,6 +94,10 @@ export default class App extends Component {
     this.closeModal();
   }
 
+  toggleDispatcher() {
+    this.setState({ dispatcherIsOpen: !this.state.dispatcherIsOpen });
+  }
+
   openModal(content) {
     this.modalContent = content;
     this.setState({ modal: this.modal, modalIsOpen: true });
@@ -128,15 +134,20 @@ export default class App extends Component {
           />
         </div>
         <DevTools monitor={monitor} store={this.store} key={`${monitor}-${key}`} />
-        <DevTools monitor="DispatchMonitor"
-          store={this.store} dispatchFn={this.store.dispatch} key={`Dispatch-${key}`}
-        />
         <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
         </div>
-        {this.props.noButtonBar ? null :
+        {this.state.dispatcherIsOpen &&
+          <DevTools monitor="DispatchMonitor"
+            store={this.store} dispatchFn={this.store.dispatch}
+            key={`Dispatch-${key}`}
+          />
+        }
+        {!this.props.noButtonBar &&
           <ButtonBar
             openModal={this.openModal} closeModal={this.closeModal}
+            toggleDispatcher={this.toggleDispatcher}
+            dispatcherIsOpen={this.state.dispatcherIsOpen}
             saveSettings={this.saveSettings}
             socketOptions={this.socketOptions}
           />
