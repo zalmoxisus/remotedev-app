@@ -40,7 +40,7 @@ export function subscribe(subscriber, options = socketOptions, onInstancesChange
 
 export function dispatchRemotely(type, action, id, state) {
   socket.emit(
-    'sc-' + id,
+    id ? 'sc-' + id : 'respond',
     { type, action, state: state ? stringify(state) : undefined }
   );
 }

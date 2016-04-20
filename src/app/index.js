@@ -5,7 +5,10 @@ import {
 } from './utils/localStorage';
 import styles from './styles';
 import DevTools, { sideMonitors } from './containers/DevTools';
-import { createRemoteStore, updateStoreInstance, enableSync } from './store/createRemoteStore';
+import {
+  createRemoteStore, updateStoreInstance, enableSync,
+  startMonitoring
+} from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 import Instances from './components/Instances';
 import SyncToggle from './components/SyncToggle';
@@ -50,8 +53,10 @@ export default class App extends Component {
         this.setState({ instance: 'auto', shouldSync: false, instances });
         return;
       }
+    } else {
+      instances[instance] = name || instance;
+      startMonitoring(instance);
     }
-    else instances[instance] = name || instance;
     this.setState({ instances });
   };
 

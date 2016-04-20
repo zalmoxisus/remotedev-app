@@ -10,10 +10,18 @@ function sync(state, id) {
   if (shouldSync) dispatchSync(state, id);
 }
 
+export function startMonitoring(id) {
+  dispatchRemotely('START', undefined, id);
+}
+
 export function createRemoteStore(socketOptions, onInstancesChanged, newInstance) {
   store = createDevStore(dispatchRemotely);
   instance = newInstance;
   subscribe(msg => {
+    if (msg.type === 'STOP') { // Stopped by other monitor
+      startMonitoring(msg.id);
+      return;
+    }
     updateState(store, msg, onInstancesChanged, instance, sync);
   }, socketOptions, onInstancesChanged);
   return store;
