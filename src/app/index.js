@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Modal from 'react-modal';
-import { saveToStorage, getSettings, getSelectMonitor, saveSelectMonitor } from './utils/localStorage';
+import {
+  saveToStorage, getSettings, getSelectMonitor, saveSelectMonitor
+} from './utils/localStorage';
 import styles from './styles';
 import DevTools, { sideMonitors } from './containers/DevTools';
 import { createRemoteStore, updateStoreInstance, enableSync } from './store/createRemoteStore';
@@ -19,21 +21,23 @@ export default class App extends Component {
     noButtonBar: PropTypes.bool
   };
 
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+    this.openModal = this.openModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.saveSettings = this.saveSettings.bind(this);
+  }
+
+  componentWillMount() {
     this.state = {
-      monitor: getSelectMonitor() || props.selectMonitor || 'default',
+      monitor: getSelectMonitor() || this.props.selectMonitor || 'default',
       modalIsOpen: false,
       instances: {},
       instance: 'auto',
       shouldSync: false
     };
-    this.socketOptions = getSettings() || props.socketOptions;
+    this.socketOptions = getSettings() || this.props.socketOptions;
     this.store = this.createStore();
-
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.saveSettings = this.saveSettings.bind(this);
   }
 
   handleInstancesChanged = (instance, name, toRemove) => {
