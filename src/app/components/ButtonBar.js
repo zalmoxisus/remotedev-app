@@ -22,6 +22,10 @@ export default class ButtonBar extends Component {
     this.openSettings = this.openSettings.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.dispatcherIsOpen !== this.props.dispatcherIsOpen;
+  }
+
   openHelp() {
     window.open('https://github.com/zalmoxisus/remote-redux-devtools');
   }
