@@ -5,10 +5,12 @@ import socketOptions from '../constants/socketOptions';
 let socket;
 let channel;
 
-export function dispatchRemotely(type, action, id, state) {
+export function dispatchRemotely(type, action, id, bareState) {
+  let state = bareState;
+  if (type !== 'IMPORT') state = stringify(state);
   socket.emit(
     id ? 'sc-' + id : 'respond',
-    { type, action, state: state ? stringify(state) : undefined }
+    { type, action, state }
   );
 }
 

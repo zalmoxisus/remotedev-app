@@ -7,7 +7,7 @@ import styles from './styles';
 import DevTools, { sideMonitors } from './containers/DevTools';
 import {
   createRemoteStore, updateStoreInstance, enableSync,
-  startMonitoring
+  startMonitoring, importState, exportState 
 } from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 import Instances from './components/Instances';
@@ -149,6 +149,7 @@ export default class App extends Component {
             toggleDispatcher={this.toggleDispatcher}
             dispatcherIsOpen={this.state.dispatcherIsOpen}
             saveSettings={this.saveSettings}
+            importState={importState} exportState={exportState}
             socketOptions={this.socketOptions}
           />
         }

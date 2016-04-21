@@ -36,3 +36,11 @@ export function updateStoreInstance(newInstance) {
 export function enableSync(should) {
   shouldSync = should;
 }
+
+export function importState(state) {
+  dispatchRemotely('IMPORT', undefined, undefined, state);
+}
+
+export function exportState() {
+  return store.liftedStore.getState();
+}

@@ -4,6 +4,8 @@ import HelpIcon from 'react-icons/lib/fa/lightbulb-o';
 import DispatchIcon from 'react-icons/lib/md/keyboard';
 import DispatchHideIcon from 'react-icons/lib/md/keyboard-hide';
 import Button from './Button';
+import ImportButton from './ImportButton';
+import ExportButton from './ExportButton';
 import styles from '../styles';
 import Settings from './Settings';
 
@@ -14,6 +16,8 @@ export default class ButtonBar extends Component {
     dispatcherIsOpen: PropTypes.bool,
     closeModal: PropTypes.func.isRequired,
     saveSettings: PropTypes.func.isRequired,
+    importState: PropTypes.func.isRequired,
+    exportState: PropTypes.func.isRequired,
     socketOptions: PropTypes.object
   };
 
@@ -47,6 +51,8 @@ export default class ButtonBar extends Component {
           Icon={this.props.dispatcherIsOpen ? DispatchHideIcon : DispatchIcon}
           onClick={this.props.toggleDispatcher}
         >Dispatcher</Button>
+        <ImportButton importState={this.props.importState} />
+        <ExportButton exportState={this.props.exportState} />
         <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
         <Button Icon={HelpIcon} onClick={this.openHelp}>How to use</Button>
       </div>
