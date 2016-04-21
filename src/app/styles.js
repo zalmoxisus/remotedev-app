@@ -34,6 +34,24 @@ const styles = {
     minWidth: '300px',
     minHeight: '35px'
   },
+  button: {
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    borderRadius: 3,
+    padding: 4,
+    marginLeft: 3,
+    marginRight: 3,
+    marginTop: 5,
+    marginBottom: 5,
+    flexGrow: 1,
+    display: 'inline-block',
+    fontSize: '0.8em',
+    color: 'white',
+    textDecoration: 'none',
+    overflow: 'hidden',
+    maxHeight: '30px',
+    lineHeight: '19px'
+  },
   buttonText: {
     verticalAlign: 'middle',
     marginLeft: '3px',
