@@ -38,7 +38,8 @@ export function enableSync(should) {
 }
 
 export function importState(state) {
-  dispatchRemotely('IMPORT', undefined, undefined, state);
+  const id = store.liftedStore.getInstance();
+  dispatchRemotely('IMPORT', undefined, id, state);
 }
 
 export function exportState() {

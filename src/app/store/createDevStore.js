@@ -23,6 +23,10 @@ export default function createDevStore(onDispatch) {
     return initialState;
   }
 
+  function getInstance() {
+    return instance;
+  }
+
   function isSet() {
     return initiated;
   }
@@ -79,6 +83,7 @@ export default function createDevStore(onDispatch) {
     subscribe,
     liftedStore: {
       dispatch,
+      getInstance,
       getInitialState,
       getState,
       setState,
