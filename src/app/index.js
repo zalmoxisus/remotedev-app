@@ -7,7 +7,7 @@ import styles from './styles';
 import DevTools from './containers/DevTools';
 import {
   createRemoteStore, updateStoreInstance, enableSync,
-  startMonitoring, importState, exportState 
+  startMonitoring, importState, exportState
 } from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 import Instances from './components/Instances';

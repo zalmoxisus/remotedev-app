@@ -14,7 +14,7 @@ export default class Button extends React.Component {
     onClick: PropTypes.func,
     onMouseDown: PropTypes.func,
     onMouseUp: PropTypes.func,
-    Icon: PropTypes.node.isRequired,
+    Icon: PropTypes.func.isRequired,
     children: PropTypes.node,
     theme: PropTypes.oneOfType([
       PropTypes.object,

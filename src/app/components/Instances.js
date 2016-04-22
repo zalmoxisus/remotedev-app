@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import SettingsIcon from 'react-icons/lib/md/settings';
-import Button from './Button';
+import shallowCompare from 'react-addons-shallow-compare';
 import styles from '../styles';
-import Settings from './Settings';
 
 export default class Instances extends Component {
   static propTypes = {
@@ -13,6 +11,10 @@ export default class Instances extends Component {
   constructor(props) {
     super(props);
     this.initialSelect = [['Autoselect instances', 'auto']];
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return shallowCompare(this, nextProps);
   }
 
   render() {
