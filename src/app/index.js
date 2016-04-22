@@ -4,13 +4,14 @@ import {
   saveToStorage, getSettings, getSelectMonitor, saveSelectMonitor
 } from './utils/localStorage';
 import styles from './styles';
-import DevTools, { sideMonitors } from './containers/DevTools';
+import DevTools from './containers/DevTools';
 import {
   createRemoteStore, updateStoreInstance, enableSync,
   startMonitoring, importState, exportState 
 } from './store/createRemoteStore';
 import ButtonBar from './components/ButtonBar';
 import Instances from './components/Instances';
+import MonitorSelector from './components/MonitorSelector';
 import SyncToggle from './components/SyncToggle';
 
 export default class App extends Component {
@@ -113,19 +114,7 @@ export default class App extends Component {
     return (
       <div style={styles.container}>
         <div style={styles.buttonBar}>
-          <select
-            style={{ ...styles.instances, ...styles.monitors }}
-            onChange={this.handleSelectMonitor}
-          >
-            {
-              sideMonitors.map((item, i) =>
-                <option key={i}
-                  value={item.key}
-                  selected={item.key === this.state.monitor}
-                >{item.title}</option>
-              )
-            }
-          </select>
+          <MonitorSelector selected={this.state.monitor} onSelect={this.handleSelectMonitor}/>
           <Instances instances={this.state.instances} onSelect={this.handleSelectInstance}/>
           <SyncToggle
             on={this.state.shouldSync}
