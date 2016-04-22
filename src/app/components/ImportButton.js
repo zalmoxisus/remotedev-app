@@ -34,6 +34,7 @@ export default class ImportButton extends Component {
         const state = reader.result;
         JSON.parse(state); // Check if it is in JSON format
         this.props.importState(state);
+        e.target.value = '';
       } catch (error) {
         // FIXME: add error notification
         /* eslint-disable no-alert */
