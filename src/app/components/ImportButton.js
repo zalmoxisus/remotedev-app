@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { parse } from 'jsan';
 import UploadIcon from 'react-icons/lib/md/file-upload';
 import Button from './Button';
 
@@ -32,9 +33,8 @@ export default class ImportButton extends Component {
     reader.onload = () => {
       try {
         const state = reader.result;
-        JSON.parse(state); // Check if it is in JSON format
+        parse(state); // Check if it is in JSON format
         this.props.importState(state);
-        e.target.value = '';
       } catch (error) {
         // FIXME: add error notification
         /* eslint-disable no-alert */
@@ -43,6 +43,7 @@ export default class ImportButton extends Component {
       }
     };
     reader.readAsText(file);
+    e.target.value = '';
   }
 
   render() {
