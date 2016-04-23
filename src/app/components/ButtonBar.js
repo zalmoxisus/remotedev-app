@@ -1,11 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import SettingsIcon from 'react-icons/lib/md/settings';
 import HelpIcon from 'react-icons/lib/fa/lightbulb-o';
-import DispatchIcon from 'react-icons/lib/md/keyboard';
-import DispatchHideIcon from 'react-icons/lib/md/keyboard-hide';
 import Button from './Button';
-import ImportButton from './ImportButton';
-import ExportButton from './ExportButton';
+import DispatcherButton from './buttons/DispatcherButton';
+import ImportButton from './buttons/ImportButton';
+import ExportButton from './buttons/ExportButton';
 import styles from '../styles';
 import Settings from './Settings';
 
@@ -47,10 +46,9 @@ export default class ButtonBar extends Component {
   render() {
     return (
       <div style={styles.buttonBar}>
-        <Button
-          Icon={this.props.dispatcherIsOpen ? DispatchHideIcon : DispatchIcon}
-          onClick={this.props.toggleDispatcher}
-        >Dispatcher</Button>
+        <DispatcherButton
+          dispatcherIsOpen={this.props.dispatcherIsOpen} onClick={this.props.toggleDispatcher}
+        />
         <ImportButton importState={this.props.importState} />
         <ExportButton exportState={this.props.exportState} />
         <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>

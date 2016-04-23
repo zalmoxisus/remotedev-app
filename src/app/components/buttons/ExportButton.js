@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { stringify } from 'jsan';
 import DownloadIcon from 'react-icons/lib/md/file-download';
-import Button from './Button';
+import Button from '../Button';
 
 export default class ExportButton extends Component {
   static propTypes = {

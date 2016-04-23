@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { parse } from 'jsan';
 import UploadIcon from 'react-icons/lib/md/file-upload';
-import Button from './Button';
+import Button from '../Button';
 
 export default class ImportButton extends Component {
   static propTypes = {
