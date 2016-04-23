@@ -32,29 +32,27 @@ const styles = {
     backgroundColor: '#353B46',
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
     minWidth: '300px',
-    minHeight: '35px'
+    minHeight: '2em'
   },
   button: {
     cursor: 'pointer',
     fontWeight: 'bold',
     borderRadius: 3,
-    padding: 4,
-    marginLeft: 3,
-    marginRight: 3,
-    marginTop: 5,
-    marginBottom: 5,
+    padding: '0.25em 0.6em',
+    margin: '0.3em',
     flexGrow: 1,
     display: 'inline-block',
     fontSize: '0.8em',
     color: 'white',
     textDecoration: 'none',
     overflow: 'hidden',
-    maxHeight: '30px',
-    lineHeight: '19px'
+    maxHeight: '1.5em',
+    minWidth: '1em',
+    lineHeight: '1.42em'
   },
   buttonText: {
     verticalAlign: 'middle',
-    marginLeft: '3px',
+    marginLeft: '0.4em',
     WebkitUserSelect: 'none'
   },
   switchLabel: {
