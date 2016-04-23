@@ -68,6 +68,10 @@ export default function createDevStore(onDispatch) {
     return action;
   }
 
+  function importState(state) {
+    onDispatch('IMPORT', undefined, instance, state);
+  }
+
   function subscribe(listener) {
     listeners.push(listener);
 
@@ -90,6 +94,7 @@ export default function createDevStore(onDispatch) {
       setInstance,
       deleteInstance,
       subscribe,
+      importState,
       isSet
     }
   };
