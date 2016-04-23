@@ -10,7 +10,6 @@ export default function createDevStore(onDispatch) {
   };
   let currentState = [];
   let listeners = [];
-  let initiated = false;
   let instance;
 
   function getState(id) {
@@ -27,10 +26,6 @@ export default function createDevStore(onDispatch) {
     return instance;
   }
 
-  function isSet() {
-    return initiated;
-  }
-
   function update() {
     listeners.forEach(listener => listener());
   }
@@ -40,7 +35,6 @@ export default function createDevStore(onDispatch) {
     if (isNew && onChanged) onChanged();
     currentState[id] = state;
     update();
-    initiated = true;
   }
 
   function setInstance(id, toUpdate) {
@@ -94,8 +88,7 @@ export default function createDevStore(onDispatch) {
       setInstance,
       deleteInstance,
       subscribe,
-      importState,
-      isSet
+      importState
     }
   };
 }
