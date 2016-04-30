@@ -4,7 +4,9 @@ export function getSettings() {
   if (!localStorage.isChromeStorage) {
     const hostname = localStorage.getItem('s:hostname');
     const port = localStorage.getItem('s:port');
-    if (hostname && port) return { hostname, port: Number(port) };
+    let secure = localStorage.getItem('s:secure');
+    secure = secure ? JSON.parse(secure) : false;
+    if (hostname && port) return { hostname, port: Number(port), secure };
   }
   return null;
 }

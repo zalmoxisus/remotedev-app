@@ -20,7 +20,8 @@ export default class App extends Component {
     socketOptions: PropTypes.shape({
       hostname: PropTypes.string,
       port: PropTypes.number,
-      autoReconnect: PropTypes.bool
+      autoReconnect: PropTypes.bool,
+      secure: PropTypes.bool
     }),
     noButtonBar: PropTypes.bool
   };
@@ -89,7 +90,7 @@ export default class App extends Component {
 
   saveSettings(isLocal, options) {
     this.socketOptions = saveToStorage(
-      !isLocal, ['hostname', 'port'], options
+      !isLocal, ['hostname', 'port', 'secure'], options
     ) || undefined;
     this.store = this.createStore();
     this.closeModal();
