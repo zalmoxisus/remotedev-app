@@ -21,6 +21,7 @@ export default class Settings extends Component {
   constructor(props) {
     super(props);
     let isLocal;
+    let isSecure = props.socketOptions ? !!props.socketOptions.secure : false;
     this.options = {};
     if (props.socketOptions) {
       isLocal = true;
@@ -34,7 +35,8 @@ export default class Settings extends Component {
 
     this.state = {
       selectedTab: 'connection',
-      isLocal
+      isLocal,
+      isSecure
     };
   }
 
@@ -55,9 +57,12 @@ export default class Settings extends Component {
             selected={this.isTab('connection')}
             onPress={() => { this.changeTab('connection'); }}
           >
-            <Form onSubmit={() => { saveSettings(this.state.isLocal, this.options); } }>
+            <Form onSubmit={() => { saveSettings(this.state.isLocal, { ...this.options, secure: this.state.isSecure }); } }>
               <Form.Row>
                 <Switch on={this.state.isLocal} onClick={() => this.setState({ isLocal: !this.state.isLocal })} labelStyle={styles.switchLabel}>Use local server</Switch>
+              </Form.Row>
+              <Form.Row>
+                <Switch on={this.state.isSecure} onClick={() => this.setState({ isSecure: !this.state.isSecure })} labelStyle={styles.switchLabel}>Use secure connection</Switch>
               </Form.Row>
 
               <Form.Row visible={this.state.isLocal}>
