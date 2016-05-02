@@ -59,7 +59,7 @@
     "eslint-config-airbnb": "^2.1.1",
     "eslint-plugin-react": "^3.11.3",
     "expect": "^1.13.3",
-    "gulp": "^3.9.0",
+    "gulp": "^3.9.1",
     "gulp-jade": "1.1.0",
     "gulp-mocha": "^2.2.0",
     "gulp-rename": "^1.2.2",
@@ -76,8 +76,9 @@
     "require-dir": "^0.3.0",
     "selenium-webdriver": "^2.48.2",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1",
+    "webpack-hot-middleware": "^2.10.0"
   },
   "dependencies": {
     "chrome-storage-local": "^0.1.5",
