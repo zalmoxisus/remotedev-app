@@ -58,7 +58,20 @@ const styles = {
   switchLabel: {
     paddingTop: '5px',
     paddingLeft: '60px',
-    paddingRight: '25px'
+    paddingRight: '10px'
+  },
+  viewForm: {
+    padding: '5px',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  labelForm: {
+    padding: '0 5px',
+    width: '80px',
+    justifyContent: 'flex-end'
+  },
+  separator: {
+    padding: '3px'
   },
   instances: {
     border: '1px solid #8A96A2',
