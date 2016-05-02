@@ -5,14 +5,17 @@ import DevTools from '../app';
 chrome.storage.local.get({
   'select-monitor': null,
   's:hostname': null,
-  's:port': null
+  's:port': null,
+  's:secure': null
 }, options => {
   render(
     <DevTools
       selectMonitor={options['select-monitor']}
       socketOptions={
         options['s:hostname'] && options['s:port'] ?
-        { hostname: options['s:hostname'], port: options['s:port'] } : undefined
+          {
+            hostname: options['s:hostname'], port: options['s:port'], secure: options['s:secure']
+          } : undefined
       }
     />,
     document.getElementById('root')

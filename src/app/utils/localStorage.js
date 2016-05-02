@@ -5,7 +5,7 @@ export function getSettings() {
     const hostname = localStorage.getItem('s:hostname');
     const port = localStorage.getItem('s:port');
     let secure = localStorage.getItem('s:secure');
-    secure = secure ? JSON.parse(secure) : false;
+    secure = secure === 'true';
     if (hostname && port) return { hostname, port: Number(port), secure };
   }
   return null;
