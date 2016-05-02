@@ -91,7 +91,7 @@ export default class Button extends React.Component {
         style={style}
       >
         <Icon />
-        <span style={styles.buttonText}>{children}</span>
+        {children && <span style={styles.buttonText}>{children}</span>}
       </a>
     );
   }
