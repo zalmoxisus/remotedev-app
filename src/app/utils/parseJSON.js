@@ -6,6 +6,6 @@ export default function parseJSON(data) {
     return parse(data);
   } catch (e) {
     if (process.env.NODE_ENV !== 'production') console.error(data + 'is not a valid JSON', e);
-    return null;
+    return undefined;
   }
 }
