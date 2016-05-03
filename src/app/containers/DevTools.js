@@ -19,7 +19,9 @@ function getMonitor(type, props) {
     case 'SliderMonitor':
       return createElement(SliderMonitor);
     case 'InspectorMonitor':
-      return createElement(InspectorMonitor);
+      return createElement(InspectorMonitor, {
+        shouldPersistState: false, isLightTheme: false, theme: 'nicinabox'
+      });
     case 'DiffMonitor':
       return createElement(DiffMonitor);
     case 'DispatchMonitor':
