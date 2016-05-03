@@ -31,6 +31,7 @@ export default class App extends Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.toggleDispatcher = this.toggleDispatcher.bind(this);
+    this.toggleSlider = this.toggleSlider.bind(this);
     this.saveSettings = this.saveSettings.bind(this);
   }
 
@@ -39,6 +40,7 @@ export default class App extends Component {
       monitor: getSelectMonitor() || this.props.selectMonitor || 'default',
       modalIsOpen: false,
       dispatcherIsOpen: false,
+      sliderIsOpen: true,
       instances: {},
       instance: 'auto',
       shouldSync: false
@@ -100,6 +102,10 @@ export default class App extends Component {
     this.setState({ dispatcherIsOpen: !this.state.dispatcherIsOpen });
   }
 
+  toggleSlider() {
+    this.setState({ sliderIsOpen: !this.state.sliderIsOpen });
+  }
+
   openModal(content) {
     this.modalContent = content;
     this.setState({ modal: this.modal, modalIsOpen: true });
@@ -124,9 +130,9 @@ export default class App extends Component {
           />
         </div>
         <DevTools monitor={monitor} store={this.store} key={`${monitor}-${key}`} />
-        <div style={styles.sliderMonitor}>
+        {this.state.sliderIsOpen && <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
-        </div>
+        </div>}
         {this.state.dispatcherIsOpen &&
           <DevTools monitor="DispatchMonitor"
             store={this.store} dispatchFn={this.store.dispatch}
@@ -138,6 +144,8 @@ export default class App extends Component {
             openModal={this.openModal} closeModal={this.closeModal}
             toggleDispatcher={this.toggleDispatcher}
             dispatcherIsOpen={this.state.dispatcherIsOpen}
+            toggleSlider={this.toggleSlider}
+            sliderIsOpen={this.state.sliderIsOpen}
             saveSettings={this.saveSettings}
             importState={importState} exportState={exportState}
             socketOptions={this.socketOptions}

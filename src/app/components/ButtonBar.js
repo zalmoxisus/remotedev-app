@@ -5,6 +5,7 @@ import Button from './Button';
 import DispatcherButton from './buttons/DispatcherButton';
 import ImportButton from './buttons/ImportButton';
 import ExportButton from './buttons/ExportButton';
+import SliderButton from './buttons/SliderButton';
 import styles from '../styles';
 import Settings from './Settings';
 
@@ -12,7 +13,9 @@ export default class ButtonBar extends Component {
   static propTypes = {
     openModal: PropTypes.func.isRequired,
     toggleDispatcher: PropTypes.func.isRequired,
+    toggleSlider: PropTypes.func.isRequired,
     dispatcherIsOpen: PropTypes.bool,
+    sliderIsOpen: PropTypes.bool,
     closeModal: PropTypes.func.isRequired,
     saveSettings: PropTypes.func.isRequired,
     importState: PropTypes.func.isRequired,
@@ -26,7 +29,8 @@ export default class ButtonBar extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.dispatcherIsOpen !== this.props.dispatcherIsOpen;
+    return nextProps.dispatcherIsOpen !== this.props.dispatcherIsOpen
+      || nextProps.sliderIsOpen !== this.props.sliderIsOpen;
   }
 
   openHelp() {
@@ -49,6 +53,7 @@ export default class ButtonBar extends Component {
         <DispatcherButton
           dispatcherIsOpen={this.props.dispatcherIsOpen} onClick={this.props.toggleDispatcher}
         />
+        <SliderButton isOpen={this.props.sliderIsOpen} onClick={this.props.toggleSlider} />
         <ImportButton importState={this.props.importState} />
         <ExportButton exportState={this.props.exportState} />
         <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
