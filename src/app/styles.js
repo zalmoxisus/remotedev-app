@@ -5,7 +5,8 @@ const styles = {
     flexFlow: 'column nowrap'
   },
   modal: {
-    content: { padding: 0, bottom: 'auto' }
+    content: { padding: 0, bottom: 'auto' },
+    overlay: { zIndex: 1 }
   },
   window: {
     width: 'auto', height: 'auto'
