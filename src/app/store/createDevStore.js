@@ -53,7 +53,7 @@ export default function createDevStore(onDispatch) {
       let state = getState();
       onDispatch('DISPATCH', action, instance, state.computedStates[action.index].state);
       setState({ ...state, currentStateIndex: action.index }, instance);
-    } else onDispatch('DISPATCH', action, instance);
+    } else if (action.type[0] !== '@') onDispatch('DISPATCH', action, instance);
     return action;
   }
 
