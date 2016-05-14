@@ -83,6 +83,7 @@
   "dependencies": {
     "chrome-storage-local": "^0.1.5",
     "jsan": "^3.1.2",
+    "material-ui": "^0.15.0",
     "react": "^15.0.2",
     "react-addons-shallow-compare": "^15.0.2",
     "react-desktop": "0.1.53",
@@ -91,6 +92,7 @@
     "react-modal": "^1.2.1",
     "react-redux": "^4.0.6",
     "react-switcher": "^1.0.2",
+    "react-tap-event-plugin": "^1.0.0",
     "redux": "^3.0.5",
     "redux-devtools": "^3.2.0",
     "redux-devtools-chart-monitor": "^1.4.1",
