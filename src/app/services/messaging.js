@@ -24,7 +24,15 @@ export function dispatchSync(state, id) {
 export function subscribe(subscriber, options = socketOptions, onInstancesChanged) {
   if (channel) channel.unwatch();
   if (socket) socket.disconnect();
-  socket = socketCluster.connect(options);
+  try {
+    socket = socketCluster.connect(options);
+  } catch (error) {
+    // FIXME: show in a dialog component
+    /* eslint-disable no-alert */
+    alert(error.message);
+    /* eslint-enable */
+    return false;
+  }
 
   function watch(req) {
     let data;
