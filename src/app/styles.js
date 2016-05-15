@@ -6,17 +6,6 @@ const styles = {
     display: 'flex',
     flexFlow: 'column nowrap'
   },
-  modal: {
-    content: { padding: 0, bottom: 'auto' },
-    overlay: { zIndex: 1 }
-  },
-  window: {
-    width: 'auto', height: 'auto'
-  },
-  logMonitor: {
-    flexGrow: '1',
-    position: 'relative'
-  },
   sliderMonitor: {
     minWidth: '300px',
     zIndex: '0',
@@ -60,24 +49,6 @@ const styles = {
     verticalAlign: 'middle',
     marginLeft: '0.4em',
     WebkitUserSelect: 'none'
-  },
-  switchLabel: {
-    paddingTop: '5px',
-    paddingLeft: '60px',
-    paddingRight: '10px'
-  },
-  viewForm: {
-    padding: '5px',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  labelForm: {
-    padding: '0 5px',
-    width: '80px',
-    justifyContent: 'flex-end'
-  },
-  separator: {
-    padding: '3px'
   },
   select: {
     fontSize: '1em',

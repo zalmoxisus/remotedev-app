@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import Modal from 'react-modal';
 import {
   saveToStorage, getSettings, getSelectMonitor, saveSelectMonitor
 } from '../utils/localStorage';
@@ -153,9 +152,6 @@ export default class App extends Component {
             socketOptions={this.socketOptions}
           />
         }
-        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal}
-          style={styles.modal}
-        >{this.modalContent}</Modal>
       </div>
     );
   }
