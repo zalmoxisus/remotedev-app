@@ -3,14 +3,12 @@ import { createDevTools } from 'redux-devtools';
 import LogMonitor from 'redux-devtools-log-monitor';
 import SliderMonitor from 'redux-slider-monitor';
 import InspectorMonitor from 'redux-devtools-inspector';
-import DiffMonitor from 'redux-devtools-diff-monitor';
 import DispatchMonitor from 'redux-devtools-dispatch';
 import ChartMonitor from 'redux-devtools-chart-monitor';
 
 export const sideMonitors = [
   { key: 'LogMonitor', title: 'Log monitor' },
   { key: 'InspectorMonitor', title: 'Inspector' },
-  { key: 'DiffMonitor', title: 'Diff' },
   { key: 'ChartMonitor', title: 'Chart' }
 ];
 
@@ -22,8 +20,6 @@ function getMonitor(type, props) {
       return createElement(InspectorMonitor, {
         shouldPersistState: false, isLightTheme: false, theme: 'nicinabox'
       });
-    case 'DiffMonitor':
-      return createElement(DiffMonitor);
     case 'DispatchMonitor':
       return createElement(DispatchMonitor, { dispatchFn: props.dispatchFn });
     case 'ChartMonitor':
