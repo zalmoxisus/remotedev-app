@@ -6,7 +6,7 @@ import styles from '../styles';
 
 export default class MonitorSelector extends Component {
   static propTypes = {
-    selected: PropTypes.string.isRequired,
+    selected: PropTypes.string,
     onSelect: PropTypes.func.isRequired
   };
 
@@ -21,7 +21,7 @@ export default class MonitorSelector extends Component {
         labelStyle={styles.selectLabel}
         iconStyle={styles.selectIcon}
         onChange={this.props.onSelect}
-        value={this.props.selected}
+        value={this.props.selected || 'LogMonitor'}
       >
         {sideMonitors.map((item, i) =>
           <MenuItem key={i} value={item.key} primaryText={item.title} />
