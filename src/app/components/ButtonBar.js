@@ -25,12 +25,16 @@ export default class ButtonBar extends Component {
 
   constructor() {
     super();
+    this.state = { settingsOpened: false };
+
     this.openSettings = this.openSettings.bind(this);
+    this.closeSettings = this.closeSettings.bind(this);
   }
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate(nextProps, nextState) {
     return nextProps.dispatcherIsOpen !== this.props.dispatcherIsOpen
-      || nextProps.sliderIsOpen !== this.props.sliderIsOpen;
+      || nextProps.sliderIsOpen !== this.props.sliderIsOpen
+      || nextState.settingsOpened !== this.state.settingsOpened;
   }
 
   openHelp() {
@@ -38,13 +42,11 @@ export default class ButtonBar extends Component {
   }
 
   openSettings() {
-    this.props.openModal(
-      <Settings
-        closeModal={this.props.closeModal}
-        saveSettings={this.props.saveSettings}
-        socketOptions={this.props.socketOptions}
-      />
-    );
+    this.setState({ settingsOpened: true });
+  }
+
+  closeSettings() {
+    this.setState({ settingsOpened: false });
   }
 
   render() {
@@ -58,6 +60,12 @@ export default class ButtonBar extends Component {
         <ExportButton exportState={this.props.exportState} />
         <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
         <Button Icon={HelpIcon} onClick={this.openHelp}>How to use</Button>
+        <Settings
+          isOpen={this.state.settingsOpened}
+          close={this.closeSettings}
+          saveSettings={this.props.saveSettings}
+          socketOptions={this.props.socketOptions}
+        />
       </div>
     );
   }

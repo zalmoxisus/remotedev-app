@@ -98,6 +98,12 @@ const styles = {
   syncToggle: {
     marginLeft: '6px',
     marginTop: '3px'
+  },
+  dialogTitle: {
+    lineHeight: '10px'
+  },
+  dialogBody: {
+    padding: '24px'
   }
 };
 
