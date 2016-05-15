@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import { sideMonitors } from '../containers/DevTools';
 import styles from '../styles';
 
@@ -14,15 +16,17 @@ export default class MonitorSelector extends Component {
 
   render() {
     return (
-      <select
-        style={{ ...styles.instances, ...styles.monitors }}
+      <SelectField
+        style={styles.select}
+        labelStyle={styles.selectLabel}
+        iconStyle={styles.selectIcon}
         onChange={this.props.onSelect}
         value={this.props.selected}
       >
         {sideMonitors.map((item, i) =>
-          <option key={i} value={item.key}>{item.title}</option>
+          <MenuItem key={i} value={item.key} primaryText={item.title} />
         )}
-      </select>
+      </SelectField>
     );
   }
 }

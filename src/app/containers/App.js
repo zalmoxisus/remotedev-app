@@ -66,14 +66,13 @@ export default class App extends Component {
     this.setState({ instances });
   };
 
-  handleSelectInstance = e => {
-    const instance = e.target.value;
+  handleSelectInstance = (event, index, instance) => {
     updateStoreInstance(instance);
     this.setState({ instance, shouldSync: false });
   };
 
-  handleSelectMonitor = e => {
-    this.setState({ monitor: saveSelectMonitor(e.target.value) });
+  handleSelectMonitor = (event, index, value) => {
+    this.setState({ monitor: saveSelectMonitor(value) });
   };
 
   handleSyncToggle = () => {
@@ -122,7 +121,10 @@ export default class App extends Component {
       <div style={styles.container}>
         <div style={styles.buttonBar}>
           <MonitorSelector selected={this.state.monitor} onSelect={this.handleSelectMonitor}/>
-          <Instances instances={this.state.instances} onSelect={this.handleSelectInstance}/>
+          <Instances
+            instances={this.state.instances} onSelect={this.handleSelectInstance}
+            selected={this.state.instance}
+          />
           <SyncToggle
             on={this.state.shouldSync}
             onClick={this.handleSyncToggle}

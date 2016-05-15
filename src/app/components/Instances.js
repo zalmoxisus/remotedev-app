@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import shallowCompare from 'react-addons-shallow-compare';
 import styles from '../styles';
 
 export default class Instances extends Component {
   static propTypes = {
+    selected: PropTypes.string,
     instances: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired
   };
@@ -24,13 +27,19 @@ export default class Instances extends Component {
     });
 
     return (
-      <select style={styles.instances} onChange={this.props.onSelect}>
+      <SelectField
+        style={styles.select}
+        labelStyle={styles.selectLabel}
+        iconStyle={styles.selectIcon}
+        onChange={this.props.onSelect}
+        value={this.props.selected || 'auto'}
+      >
         {
           (this.select || this.initialSelect).map(
-            option => <option key={option[1]} value={option[1]}>{option[0]}</option>
+            option => <MenuItem key={option[1]} value={option[1]} primaryText={option[0]} />
           )
         }
-      </select>
+      </SelectField>
     );
   }
 }

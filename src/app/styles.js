@@ -1,3 +1,5 @@
+import { indigo50 } from 'material-ui/styles/colors';
+
 const styles = {
   container: {
     height: '100%',
@@ -34,7 +36,9 @@ const styles = {
     backgroundColor: '#353B46',
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
     minWidth: '300px',
-    minHeight: '2em'
+    minHeight: '1.9em',
+    maxHeight: '1.9em',
+    overflow: 'hidden'
   },
   button: {
     cursor: 'pointer',
@@ -75,22 +79,24 @@ const styles = {
   separator: {
     padding: '3px'
   },
-  instances: {
-    border: '1px solid #8A96A2',
-    fontSize: '14px',
-    fontFamily: 'monaco, Consolas, Lucida Console, monospace',
-    backgroundColor: 'rgb(79, 90, 101)',
-    color: '#fff',
+  select: {
+    fontSize: '1em',
     width: '100%',
-    height: '27px',
-    marginTop: '3px'
+    height: '3em',
+    margin: '0 0.2em'
   },
-  monitors: {
-    width: '150px',
-    marginRight: '3px'
+  selectLabel: {
+    color: indigo50,
+    lineHeight: '3em',
+    top: '-0.5em'
+  },
+  selectIcon: {
+    top: '0em',
+    height: '2em',
+    width: '2em'
   },
   syncToggle: {
-    marginLeft: '10px',
+    marginLeft: '6px',
     marginTop: '3px'
   }
 };
