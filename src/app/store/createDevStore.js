@@ -48,6 +48,10 @@ export default function createDevStore(onDispatch) {
     update();
   }
 
+  function clear() {
+    currentState = [];
+  }
+
   function dispatch(action) {
     if (action.type === 'JUMP_TO_STATE') {
       let state = getState();
@@ -79,6 +83,7 @@ export default function createDevStore(onDispatch) {
     dispatch: dispatchAction,
     getState,
     subscribe,
+    clear,
     liftedStore: {
       dispatch,
       getInstance,
