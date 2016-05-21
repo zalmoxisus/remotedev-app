@@ -21,7 +21,7 @@ export default class MonitorSelector extends Component {
         labelStyle={styles.selectLabel}
         iconStyle={styles.selectIcon}
         onChange={this.props.onSelect}
-        value={this.props.selected || 'LogMonitor'}
+        value={this.props.selected || 'InspectorMonitor'}
       >
         {sideMonitors.map((item, i) =>
           <MenuItem key={i} value={item.key} primaryText={item.title} />

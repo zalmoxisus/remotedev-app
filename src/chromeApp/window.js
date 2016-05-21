@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import DevTools from '../app';
 
 chrome.storage.local.get({
-  'select-monitor': null,
+  'select-monitor': 'InspectorMonitor',
   's:hostname': null,
   's:port': null,
   's:secure': null
