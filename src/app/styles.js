@@ -67,8 +67,7 @@ const styles = {
     width: '2em'
   },
   syncToggle: {
-    marginLeft: '6px',
-    marginTop: '3px'
+    marginLeft: '6px'
   },
   dialogTitle: {
     lineHeight: '10px'
