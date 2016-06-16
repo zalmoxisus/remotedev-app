@@ -34,7 +34,7 @@ const styles = {
     fontWeight: 'bold',
     borderRadius: 3,
     padding: '0.25em 0.6em',
-    margin: '0 0.3em',
+    margin: 'auto 0.3em',
     flexGrow: 1,
     display: 'inline-block',
     fontSize: '0.8em',
