@@ -14,12 +14,10 @@ export const sideMonitors = [
 
 function getMonitor(type, props) {
   switch (type) {
+    case 'LogMonitor':
+      return createElement(LogMonitor, { preserveScrollTop: false });
     case 'SliderMonitor':
       return createElement(SliderMonitor);
-    case 'InspectorMonitor':
-      return createElement(InspectorMonitor, {
-        shouldPersistState: false, isLightTheme: false, theme: 'nicinabox'
-      });
     case 'DispatchMonitor':
       return createElement(DispatchMonitor, { dispatchFn: props.dispatchFn });
     case 'ChartMonitor':
@@ -35,7 +33,9 @@ function getMonitor(type, props) {
         }
       });
     default:
-      return createElement(LogMonitor, { preserveScrollTop: false });
+      return createElement(InspectorMonitor, {
+        shouldPersistState: false, isLightTheme: false, theme: 'nicinabox'
+      });
   }
 }
 
