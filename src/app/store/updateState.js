@@ -43,11 +43,12 @@ export default function updateState(store, request, onInstancesChanged, instance
       );
       break;
     case 'ACTION':
+      const liftedState = store.liftedStore.getState(request.id);
       newState = recompute(
-        store.liftedStore.getState(request.id),
+        liftedState,
         payload,
         action,
-        request.nextActionId,
+        request.nextActionId || (liftedState.nextActionId + 1),
         request.isExcess
       );
       break;
