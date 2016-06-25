@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  saveToStorage, getSettings, getSelectMonitor, saveSelectMonitor
+  saveObjToStorage, getSettings, getFromStorage, saveToStorage
 } from '../utils/localStorage';
 import styles from '../styles';
 import DevTools from '../containers/DevTools';
@@ -36,7 +36,7 @@ export default class App extends Component {
 
   componentWillMount() {
     this.state = {
-      monitor: getSelectMonitor() || this.props.selectMonitor || 'default',
+      monitor: getFromStorage('select-monitor') || this.props.selectMonitor || 'default',
       modalIsOpen: false,
       dispatcherIsOpen: false,
       sliderIsOpen: true,
@@ -71,7 +71,7 @@ export default class App extends Component {
   };
 
   handleSelectMonitor = (event, index, value) => {
-    this.setState({ monitor: saveSelectMonitor(value) });
+    this.setState({ monitor: saveToStorage('select-monitor', value) });
   };
 
   handleSyncToggle = () => {
@@ -89,7 +89,7 @@ export default class App extends Component {
   }
 
   saveSettings(isLocal, options) {
-    this.socketOptions = saveToStorage(
+    this.socketOptions = saveObjToStorage(
       !isLocal, ['hostname', 'port', 'secure'], options
     ) || undefined;
     this.store = this.createStore();

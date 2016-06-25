@@ -1,22 +1,16 @@
 import localStorage from 'chrome-storage-local';
 
-export function getSettings() {
-  if (!localStorage.isChromeStorage) {
-    const hostname = localStorage.getItem('s:hostname');
-    const port = localStorage.getItem('s:port');
-    let secure = localStorage.getItem('s:secure');
-    secure = secure === 'true';
-    if (hostname && port) return { hostname, port: Number(port), secure };
-  }
-  return null;
-}
-
-export function getSelectMonitor() {
+export function getFromStorage(key) {
   if (localStorage.isChromeStorage) return null;
-  return localStorage.getItem('select-monitor');
+  return localStorage.getItem(key);
 }
 
-export function saveToStorage(remove, keys, values) {
+export function saveToStorage(key, value) {
+  localStorage.setItem(key, value);
+  return value;
+}
+
+export function saveObjToStorage(remove, keys, values) {
   if (remove) {
     keys.forEach(key => {
       localStorage.removeItem('s:' + key);
@@ -32,7 +26,13 @@ export function saveToStorage(remove, keys, values) {
   return obj;
 }
 
-export function saveSelectMonitor(name) {
-  localStorage.setItem('select-monitor', name);
-  return name;
+export function getSettings() {
+  if (!localStorage.isChromeStorage) {
+    const hostname = localStorage.getItem('s:hostname');
+    const port = localStorage.getItem('s:port');
+    let secure = localStorage.getItem('s:secure');
+    secure = secure === 'true';
+    if (hostname && port) return { hostname, port: Number(port), secure };
+  }
+  return null;
 }
