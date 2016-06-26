@@ -50,6 +50,20 @@ const styles = {
     marginLeft: '0.4em',
     WebkitUserSelect: 'none'
   },
+  flatButton: {
+    minWidth: '2em'
+  },
+  buttonLabel: {
+    fontSize: '0.9em',
+    paddingLeft: '8px',
+    paddingRight: '8px'
+  },
+  input: {
+    fontSize: '0.8em'
+  },
+  hint: {
+    fontSize: '0.6em'
+  },
   select: {
     fontSize: '1em',
     width: '100%',
@@ -59,6 +73,8 @@ const styles = {
   selectLabel: {
     color: indigo50,
     lineHeight: '3em',
+    paddingLeft: '7px',
+    paddingRight: '7px',
     top: '-0.5em'
   },
   selectIcon: {

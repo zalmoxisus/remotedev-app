@@ -12,10 +12,13 @@ import ButtonBar from '../components/ButtonBar';
 import Instances from '../components/Instances';
 import MonitorSelector from '../components/MonitorSelector';
 import SyncToggle from '../components/SyncToggle';
+import TestGenerator from '../components/TestGenerator';
 
 export default class App extends Component {
   static propTypes = {
     selectMonitor: PropTypes.string,
+    testTemplates: PropTypes.array,
+    selectedTemplate: PropTypes.number,
     socketOptions: PropTypes.shape({
       hostname: PropTypes.string,
       port: PropTypes.number,
@@ -46,6 +49,13 @@ export default class App extends Component {
     };
     this.socketOptions = getSettings() || this.props.socketOptions;
     this.store = this.createStore();
+    this.testComponent = (
+      <TestGenerator
+        testTemplates={this.props.testTemplates}
+        selectedTemplate={this.props.selectedTemplate}
+        useCodemirror={this.props.useCodemirror}
+      />
+    );
   }
 
   handleInstancesChanged = (instance, name, toRemove) => {
@@ -130,7 +140,12 @@ export default class App extends Component {
             style={this.state.instance === 'auto' ? { display: 'none' } : null}
           />
         </div>
-        <DevTools monitor={monitor} store={this.store} key={`${monitor}-${key}`} />
+        <DevTools
+          monitor={monitor}
+          store={this.store}
+          testComponent={this.testComponent}
+          key={`${monitor}-${key}`}
+        />
         {this.state.sliderIsOpen && <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
         </div>}

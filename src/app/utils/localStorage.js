@@ -6,7 +6,11 @@ export function getFromStorage(key) {
 }
 
 export function saveToStorage(key, value) {
-  localStorage.setItem(key, value);
+  let sValue = value;
+  if (typeof value === 'object' && !localStorage.isChromeStorage) {
+    sValue = JSON.stringify(value);
+  }
+  localStorage.setItem(key, sValue);
   return value;
 }
 
