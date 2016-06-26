@@ -1,8 +1,8 @@
 import React from 'react';
 import { render } from 'react-dom';
-import DevTools from '../app';
+import App from '../app';
 
 render(
-  <DevTools/>,
+  <App useCodemirror />,
   document.getElementById('root')
 );

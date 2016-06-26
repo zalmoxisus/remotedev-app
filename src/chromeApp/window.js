@@ -16,6 +16,7 @@ chrome.storage.local.get({
       testTemplates={options['test-templates']}
       selectedTemplate={options['test-templates-sel']}
       testTemplates={options['test-templates']}
+      useCodemirror
       socketOptions={
         options['s:hostname'] && options['s:port'] ?
           {
