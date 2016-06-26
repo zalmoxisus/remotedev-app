@@ -12,11 +12,16 @@ import TestForm from './TestForm';
 import { getFromStorage, saveToStorage } from '../utils/localStorage';
 import styles from '../styles';
 
+let testTemplates;
+let selected;
+
 export default class TestGen extends Component {
   constructor(props) {
     super(props);
-    let testTemplates = props.testTemplates || getFromStorage('test-templates');
-    let selected = props.selectedTemplate || getFromStorage('test-templates-sel') || 0;
+    if (!testTemplates) {
+      testTemplates = props.testTemplates || getFromStorage('test-templates');
+      selected = props.selectedTemplate || getFromStorage('test-templates-sel') || 0;
+    }
     if (typeof testTemplates === 'string') {
       testTemplates = JSON.parse(testTemplates);
     }
@@ -31,7 +36,8 @@ export default class TestGen extends Component {
   }
 
   onSelect = (event, index, value) => {
-    this.setState({ selected: saveToStorage('test-templates-sel', value) });
+    selected = saveToStorage('test-templates-sel', value);
+    this.setState({ selected });
   };
 
   getDefaultTemplates() {
@@ -50,8 +56,8 @@ export default class TestGen extends Component {
   };
 
   handleSave = (template) => {
-    let testTemplates = [...this.state.testTemplates];
-    let selected = this.state.selected;
+    testTemplates = [...this.state.testTemplates];
+    selected = this.state.selected;
 
     if (this.state.dialogStatus === 1) {
       testTemplates[this.state.selected] = template;
@@ -67,8 +73,8 @@ export default class TestGen extends Component {
 
   handleRemove = () => {
     // Todo: add snackbar with undo
-    const selected = 0;
-    let testTemplates = [...this.state.testTemplates];
+    selected = 0;
+    testTemplates = [...this.state.testTemplates];
     testTemplates.splice(this.state.selected, 1);
     if (testTemplates.length === 0) testTemplates = this.getDefaultTemplates();
     saveToStorage('test-templates-sel', selected);
@@ -81,7 +87,7 @@ export default class TestGen extends Component {
   };
 
   render() {
-    const { dialogStatus, selected, testTemplates } = this.state;
+    const { dialogStatus, selected, testTemplates } = this.state; // eslint-disable-line
     const template = testTemplates[selected];
     const { assertion, wrap } = template;
 
