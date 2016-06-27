@@ -8,6 +8,7 @@ import EditButton from 'react-icons/lib/md/edit';
 import TestGenerator from 'redux-devtools-test-generator';
 import mochaTemplate from 'redux-devtools-test-generator/lib/redux/mocha/template';
 import tapeTemplate from 'redux-devtools-test-generator/lib/redux/tape/template';
+import avaTemplate from 'redux-devtools-test-generator/lib/redux/ava/template';
 import TestForm from './TestForm';
 import { getFromStorage, saveToStorage } from '../utils/localStorage';
 import styles from '../styles';
@@ -43,7 +44,8 @@ export default class TestGen extends Component {
   getDefaultTemplates() {
     return [
       { name: 'Mocha template', ...mochaTemplate },
-      { name: 'Tape template', ...tapeTemplate }
+      { name: 'Tape template', ...tapeTemplate },
+      { name: 'Ava template', ...avaTemplate }
     ];
   }
 
