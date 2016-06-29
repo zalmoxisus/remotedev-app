@@ -18,6 +18,7 @@ export default class App extends Component {
   static propTypes = {
     selectMonitor: PropTypes.string,
     testTemplates: PropTypes.array,
+    useCodemirror: PropTypes.bool,
     selectedTemplate: PropTypes.number,
     socketOptions: PropTypes.shape({
       hostname: PropTypes.string,
