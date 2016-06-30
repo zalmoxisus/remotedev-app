@@ -83,9 +83,9 @@
     "webpack-hot-middleware": "^2.10.0"
   },
   "dependencies": {
-    "chrome-storage-local": "^0.1.5",
+    "chrome-storage-local": "^0.1.6",
     "jsan": "^3.1.2",
-    "material-ui": "^0.15.0",
+    "material-ui": "^0.15.1",
     "react": "^15.1.0",
     "react-addons-shallow-compare": "^15.1.0",
     "react-dom": "^15.1.0",
@@ -101,7 +101,7 @@
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-devtools-test-generator": "0.0.6",
     "redux-devtools-themes": "^1.0.0",
-    "redux-slider-monitor": "^1.0.5",
+    "redux-slider-monitor": "^1.0.6",
     "redux-thunk": "^1.0.3",
     "socketcluster-client": "^4.3.17"
   }
