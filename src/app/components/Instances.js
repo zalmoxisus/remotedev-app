@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import shallowCompare from 'react-addons-shallow-compare';
+import shallowCompare from 'react/lib/shallowCompare';
 import styles from '../styles';
 
 export default class Instances extends Component {
