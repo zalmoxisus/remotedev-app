@@ -69,7 +69,9 @@
     "mocha": "^2.3.4",
     "mock-local-storage": "^1.0.2",
     "raw-loader": "^0.5.1",
-    "react-addons-test-utils": "^15.0.2",
+    "react": "^15.1.0",
+    "react-addons-test-utils": "^15.1.0",
+    "react-dom": "^15.1.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.2.0",
@@ -86,9 +88,7 @@
     "chrome-storage-local": "^0.1.6",
     "jsan": "^3.1.2",
     "material-ui": "^0.15.1",
-    "react": "^15.1.0",
     "react-addons-shallow-compare": "^15.1.0",
-    "react-dom": "^15.1.0",
     "react-icons": "^2.0.1",
     "react-redux": "^4.0.6",
     "react-switcher": "^1.0.2",
@@ -104,5 +104,9 @@
     "redux-slider-monitor": "^1.0.6",
     "redux-thunk": "^1.0.3",
     "socketcluster-client": "^4.3.17"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0"
   }
 }
