@@ -1,7 +1,7 @@
 // Based on https://github.com/gaearon/redux-devtools-log-monitor/blob/master/src/LogMonitorButton.js
 
 import React, { Component, PropTypes } from 'react';
-import shallowCompare from 'react-addons-shallow-compare';
+import shallowCompare from 'react/lib/shallowCompare';
 import * as themes from 'redux-devtools-themes';
 import brighten from 'redux-devtools-log-monitor/lib/brighten';
 import styles from '../styles';
