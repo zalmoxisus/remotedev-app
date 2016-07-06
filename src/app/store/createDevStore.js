@@ -50,6 +50,7 @@ export default function createDevStore(onDispatch) {
 
   function clear() {
     currentState = [];
+    update();
   }
 
   function dispatch(action) {
