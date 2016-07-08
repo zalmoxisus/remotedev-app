@@ -86,6 +86,7 @@
   },
   "dependencies": {
     "chrome-storage-local": "^0.1.6",
+    "codemirror": "^5.16.0",
     "jsan": "^3.1.2",
     "material-ui": "^0.15.1",
     "react-icons": "^2.0.1",
@@ -101,7 +102,6 @@
     "redux-devtools-test-generator": "0.0.6",
     "redux-devtools-themes": "^1.0.0",
     "redux-slider-monitor": "^1.0.6",
-    "redux-thunk": "^1.0.3",
     "socketcluster-client": "^4.3.17"
   },
   "peerDependencies": {
