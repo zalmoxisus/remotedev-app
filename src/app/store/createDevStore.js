@@ -1,3 +1,5 @@
+import { stringify } from 'jsan';
+
 export default function createDevStore(onDispatch) {
   const initialState = {
     actionsById: {},
@@ -56,7 +58,7 @@ export default function createDevStore(onDispatch) {
   function dispatch(action) {
     if (action.type === 'JUMP_TO_STATE') {
       let state = getState();
-      onDispatch('DISPATCH', action, instance, state.computedStates[action.index].state);
+      onDispatch('DISPATCH', action, instance, stringify(state.computedStates[action.index].state));
       setState({ ...state, currentStateIndex: action.index }, instance);
     } else if (action.type[0] !== '@') onDispatch('DISPATCH', action, instance);
     return action;
