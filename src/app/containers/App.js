@@ -50,11 +50,12 @@ export default class App extends Component {
     };
     this.socketOptions = getSettings() || this.props.socketOptions;
     this.store = this.createStore();
-    this.testComponent = (
+    this.testComponent = (props) => (
       <TestGenerator
         testTemplates={this.props.testTemplates}
         selectedTemplate={this.props.selectedTemplate}
         useCodemirror={this.props.useCodemirror}
+        {...props}
       />
     );
   }

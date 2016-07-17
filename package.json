@@ -1,6 +1,6 @@
 {
   "name": "remotedev-app",
-  "version": "0.4.2",
+  "version": "0.5.0-beta-2",
   "description": "Remote Redux DevTools web, electron and chrome app.",
   "scripts": {
     "start": "gulp",
@@ -97,7 +97,7 @@
     "redux-devtools": "^3.2.0",
     "redux-devtools-chart-monitor": "^1.4.1",
     "redux-devtools-dispatch": "^2.2.0",
-    "redux-devtools-inspector": "^0.6.1",
+    "redux-devtools-inspector": "0.7.0",
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-devtools-test-generator": "0.0.6",
     "redux-devtools-themes": "^1.0.0",
