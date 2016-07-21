@@ -76,6 +76,8 @@ export default class TestForm extends Component {
         />
         <TextField
           id="assertion"
+          rows={2}
+          rowsMax={2}
           floatingLabelText="Assertion template"
           hintText="({ action, prevState, curState }) => (`<template>`)"
           hintStyle={styles.hint}
@@ -86,6 +88,8 @@ export default class TestForm extends Component {
         />
         <TextField
           id="wrap"
+          rows={5}
+          rowsMax={5}
           floatingLabelText="Wrapping template"
           hintText="({ assertions }) => (`<template>`)"
           hintStyle={styles.hint}
