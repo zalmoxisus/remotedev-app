@@ -14,8 +14,8 @@ export default function createDevStore(onDispatch) {
   let listeners = [];
   let instance;
 
-  function getState(id) {
-    if (id) return currentState[id] || initialState;
+  function getState(id, strict) {
+    if (id) return currentState[id] || !strict && initialState;
     if (instance) return currentState[instance] || initialState;
     return initialState;
   }
