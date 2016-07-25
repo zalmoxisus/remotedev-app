@@ -11,17 +11,12 @@ export default class Instances extends Component {
     onSelect: PropTypes.func.isRequired
   };
 
-  constructor(props) {
-    super(props);
-    this.initialSelect = [['Autoselect instances', 'auto']];
-  }
-
   shouldComponentUpdate(nextProps) {
     return shallowCompare(this, nextProps);
   }
 
   render() {
-    this.select = [...this.initialSelect];
+    this.select = [['Autoselect instances', null]];
     Object.keys(this.props.instances).forEach(key => {
       this.select.push([this.props.instances[key], key]);
     });
@@ -32,10 +27,10 @@ export default class Instances extends Component {
         labelStyle={styles.selectLabel}
         iconStyle={styles.selectIcon}
         onChange={this.props.onSelect}
-        value={this.props.selected || 'auto'}
+        value={this.props.selected}
       >
         {
-          (this.select || this.initialSelect).map(
+          this.select.map(
             option => <MenuItem key={option[1]} value={option[1]} primaryText={option[0]} />
           )
         }

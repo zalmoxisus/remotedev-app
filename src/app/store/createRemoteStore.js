@@ -29,7 +29,7 @@ export function createRemoteStore(socketOptions, onInstancesChanged, newInstance
 
 export function updateStoreInstance(newInstance) {
   instance = newInstance;
-  if (newInstance !== 'auto') store.liftedStore.setInstance(instance);
+  if (newInstance) store.liftedStore.setInstance(instance);
   shouldSync = false;
 }
 

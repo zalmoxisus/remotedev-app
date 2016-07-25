@@ -32,7 +32,7 @@ export default function updateState(store, request, onInstancesChanged, instance
   let action = {};
   if (request.action) action = parseJSON(request.action) || {};
 
-  if (!instance || instance === 'auto') store.liftedStore.setInstance(request.id);
+  if (!instance) store.liftedStore.setInstance(request.id);
 
   switch (request.type) {
     case 'INIT':

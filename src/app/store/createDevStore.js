@@ -41,7 +41,7 @@ export default function createDevStore(onDispatch) {
 
   function setInstance(id, toUpdate) {
     instance = id;
-    if (toUpdate && instance && instance !== 'auto') update();
+    if (toUpdate && instance) update();
   }
 
   function deleteInstance(id) {

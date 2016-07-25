@@ -45,7 +45,7 @@ export default class App extends Component {
       dispatcherIsOpen: false,
       sliderIsOpen: true,
       instances: {},
-      instance: 'auto',
+      instance: null,
       shouldSync: false
     };
     this.socketOptions = getSettings() || this.props.socketOptions;
@@ -66,8 +66,8 @@ export default class App extends Component {
       delete instances[instance];
       this.store.liftedStore.deleteInstance(instance);
       if (this.state.instance === instance) {
-        updateStoreInstance('auto');
-        this.setState({ instance: 'auto', shouldSync: false, instances });
+        updateStoreInstance(null);
+        this.setState({ instance: null, shouldSync: false, instances });
         return;
       }
     } else {
@@ -139,7 +139,7 @@ export default class App extends Component {
           <SyncToggle
             on={this.state.shouldSync}
             onClick={this.handleSyncToggle}
-            style={this.state.instance === 'auto' ? { display: 'none' } : null}
+            style={this.state.instance && { display: 'none' }}
           />
         </div>
         <DevTools
