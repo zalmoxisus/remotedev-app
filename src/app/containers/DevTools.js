@@ -26,6 +26,7 @@ function getMonitor(type, props) {
         tooltipOptions: {
           style: {
             'background-color': '#ffffff',
+            'color': '#000000',
             'opacity': '0.9',
             'border-radius': '5px',
             'padding': '5px'
