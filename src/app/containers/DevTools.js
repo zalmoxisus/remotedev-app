@@ -35,10 +35,7 @@ function getMonitor(type, props) {
     default:
       return createElement(InspectorMonitor, {
         shouldPersistState: false, isLightTheme: false, theme: 'nicinabox',
-        tabs: defaultTabs => [...defaultTabs, { name: 'Test', component: props.testComponent }],
-        customTabs: [
-          { name: 'Test', component: props.testComponent }
-        ]
+        tabs: defaultTabs => [...defaultTabs, { name: 'Test', component: props.testComponent }]
       });
   }
 }
