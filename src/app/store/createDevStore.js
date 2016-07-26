@@ -1,4 +1,5 @@
 import { stringify } from 'jsan';
+import { sweep } from './monitorActions';
 
 export default function createDevStore(onDispatch) {
   const initialState = {
@@ -71,6 +72,9 @@ export default function createDevStore(onDispatch) {
           state = stringify(getState().computedStates[0].state);
         } else if (action.type === 'TOGGLE_ACTION') {
           state = stringify(getState());
+        } else if (action.type === 'SWEEP') {
+          setState(sweep(getState()), id);
+          return;
         }
       }
       onDispatch('DISPATCH', action, id, state);
