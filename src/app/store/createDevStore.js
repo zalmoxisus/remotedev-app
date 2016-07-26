@@ -12,6 +12,7 @@ export default function createDevStore(onDispatch) {
   };
   let currentState = [];
   let listeners = [];
+  let isReduxStore = [];
   let instance;
 
   function getState(id, strict) {
@@ -46,12 +47,14 @@ export default function createDevStore(onDispatch) {
 
   function deleteInstance(id) {
     delete currentState[id];
+    delete isReduxStore[id];
     instance = Object.keys(currentState)[0];
     update();
   }
 
   function clear() {
     currentState = [];
+    isReduxStore = [];
     update();
   }
 
@@ -82,10 +85,20 @@ export default function createDevStore(onDispatch) {
     };
   }
 
+  function setAsRedux(id) {
+    isReduxStore[id] = true;
+  }
+
+  function isRedux(id) {
+    return isReduxStore[id];
+  }
+
   return {
     dispatch: dispatchAction,
     getState,
     subscribe,
+    setAsRedux,
+    isRedux,
     clear,
     liftedStore: {
       dispatch,
