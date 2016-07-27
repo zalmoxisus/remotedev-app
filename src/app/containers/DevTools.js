@@ -3,7 +3,6 @@ import { createDevTools } from 'redux-devtools';
 import LogMonitor from 'redux-devtools-log-monitor';
 import SliderMonitor from 'redux-slider-monitor';
 import InspectorMonitor from 'redux-devtools-inspector';
-import DispatchMonitor from 'redux-devtools-dispatch';
 import ChartMonitor from 'redux-devtools-chart-monitor';
 
 export const sideMonitors = [
@@ -19,7 +18,7 @@ function getMonitor(type, props) {
     case 'SliderMonitor':
       return createElement(SliderMonitor);
     case 'DispatchMonitor':
-      return createElement(DispatchMonitor, { dispatchFn: props.dispatchFn });
+      return createElement('div'); // deprecated
     case 'ChartMonitor':
       return createElement(ChartMonitor, {
         defaultIsVisible: true, invertTheme: true,

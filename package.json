@@ -97,7 +97,6 @@
     "redux": "^3.0.5",
     "redux-devtools": "^3.2.0",
     "redux-devtools-chart-monitor": "^1.4.1",
-    "redux-devtools-dispatch": "^2.2.0",
     "redux-devtools-inspector": "^0.7.1",
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-devtools-test-generator": "0.0.6",

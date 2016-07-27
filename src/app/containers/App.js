@@ -4,6 +4,7 @@ import {
 } from '../utils/localStorage';
 import styles from '../styles';
 import DevTools from '../containers/DevTools';
+import Dispatcher from './monitors/Dispatcher';
 import {
   createRemoteStore, updateStoreInstance, enableSync,
   startMonitoring, importState, exportState
@@ -151,12 +152,7 @@ export default class App extends Component {
         {this.state.sliderIsOpen && <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
         </div>}
-        {this.state.dispatcherIsOpen &&
-          <DevTools monitor="DispatchMonitor"
-            store={this.store} dispatchFn={this.store.dispatch}
-            key={`Dispatch-${key}`}
-          />
-        }
+        {this.state.dispatcherIsOpen && <Dispatcher store={this.store} />}
         {!this.props.noButtonBar &&
           <ButtonBar
             openModal={this.openModal} closeModal={this.closeModal}
