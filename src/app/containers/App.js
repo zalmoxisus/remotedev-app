@@ -37,6 +37,8 @@ export default class App extends Component {
     this.toggleDispatcher = this.toggleDispatcher.bind(this);
     this.toggleSlider = this.toggleSlider.bind(this);
     this.saveSettings = this.saveSettings.bind(this);
+    this.clearError = this.clearError.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   componentWillMount() {
@@ -47,6 +49,7 @@ export default class App extends Component {
       sliderIsOpen: true,
       instances: {},
       instance: null,
+      error: null,
       shouldSync: false
     };
     this.socketOptions = getSettings() || this.props.socketOptions;
@@ -97,6 +100,7 @@ export default class App extends Component {
     return createRemoteStore(
       this.socketOptions,
       this.handleInstancesChanged,
+      this.handleError,
       this.state.instance
     );
   }
@@ -111,6 +115,14 @@ export default class App extends Component {
 
   toggleDispatcher() {
     this.setState({ dispatcherIsOpen: !this.state.dispatcherIsOpen });
+  }
+
+  handleError(error) {
+    this.setState({ error });
+  }
+
+  clearError() {
+    this.setState({ error: null });
   }
 
   toggleSlider() {
@@ -154,7 +166,10 @@ export default class App extends Component {
         </div>}
         {this.state.dispatcherIsOpen &&
           <Dispatcher
-            store={this.store} key={`Dispatcher-${key}`}
+            store={this.store}
+            error={this.state.error}
+            clearError={this.clearError}
+            key={`Dispatcher-${key}`}
           />
         }
         {!this.props.noButtonBar &&

@@ -41,7 +41,8 @@ export default class Dispatcher extends Component {
       PropTypes.object,
       PropTypes.string,
     ]),
-    error: PropTypes.string
+    error: PropTypes.string,
+    clearError: PropTypes.func.isRequired
   };
 
   static defaultProps = {
@@ -95,6 +96,7 @@ export default class Dispatcher extends Component {
         this.props.store.dispatch(this.refs.action.textContent);
       }
     }
+    this.props.clearError();
   }
 
   componentDidMount() {
@@ -172,11 +174,11 @@ export default class Dispatcher extends Component {
       error = (
         <div style={{ color: theme.base06, background: '#FC2424', padding: '5px', display: 'flex' }}>
           <div style={{ flex: '1', alignItems: 'center' }}>
-            <p style={{ margin: '0px' }}>{this.state.error}</p>
+            <p style={{ margin: '0px' }}>{this.props.error}</p>
           </div>
           <div style={{ alignItems: 'center' }}>
             <button
-              onClick={() => this.setState({ error: null })}
+              onClick={this.props.clearError}
               style={{ ...buttonStyle, margin: '0', background: '#DC2424' }}
             >&times;</button>
           </div>
