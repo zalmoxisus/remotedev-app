@@ -14,6 +14,7 @@ export default function createDevStore(onDispatch) {
   let currentState = [];
   let listeners = [];
   let isReduxStore = [];
+  let actionCreators = [];
   let instance;
 
   function getState(id, strict) {
@@ -74,7 +75,7 @@ export default function createDevStore(onDispatch) {
           state = stringify(getState());
         } else if (action.type === 'SWEEP') {
           setState(sweep(getState()), id);
-          return;
+          return null;
         }
       }
       onDispatch('DISPATCH', action, id, state);
@@ -83,7 +84,7 @@ export default function createDevStore(onDispatch) {
   }
 
   function dispatchAction(action) {
-    if (action && action.type) onDispatch('ACTION', action, instance);
+    if (action && action !== '') onDispatch('ACTION', action, instance);
     return action;
   }
 
@@ -100,8 +101,13 @@ export default function createDevStore(onDispatch) {
     };
   }
 
-  function setAsRedux(id) {
-    isReduxStore[id] = true;
+  function init({ id, type, action }) {
+    if (type === 'STATE') isReduxStore[id] = true;
+    if (Array.isArray(action)) actionCreators[id] = action;
+  }
+
+  function getActionCreators(id) {
+    return actionCreators[id || instance];
   }
 
   function isRedux(id) {
@@ -112,7 +118,8 @@ export default function createDevStore(onDispatch) {
     dispatch: dispatchAction,
     getState,
     subscribe,
-    setAsRedux,
+    init,
+    getActionCreators,
     isRedux,
     clear,
     liftedStore: {

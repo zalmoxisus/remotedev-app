@@ -1,7 +1,6 @@
 // Based on https://github.com/YoruNoHikage/redux-devtools-dispatch
 
 import React, { Component, PropTypes } from 'react';
-import getParams from 'get-params';
 import * as themes from 'redux-devtools-themes';
 
 const styles = {
@@ -10,7 +9,7 @@ const styles = {
     fontWeight: 'bold',
     borderRadius: '3px',
     padding: '3px',
-    margin: '5px 3px',
+    margin: '5px',
     fontSize: '0.8em',
     textDecoration: 'none',
     border: 'none',
@@ -31,35 +30,30 @@ const styles = {
     textOverflow: 'ellipsis',
     direction: 'rtl',
     textAlign: 'left',
-  },
+  }
 };
 
 export default class Dispatcher extends Component {
   static propTypes = {
     initEmpty: PropTypes.bool,
-    actionCreators: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array,
-    ]),
     store: PropTypes.object.isRequired,
     theme: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string,
     ]),
+    error: PropTypes.string
   };
 
   static defaultProps = {
     theme: 'nicinabox',
-    initEmpty: false,
-    actionCreators: {},
+    initEmpty: false
   };
 
   constructor(props, context) {
     super(props, context);
     this.state = {
       selectedActionCreator: 'default',
-      args: [],
-      error: null,
+      args: []
     };
   }
 
@@ -68,11 +62,13 @@ export default class Dispatcher extends Component {
     let args = [];
     if (selectedActionCreator !== 'default') {
       // Shrink the number args to the number of the new ones
-      args = this.state.args.slice(0, this.getActionCreators()[selectedActionCreator].args.length);
+      args = this.state.args.slice(
+        0, this.props.store.getActionCreators()[selectedActionCreator].args.length
+      );
     }
     this.setState({
       selectedActionCreator,
-      args,
+      args
     });
   }
 
@@ -86,31 +82,19 @@ export default class Dispatcher extends Component {
   }
 
   launchAction() {
-    /* eslint-disable no-new-func */
-    try {
-      let actionCreator = () => ({});
-      let argsToInject = [];
-      if (this.state.selectedActionCreator !== 'default') {
-        actionCreator = this.getSelectedActionCreator().func;
-
-        const interpretArg = (arg) => (new Function('return ' + arg))();
-        argsToInject = this.state.args.map(interpretArg);
-        const rest = interpretArg(this.refs.restArgs.textContent);
-        if (rest) {
-          if (Array.isArray(rest)) argsToInject = argsToInject.concat(...rest);
-          else throw new Error('rest must be an array');
-        }
-      } else {
-        actionCreator = new Function('return ' + this.refs.action.textContent);
+    if (this.state.selectedActionCreator !== 'default') {
+      let rest = this.refs.restArgs.textContent.trim();
+      if (rest === '') rest = undefined;
+      this.props.store.dispatch({
+        selected: this.state.selectedActionCreator,
+        args: this.state.args.filter(arg => arg.trim() !== ''),
+        rest
+      });
+    } else {
+      if (this.refs.action.textContent !== '') {
+        this.props.store.dispatch(this.refs.action.textContent);
       }
-
-      this.props.store.dispatch(actionCreator(...argsToInject));
-
-      this.setState({ error: null });
-    } catch (e) {
-      this.setState({ error: e.message });
     }
-    /* eslint-enable */
   }
 
   componentDidMount() {
@@ -118,46 +102,25 @@ export default class Dispatcher extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.selectedActionCreator === 'default' && prevState.selectedActionCreator !== 'default') {
+    if (
+      this.state.selectedActionCreator === 'default' &&
+      prevState.selectedActionCreator !== 'default'
+    ) {
       this.resetCustomAction();
     }
   }
 
-  resetCustomAction() {
-    this.refs.action.innerHTML = this.props.initEmpty ? '<br/>' : '{<br/>type: ""<br/>}';
-  }
-
-  getSelectedActionCreator() {
-    return this.getActionCreators()[this.state.selectedActionCreator];
-  }
-
-  getActionCreators() {
-    const { actionCreators } = this.props;
-
-    if (Array.isArray(actionCreators)) {
-      return actionCreators;
+  componentWillReceiveProps(nextProps) {
+    if (this.state.selectedActionCreator !== 'default' && !nextProps.store.getActionCreators()) {
+      this.setState({
+        selectedActionCreator: 'default',
+        args: []
+      });
     }
+  }
 
-    const flatTree = function (object, namespace = '') {
-      let functions = [];
-      for (let propertyName in object) {
-        const prop = object[propertyName];
-        if (object.hasOwnProperty(propertyName)) {
-          if (typeof prop === 'function') {
-            functions.push({
-              name: namespace + (propertyName || prop.name || 'anonymous'),
-              func: prop,
-              args: getParams(prop),
-            });
-          } else if (typeof prop === 'object') {
-            functions = functions.concat(flatTree(prop, namespace + propertyName + '.'));
-          }
-        }
-      }
-      return functions;
-    };
-
-    return flatTree(actionCreators);
+  resetCustomAction() {
+    this.refs.action.innerHTML = this.props.initEmpty ? '<br/>' : '{<br/>type: \'\'<br/>}';
   }
 
   getTheme() {
@@ -182,15 +145,18 @@ export default class Dispatcher extends Component {
     const buttonStyle = {
       ...styles.button, color: theme.base06, backgroundColor: theme.base00
     };
-    const actionCreators = this.getActionCreators();
+    const actionCreators = this.props.store.getActionCreators();
 
     let fields = <div contentEditable style={contentEditableStyle} ref="action"></div>;
-    if (this.state.selectedActionCreator !== 'default') {
+    if (this.state.selectedActionCreator !== 'default' && actionCreators) {
       const fieldStyles = { ...styles.label, color: theme.base06 };
-      fields = this.getSelectedActionCreator().args.map((param, i) => (
+      fields = actionCreators[this.state.selectedActionCreator].args.map((param, i) => (
         <div key={i} style={{ display: 'flex' }}>
           <span style={fieldStyles}>{param}</span>
-          <div contentEditable style={contentEditableStyle} ref={'arg' + i} onInput={(e) => this.handleArg(e, i)} />
+          <div
+            contentEditable style={contentEditableStyle} ref={'arg' + i}
+            onInput={(e) => this.handleArg(e, i)}
+          />
         </div>
       ));
       fields.push(
@@ -201,8 +167,8 @@ export default class Dispatcher extends Component {
       );
     }
 
-    let error = '';
-    if (this.state.error) {
+    let error;
+    if (this.props.error) {
       error = (
         <div style={{ color: theme.base06, background: '#FC2424', padding: '5px', display: 'flex' }}>
           <div style={{ flex: '1', alignItems: 'center' }}>
@@ -219,7 +185,7 @@ export default class Dispatcher extends Component {
     }
 
     let dispatchButtonStyle = buttonStyle;
-    if (actionCreators.length <= 0) {
+    if (!actionCreators || actionCreators.length <= 0) {
       dispatchButtonStyle = {
         ...buttonStyle,
         position: 'absolute',
@@ -229,7 +195,9 @@ export default class Dispatcher extends Component {
       };
     }
 
-    const dispatchButton = <button style={dispatchButtonStyle} onClick={this.launchAction.bind(this)}>Dispatch</button>;
+    const dispatchButton = (
+      <button style={dispatchButtonStyle} onClick={this.launchAction.bind(this)}>Dispatch</button>
+    );
 
     return (
       <div
@@ -241,10 +209,10 @@ export default class Dispatcher extends Component {
       >
         {error}
         {fields}
-        {actionCreators.length > 0 ? <div style={{ display: 'flex' }}>
+        {actionCreators && actionCreators.length > 0 ? <div style={{ display: 'flex' }}>
           <select
             onChange={this.selectActionCreator.bind(this)}
-            style={{ flex: '1', fontFamily: 'inherit' }}
+            style={{ flex: '1', fontFamily: 'inherit', margin: '5px 0 0 5px', fontSize: '1.1em' }}
             defaultValue={this.state.selectedActionCreator || 'default'}
           >
             <option value="default">Custom action</option>

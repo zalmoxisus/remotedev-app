@@ -152,7 +152,11 @@ export default class App extends Component {
         {this.state.sliderIsOpen && <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
         </div>}
-        {this.state.dispatcherIsOpen && <Dispatcher store={this.store} />}
+        {this.state.dispatcherIsOpen &&
+          <Dispatcher
+            store={this.store} key={`Dispatcher-${key}`}
+          />
+        }
         {!this.props.noButtonBar &&
           <ButtonBar
             openModal={this.openModal} closeModal={this.closeModal}

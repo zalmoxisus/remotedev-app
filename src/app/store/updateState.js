@@ -60,7 +60,7 @@ export default function updateState(store, request, onInstancesChanged, instance
   }
 
   store.liftedStore.setState(newState, request.id, () => {
-    if (request.type === 'STATE') store.setAsRedux(request.id);
+    store.init(request);
     if (onInstancesChanged) onInstancesChanged(request.id, request.name);
   });
 
