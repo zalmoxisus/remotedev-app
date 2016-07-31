@@ -11,7 +11,7 @@ function recompute(previousLiftedState, storeState, action, nextActionId = 1, is
   } else {
     liftedState.actionsById[actionId] = {
       action: action.action || action,
-      timestamp: action.timestamp,
+      timestamp: action.timestamp || Date.now(),
       type: 'PERFORM_ACTION'
     };
   }
@@ -39,7 +39,7 @@ export default function updateState(store, request, onInstancesChanged, instance
       newState = recompute(
         store.liftedStore.getInitialState(),
         payload,
-        { action: { type: '@@INIT' }, timestamp: action.timestamp }
+        { action: { type: '@@INIT' }, timestamp: action.timestamp || Date.now() }
       );
       break;
     case 'ACTION':
