@@ -83,13 +83,13 @@ export default function createDevStore(onDispatch) {
     return action;
   }
 
-  function dispatchAction(action) {
-    if (action && action !== '') onDispatch('ACTION', action, instance);
+  function dispatchAction(action, id) {
+    if (action && action !== '') onDispatch('ACTION', action, id || instance);
     return action;
   }
 
-  function importState(state) {
-    onDispatch('IMPORT', undefined, instance, state);
+  function importState(state, id) {
+    onDispatch('IMPORT', undefined, id || instance, state);
   }
 
   function subscribe(listener) {
@@ -103,7 +103,9 @@ export default function createDevStore(onDispatch) {
 
   function init({ id, type, action }) {
     if (type === 'STATE') isReduxStore[id] = true;
-    if (Array.isArray(action)) actionCreators[id] = action;
+    let creators = action;
+    if (typeof creators === 'string') creators = JSON.parse(creators);
+    if (Array.isArray(creators)) actionCreators[id] = creators;
   }
 
   function getActionCreators(id) {
@@ -111,7 +113,7 @@ export default function createDevStore(onDispatch) {
   }
 
   function isRedux(id) {
-    return isReduxStore[id];
+    return isReduxStore[id || instance];
   }
 
   return {
