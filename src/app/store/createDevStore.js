@@ -84,7 +84,7 @@ export default function createDevStore(onDispatch) {
   }
 
   function dispatchAction(action, id) {
-    if (action && action !== '') onDispatch('ACTION', action, id || instance);
+    onDispatch('ACTION', action, id || instance);
     return action;
   }
 
