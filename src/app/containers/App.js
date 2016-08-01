@@ -152,7 +152,7 @@ export default class App extends Component {
           <SyncToggle
             on={this.state.shouldSync}
             onClick={this.handleSyncToggle}
-            style={this.state.instance && { display: 'none' }}
+            style={!this.state.instance && { display: 'none' }}
           />
         </div>
         <DevTools
