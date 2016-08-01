@@ -25,6 +25,8 @@ function recompute(previousLiftedState, storeState, action, nextActionId = 1, is
 }
 
 export default function updateState(store, request, onInstancesChanged, instance, sync) {
+  if (request.type === 'START' && onInstancesChanged) onInstancesChanged(request.id, request.name);
+
   const payload = parseJSON(request.payload);
   if (typeof payload === 'undefined') return null;
 
