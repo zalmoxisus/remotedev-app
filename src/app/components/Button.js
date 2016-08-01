@@ -19,7 +19,7 @@ export default class Button extends React.Component {
     theme: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string
-    ]).isRequired
+    ])
   };
 
   static defaultProps = {

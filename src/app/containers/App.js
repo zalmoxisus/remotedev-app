@@ -27,7 +27,7 @@ export default class App extends Component {
       autoReconnect: PropTypes.bool,
       secure: PropTypes.bool
     }),
-    noButtonBar: PropTypes.bool
+    noSettings: PropTypes.bool
   };
 
   constructor() {
@@ -172,18 +172,17 @@ export default class App extends Component {
             key={`Dispatcher-${key}`}
           />
         }
-        {!this.props.noButtonBar &&
-          <ButtonBar
-            openModal={this.openModal} closeModal={this.closeModal}
-            toggleDispatcher={this.toggleDispatcher}
-            dispatcherIsOpen={this.state.dispatcherIsOpen}
-            toggleSlider={this.toggleSlider}
-            sliderIsOpen={this.state.sliderIsOpen}
-            saveSettings={this.saveSettings}
-            importState={importState} exportState={exportState}
-            socketOptions={this.socketOptions}
-          />
-        }
+        <ButtonBar
+          openModal={this.openModal} closeModal={this.closeModal}
+          toggleDispatcher={this.toggleDispatcher}
+          dispatcherIsOpen={this.state.dispatcherIsOpen}
+          toggleSlider={this.toggleSlider}
+          sliderIsOpen={this.state.sliderIsOpen}
+          saveSettings={this.saveSettings}
+          importState={importState} exportState={exportState}
+          socketOptions={this.socketOptions}
+          noSettings={this.props.noSettings}
+        />
       </div>
     );
   }

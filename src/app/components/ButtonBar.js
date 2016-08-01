@@ -20,7 +20,8 @@ export default class ButtonBar extends Component {
     saveSettings: PropTypes.func.isRequired,
     importState: PropTypes.func.isRequired,
     exportState: PropTypes.func.isRequired,
-    socketOptions: PropTypes.object
+    socketOptions: PropTypes.object,
+    noSettings: PropTypes.bool
   };
 
   constructor() {
@@ -58,14 +59,18 @@ export default class ButtonBar extends Component {
         <SliderButton isOpen={this.props.sliderIsOpen} onClick={this.props.toggleSlider} />
         <ImportButton importState={this.props.importState} />
         <ExportButton exportState={this.props.exportState} />
-        <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
+        {!this.props.noSettings &&
+          <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
+        }
         <Button Icon={HelpIcon} onClick={this.openHelp}>How to use</Button>
-        <Settings
-          isOpen={this.state.settingsOpened}
-          close={this.closeSettings}
-          saveSettings={this.props.saveSettings}
-          socketOptions={this.props.socketOptions}
-        />
+        {!this.props.noSettings &&
+          <Settings
+            isOpen={this.state.settingsOpened}
+            close={this.closeSettings}
+            saveSettings={this.props.saveSettings}
+            socketOptions={this.props.socketOptions}
+          />
+        }
       </div>
     );
   }
