@@ -63,18 +63,18 @@ export default function createDevStore(onDispatch) {
   function dispatch(action, id = instance) {
     let state;
     if (action.type === 'JUMP_TO_STATE') {
-      const liftedState = getState();
+      const liftedState = getState(id);
       if (!isReduxStore[id]) state = stringify(liftedState.computedStates[action.index].state);
       onDispatch('DISPATCH', action, id, state);
       setState({ ...liftedState, currentStateIndex: action.index }, id);
     } else if (action.type[0] !== '@') {
       if (!isReduxStore[id]) {
         if (action.type === 'ROLLBACK') {
-          state = stringify(getState().computedStates[0].state);
+          state = stringify(getState(id).computedStates[0].state);
         } else if (action.type === 'TOGGLE_ACTION') {
-          state = stringify(getState());
+          state = stringify(getState(id));
         } else if (action.type === 'SWEEP') {
-          setState(sweep(getState()), id);
+          setState(sweep(getState(id)), id);
           return null;
         }
       }
