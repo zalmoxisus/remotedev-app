@@ -9,6 +9,9 @@ import TestGenerator from 'redux-devtools-test-generator';
 import mochaTemplate from 'redux-devtools-test-generator/lib/redux/mocha/template';
 import tapeTemplate from 'redux-devtools-test-generator/lib/redux/tape/template';
 import avaTemplate from 'redux-devtools-test-generator/lib/redux/ava/template';
+import mochaVTemplate from 'redux-devtools-test-generator/lib/vanilla/mocha/template';
+import tapeVTemplate from 'redux-devtools-test-generator/lib/vanilla/tape/template';
+import avaVTemplate from 'redux-devtools-test-generator/lib/vanilla/ava/template';
 import TestForm from './TestForm';
 import { getFromStorage, saveToStorage } from '../utils/localStorage';
 import styles from '../styles';
@@ -42,11 +45,8 @@ export default class TestGen extends Component {
   };
 
   getDefaultTemplates() {
-    return [
-      { name: 'Mocha template', ...mochaTemplate },
-      { name: 'Tape template', ...tapeTemplate },
-      { name: 'Ava template', ...avaTemplate }
-    ];
+    if (this.props.store.isRedux()) return [mochaTemplate, tapeTemplate, avaTemplate];
+    return [mochaVTemplate, tapeVTemplate, avaVTemplate];
   }
 
   editTemplate = () => {
@@ -95,10 +95,11 @@ export default class TestGen extends Component {
 
     return (
       <TestGenerator
+        isVanilla={!this.props.store.isRedux()}
         assertion={assertion} wrap={wrap}
         theme="night" useCodemirror={this.props.useCodemirror}
         header={
-          <div style={{ height: '2.5em', display: 'flex' }}>
+          <div style={{ height: '2.5em', minHeight: '2.5em', display: 'flex' }}>
             <SelectField
               style={styles.select}
               labelStyle={styles.selectLabel}
@@ -128,6 +129,7 @@ export default class TestGen extends Component {
 }
 
 TestGen.propTypes = {
+  store: PropTypes.object.isRequired,
   testTemplates: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string
