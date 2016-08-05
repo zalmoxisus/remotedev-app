@@ -166,7 +166,7 @@ export default class App extends Component {
         {this.state.sliderIsOpen && <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
         </div>}
-        {this.state.dispatcherIsOpen &&
+        {this.state.dispatcherIsOpen && this.store.liftedStore.getInstance() &&
           <Dispatcher
             store={this.store}
             error={this.state.error}
