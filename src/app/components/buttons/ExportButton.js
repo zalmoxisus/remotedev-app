@@ -25,12 +25,17 @@ export default class ExportButton extends Component {
     this.setState({ href: 'data:text/json;charset=utf-8,' + state });
   }
 
+  cleanHref = () => {
+    setTimeout(() => { this.setState({ href: undefined }); }, 0);
+  };
+
   render() {
     return (
       <Button
         Icon={DownloadIcon}
         onMouseDown={this.handleExport}
         download="state.json" href={this.state.href}
+        onClick={this.cleanHref}
       >Export</Button>
     );
   }
