@@ -18,6 +18,7 @@ import styles from '../styles';
 
 let testTemplates;
 let selected;
+let isDefaultTemplate;
 
 export default class TestGen extends Component {
   constructor(props) {
@@ -25,18 +26,28 @@ export default class TestGen extends Component {
     if (!testTemplates) {
       testTemplates = props.testTemplates || getFromStorage('test-templates');
       selected = props.selectedTemplate || getFromStorage('test-templates-sel') || 0;
-    }
-    if (typeof testTemplates === 'string') {
-      testTemplates = JSON.parse(testTemplates);
-    }
-    if (!testTemplates || testTemplates.length === 0) {
+      if (typeof testTemplates === 'string') {
+        testTemplates = JSON.parse(testTemplates);
+      }
+      if (!testTemplates || testTemplates.length === 0) {
+        testTemplates = this.getDefaultTemplates();
+        isDefaultTemplate = true;
+      }
+      if (typeof selected === 'string') {
+        selected = Number(selected);
+      }
+    } else if (isDefaultTemplate) {
       testTemplates = this.getDefaultTemplates();
-    }
-    if (typeof selected === 'string') {
-      selected = Number(selected);
     }
 
     this.state = { testTemplates, selected, dialogStatus: 0 };
+  }
+
+  componentWillUpdate(nextProps) {
+    if (isDefaultTemplate && this.props.isRedux !== nextProps.isRedux) {
+      testTemplates = this.getDefaultTemplates(nextProps.isRedux);
+      this.setState({ testTemplates });
+    }
   }
 
   onSelect = (event, index, value) => {
@@ -44,8 +55,8 @@ export default class TestGen extends Component {
     this.setState({ selected });
   };
 
-  getDefaultTemplates() {
-    if (this.props.store.isRedux()) return [mochaTemplate, tapeTemplate, avaTemplate];
+  getDefaultTemplates(isRedux = this.props.isRedux) {
+    if (isRedux) return [mochaTemplate, tapeTemplate, avaTemplate];
     return [mochaVTemplate, tapeVTemplate, avaVTemplate];
   }
 
@@ -71,6 +82,7 @@ export default class TestGen extends Component {
 
     saveToStorage('test-templates', testTemplates);
     this.setState({ testTemplates, selected, dialogStatus: 0 });
+    isDefaultTemplate = false;
   };
 
   handleRemove = () => {
@@ -82,6 +94,7 @@ export default class TestGen extends Component {
     saveToStorage('test-templates-sel', selected);
     saveToStorage('test-templates', testTemplates);
     this.setState({ testTemplates, selected, dialogStatus: 0 });
+    isDefaultTemplate = false;
   };
 
   handleCloseDialog = () => {
@@ -95,7 +108,7 @@ export default class TestGen extends Component {
 
     return (
       <TestGenerator
-        isVanilla={!this.props.store.isRedux()}
+        isVanilla={!this.props.isRedux}
         assertion={assertion} wrap={wrap}
         theme="night" useCodemirror={this.props.useCodemirror}
         header={
@@ -129,7 +142,7 @@ export default class TestGen extends Component {
 }
 
 TestGen.propTypes = {
-  store: PropTypes.object.isRequired,
+  isRedux: PropTypes.bool,
   testTemplates: PropTypes.oneOfType([
     PropTypes.array,
     PropTypes.string

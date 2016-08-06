@@ -57,7 +57,7 @@ export default class App extends Component {
     this.testComponent = (props) => (
       <TestGenerator
         name={this.state.instances[this.state.instance || this.store.liftedStore.getInstance()]}
-        store={this.store}
+        isRedux={this.store.isRedux()}
         testTemplates={this.props.testTemplates}
         selectedTemplate={this.props.selectedTemplate}
         useCodemirror={this.props.useCodemirror}
