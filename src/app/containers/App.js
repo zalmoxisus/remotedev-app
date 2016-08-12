@@ -23,7 +23,7 @@ export default class App extends Component {
     selectedTemplate: PropTypes.number,
     socketOptions: PropTypes.shape({
       hostname: PropTypes.string,
-      port: PropTypes.number,
+      port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
       autoReconnect: PropTypes.bool,
       secure: PropTypes.bool
     }),
