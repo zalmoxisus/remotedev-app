@@ -102,7 +102,7 @@
     "redux-devtools-test-generator": "^0.2.0",
     "redux-devtools-themes": "^1.0.0",
     "redux-slider-monitor": "^1.0.7",
-    "socketcluster-client": "^4.3.17"
+    "socketcluster-client": "^5.0.0"
   },
   "peerDependencies": {
     "react": "^15.0.0",
