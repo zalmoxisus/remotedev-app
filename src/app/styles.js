@@ -25,8 +25,7 @@ const styles = {
     backgroundColor: '#353B46',
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
     minWidth: '300px',
-    minHeight: '27px',
-    maxHeight: '27px',
+    minHeight: '30px',
     fontSize: '13px',
     overflow: 'hidden'
   },
@@ -34,7 +33,7 @@ const styles = {
     cursor: 'pointer',
     fontWeight: 'bold',
     borderRadius: 3,
-    padding: '2px 8px',
+    padding: '0 8px',
     margin: 'auto 2px',
     flexGrow: 1,
     display: 'inline-block',
