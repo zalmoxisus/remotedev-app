@@ -25,44 +25,48 @@ const styles = {
     backgroundColor: '#353B46',
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
     minWidth: '300px',
-    minHeight: '1.9em',
-    maxHeight: '1.9em',
+    minHeight: '27px',
+    maxHeight: '27px',
+    fontSize: '13px',
     overflow: 'hidden'
   },
   button: {
     cursor: 'pointer',
     fontWeight: 'bold',
     borderRadius: 3,
-    padding: '0.25em 0.6em',
-    margin: 'auto 0.3em',
+    padding: '2px 8px',
+    margin: 'auto 2px',
     flexGrow: 1,
     display: 'inline-block',
-    fontSize: '0.8em',
+    fontSize: '12px',
     color: 'white',
     textDecoration: 'none',
     overflow: 'hidden',
-    maxHeight: '1.5em',
-    minWidth: '1em',
-    lineHeight: '1.42em'
+    maxHeight: '24px',
+    minWidth: '10px',
+    lineHeight: '22px',
+    WebkitFontSmoothing: 'antialiased'
   },
   buttonText: {
     verticalAlign: 'middle',
-    marginLeft: '0.4em',
+    fontSize: '10px',
+    lineHeight: '20px',
+    marginLeft: '6px',
     WebkitUserSelect: 'none'
   },
   flatButton: {
-    minWidth: '2em'
+    minWidth: '32px'
   },
   buttonLabel: {
-    fontSize: '0.9em',
+    fontSize: '14px',
     paddingLeft: '8px',
     paddingRight: '8px'
   },
   input: {
-    fontSize: '0.8em'
+    fontSize: '12px'
   },
   hint: {
-    fontSize: '0.6em'
+    fontSize: '10px'
   },
   select: {
     fontSize: '1em',
@@ -72,13 +76,12 @@ const styles = {
   },
   selectLabel: {
     color: indigo50,
-    lineHeight: '3em',
+    lineHeight: '2.7em',
     paddingLeft: '7px',
-    paddingRight: '7px',
-    top: '-0.5em'
+    paddingRight: '7px'
   },
   selectIcon: {
-    top: '0em',
+    top: '0.1em',
     height: '2em',
     width: '2em'
   },
