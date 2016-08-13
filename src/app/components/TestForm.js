@@ -27,7 +27,7 @@ export default class TestForm extends Component {
     const { onClose, onRemove, dialogStatus } = this.props;
     let template = {};
     if (dialogStatus === 1) template = this.props.template;
-    const { name, assertion, wrap } = template;
+    const { name, assertion, dispatcher, wrap } = template;
     const actions = [
       <FlatButton
         label="Cancel"
@@ -75,11 +75,23 @@ export default class TestForm extends Component {
           onChange={this.handleInputChange}
         />
         <TextField
+          id="dispatcher"
+          rows={2}
+          rowsMax={2}
+          floatingLabelText="Dispatcher template"
+          hintText="({ action, prevState }) => (`<template>`)"
+          hintStyle={styles.hint}
+          inputStyle={styles.input}
+          defaultValue={dispatcher}
+          multiLine fullWidth
+          onChange={this.handleInputChange}
+        />
+        <TextField
           id="assertion"
           rows={2}
           rowsMax={2}
           floatingLabelText="Assertion template"
-          hintText="({ action, prevState, curState }) => (`<template>`)"
+          hintText="({ path, curState }) => (`<template>`)"
           hintStyle={styles.hint}
           inputStyle={styles.input}
           defaultValue={assertion}
@@ -91,7 +103,7 @@ export default class TestForm extends Component {
           rows={5}
           rowsMax={5}
           floatingLabelText="Wrapping template"
-          hintText="({ assertions }) => (`<template>`)"
+          hintText="({ name, initialState, assertions }) => (`<template>`)"
           hintStyle={styles.hint}
           inputStyle={styles.input}
           defaultValue={wrap}

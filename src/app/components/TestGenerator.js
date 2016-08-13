@@ -29,7 +29,7 @@ export default class TestGen extends Component {
       if (typeof testTemplates === 'string') {
         testTemplates = JSON.parse(testTemplates);
       }
-      if (!testTemplates || testTemplates.length === 0) {
+      if (!testTemplates || testTemplates.length === 0 || !testTemplates[0].dispatcher) {
         testTemplates = this.getDefaultTemplates();
         isDefaultTemplate = true;
       }
@@ -104,12 +104,12 @@ export default class TestGen extends Component {
   render() {
     const { dialogStatus, selected, testTemplates } = this.state; // eslint-disable-line
     const template = testTemplates[selected];
-    const { assertion, wrap } = template;
+    const { assertion, dispatcher, wrap } = template;
 
     return (
       <TestGenerator
         isVanilla={!this.props.isRedux}
-        assertion={assertion} wrap={wrap}
+        assertion={assertion} dispatcher={dispatcher} wrap={wrap}
         theme="night" useCodemirror={this.props.useCodemirror}
         header={
           <div style={{ height: '2.5em', minHeight: '2.5em', display: 'flex' }}>
