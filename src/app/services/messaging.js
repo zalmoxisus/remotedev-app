@@ -4,10 +4,25 @@ import socketOptions from '../constants/socketOptions';
 
 let socket;
 let channel;
+const instancesConn = {};
+
+export function addInstance(id, instanceId) {
+  if (!instancesConn[instanceId]) instancesConn[instanceId] = id;
+}
+
+export function deleteInstance(id, cb) {
+  Object.keys(instancesConn).some(instance => {
+    if (instancesConn[instance] === id) {
+      delete instancesConn[instance];
+      cb(instance);
+      return true;
+    }
+  });
+}
 
 export function dispatchRemotely(type, action, id, state) {
   socket.emit(
-    id ? 'sc-' + id : 'respond',
+    id ? 'sc-' + instancesConn[id] : 'respond',
     { type, action, state }
   );
 }
@@ -15,7 +30,12 @@ export function dispatchRemotely(type, action, id, state) {
 export function dispatchSync(state, id) {
   socket.emit(
     'respond',
-    { type: 'SYNC', id, state: stringify(state) }
+    {
+      type: 'SYNC',
+      id: instancesConn[id],
+      instanceId: id,
+      state: stringify(state)
+    }
   );
 }
 
@@ -40,7 +60,7 @@ export function subscribe(subscriber, options = socketOptions, onInstancesChange
     } else data = req;
 
     if (data.type === 'DISCONNECTED') {
-      onInstancesChanged(req.id, undefined, true);
+      onInstancesChanged({ id: req.id }, undefined, true);
       return;
     }
     subscriber(data);

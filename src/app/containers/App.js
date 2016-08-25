@@ -9,6 +9,7 @@ import {
   createRemoteStore, updateStoreInstance, enableSync,
   startMonitoring, importState, exportState
 } from '../store/createRemoteStore';
+import { addInstance, deleteInstance } from '../services/messaging';
 import ButtonBar from '../components/ButtonBar';
 import Instances from '../components/Instances';
 import MonitorSelector from '../components/MonitorSelector';
@@ -66,19 +67,21 @@ export default class App extends Component {
     );
   }
 
-  handleInstancesChanged = (instance, name, toRemove) => {
+  handleInstancesChanged = ({ id, instanceId }, name, toRemove) => {
     const instances = this.state.instances;
     if (toRemove) {
-      delete instances[instance];
-      this.store.liftedStore.deleteInstance(instance);
-      if (this.state.instance === instance) {
-        updateStoreInstance(null);
-        this.setState({ instance: null, shouldSync: false, instances });
-        return;
-      }
+      deleteInstance(id, (instance) => {
+        delete instances[instance];
+        this.store.liftedStore.deleteInstance(instance);
+        if (this.state.instance === instance) {
+          updateStoreInstance(null);
+          this.setState({ instance: null, shouldSync: false });
+        }
+      });
     } else {
-      instances[instance] = name || instance;
-      startMonitoring(instance);
+      addInstance(id, instanceId);
+      instances[instanceId] = name || instanceId;
+      startMonitoring(instanceId);
     }
     this.setState({ instances });
   };
@@ -154,7 +157,7 @@ export default class App extends Component {
           <SyncToggle
             on={this.state.shouldSync}
             onClick={this.handleSyncToggle}
-            style={!this.state.instance && { display: 'none' }}
+            style={!this.state.instance ? { display: 'none' } : undefined}
           />
         </div>
         <DevTools
