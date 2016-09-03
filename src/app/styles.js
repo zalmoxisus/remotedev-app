@@ -6,6 +6,9 @@ const styles = {
     display: 'flex',
     flexFlow: 'column nowrap'
   },
+  tab: {
+    fontSize: '11px'
+  },
   sliderMonitor: {
     minWidth: '300px',
     zIndex: '0',

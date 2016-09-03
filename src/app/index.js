@@ -12,6 +12,7 @@ const Root = (props) => {
       <Route path="/" component={Layout} {...rest}>
         <IndexRoute component={App} />
         <Route path="logs" component={LogsTable} />
+        <Route path="reports" component={LogsTable} />
       </Route>
     </Router>
   );
