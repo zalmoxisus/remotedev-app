@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { withRouter } from 'react-router';
 import {
   saveObjToStorage, getSettings, getFromStorage, saveToStorage
 } from '../utils/localStorage';
@@ -17,17 +18,19 @@ import TestGenerator from '../components/TestGenerator';
 
 export default class App extends Component {
   static propTypes = {
-    selectMonitor: PropTypes.string,
-    testTemplates: PropTypes.array,
-    useCodemirror: PropTypes.bool,
-    selectedTemplate: PropTypes.number,
-    socketOptions: PropTypes.shape({
-      hostname: PropTypes.string,
-      port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-      autoReconnect: PropTypes.bool,
-      secure: PropTypes.bool
-    }),
-    noSettings: PropTypes.bool
+    route: PropTypes.shape({
+      selectMonitor: PropTypes.string,
+      testTemplates: PropTypes.array,
+      useCodemirror: PropTypes.bool,
+      selectedTemplate: PropTypes.number,
+      socketOptions: PropTypes.shape({
+        hostname: PropTypes.string,
+        port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+        autoReconnect: PropTypes.bool,
+        secure: PropTypes.bool
+      }),
+      noSettings: PropTypes.bool
+    })
   };
 
   constructor() {
@@ -42,8 +45,12 @@ export default class App extends Component {
   }
 
   componentWillMount() {
+    const {
+      socketOptions, selectMonitor, testTemplates, selectedTemplate, useCodemirror
+    } = this.props.route;
+
     this.state = {
-      monitor: getFromStorage('select-monitor') || this.props.selectMonitor || 'default',
+      monitor: getFromStorage('select-monitor') || selectMonitor || 'default',
       modalIsOpen: false,
       dispatcherIsOpen: false,
       sliderIsOpen: true,
@@ -52,15 +59,15 @@ export default class App extends Component {
       error: null,
       shouldSync: false
     };
-    this.socketOptions = getSettings() || this.props.socketOptions;
+    this.socketOptions = getSettings() || socketOptions;
     this.store = this.createStore();
     this.testComponent = (props) => (
       <TestGenerator
         name={this.state.instances[this.state.instance || this.store.liftedStore.getInstance()]}
         isRedux={this.store.isRedux()}
-        testTemplates={this.props.testTemplates}
-        selectedTemplate={this.props.selectedTemplate}
-        useCodemirror={this.props.useCodemirror}
+        testTemplates={testTemplates}
+        selectedTemplate={selectedTemplate}
+        useCodemirror={useCodemirror}
         {...props}
       />
     );
@@ -183,7 +190,7 @@ export default class App extends Component {
           saveSettings={this.saveSettings}
           importState={importState} exportState={exportState}
           socketOptions={this.socketOptions}
-          noSettings={this.props.noSettings}
+          noSettings={this.props.route.noSettings}
         />
       </div>
     );
