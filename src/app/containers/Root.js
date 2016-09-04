@@ -19,6 +19,7 @@ export default class Layout extends Component {
         <Tabs
           onChange={this.handleChange}
           value={this.props.location.pathname}
+          tabItemContainerStyle={styles.tabs}
         >
           <Tab label="Monitoring" style={styles.tab} value="/"/>
           <Tab label="Logs" style={styles.tab} value="/logs"/>

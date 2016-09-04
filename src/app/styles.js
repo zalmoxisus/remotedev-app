@@ -6,6 +6,9 @@ const styles = {
     display: 'flex',
     flexFlow: 'column nowrap'
   },
+  tabs: {
+    backgroundColor: 'rgb(79, 90, 101)'
+  },
   tab: {
     fontSize: '11px'
   },
