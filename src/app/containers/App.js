@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { withRouter } from 'react-router';
 import {
   saveObjToStorage, getSettings, getFromStorage, saveToStorage
 } from '../utils/localStorage';
@@ -18,19 +17,17 @@ import TestGenerator from '../components/TestGenerator';
 
 export default class App extends Component {
   static propTypes = {
-    route: PropTypes.shape({
-      selectMonitor: PropTypes.string,
-      testTemplates: PropTypes.array,
-      useCodemirror: PropTypes.bool,
-      selectedTemplate: PropTypes.number,
-      socketOptions: PropTypes.shape({
-        hostname: PropTypes.string,
-        port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
-        autoReconnect: PropTypes.bool,
-        secure: PropTypes.bool
-      }),
-      noSettings: PropTypes.bool
-    })
+    selectMonitor: PropTypes.string,
+    testTemplates: PropTypes.array,
+    useCodemirror: PropTypes.bool,
+    selectedTemplate: PropTypes.number,
+    socketOptions: PropTypes.shape({
+      hostname: PropTypes.string,
+      port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+      autoReconnect: PropTypes.bool,
+      secure: PropTypes.bool
+    }),
+    noSettings: PropTypes.bool
   };
 
   constructor() {
@@ -47,7 +44,7 @@ export default class App extends Component {
   componentWillMount() {
     const {
       socketOptions, selectMonitor, testTemplates, selectedTemplate, useCodemirror
-    } = this.props.route;
+    } = this.props;
 
     this.state = {
       monitor: getFromStorage('select-monitor') || selectMonitor || 'default',
@@ -190,7 +187,7 @@ export default class App extends Component {
           saveSettings={this.saveSettings}
           importState={importState} exportState={exportState}
           socketOptions={this.socketOptions}
-          noSettings={this.props.route.noSettings}
+          noSettings={this.props.noSettings}
         />
       </div>
     );
