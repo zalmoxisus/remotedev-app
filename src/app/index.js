@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Router, Route, IndexRoute, hashHistory, createMemoryHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
 import createElement from './utils/createElement';
 import Layout from './containers/Layout';
@@ -10,7 +11,9 @@ const store = configureStore();
 
 const Root = (props) => {
   const { hash, ...rest } = props;
-  const history = hash ? hashHistory : createMemoryHistory(location);
+  let history = hash ? hashHistory : createMemoryHistory(location);
+  history = syncHistoryWithStore(history, store);
+
   return (
     <Router history={history} createElement={createElement({ ...rest, store })}>
       <Route path="/" component={Layout} {...rest}>
