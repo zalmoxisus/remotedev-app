@@ -1,6 +1,7 @@
 import { stringify } from 'jsan';
 import socketCluster from 'socketcluster-client';
 import * as actions from '../constants/socketActionTypes';
+import { UPDATE_STATE } from '../constants/actionTypes';
 
 let socket;
 let store;
@@ -72,6 +73,7 @@ function login() {
       return;
     }
     store.dispatch({ type: actions.AUTH_SUCCESS, baseChannel });
+    store.dispatch({ type: actions.SUBSCRIBE_REQUEST, baseChannel, subscription: UPDATE_STATE });
   });
 }
 
