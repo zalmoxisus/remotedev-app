@@ -1,12 +1,19 @@
-import { createStore } from 'redux';
+import { createStore, compose, applyMiddleware } from 'redux';
+import api from '../middleware/api';
 import rootReducer from '../reducers';
 
 export default function configureStore(initialState) {
-  const store = createStore(
-    rootReducer,
-    initialState,
-    process.env.NODE_ENV !== 'production' && window.devToolsExtension && window.devToolsExtension()
-  );
+  let enhancer;
+  const middlewares = applyMiddleware(api);
+  if (process.env.NODE_ENV === 'production') {
+    enhancer = middlewares;
+  } else {
+    enhancer = compose(
+      middlewares,
+      window.devToolsExtension && window.devToolsExtension()
+    );
+  }
+  const store = createStore(rootReducer, initialState, enhancer);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
