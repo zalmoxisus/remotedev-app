@@ -25,7 +25,13 @@ function recompute(previousLiftedState, storeState, action, nextActionId = 1, is
 }
 
 export default function updateState(store, request, onInstancesChanged, instance, sync) {
-  if (request.type === 'START' && onInstancesChanged) onInstancesChanged(request.id, request.name);
+  let instanceId = request.instanceId || request.id;
+  if (request.type === 'START' && onInstancesChanged) {
+    onInstancesChanged(
+      { id: request.id, instanceId },
+      request.name
+    );
+  }
 
   const payload = parseJSON(request.payload);
   if (typeof payload === 'undefined') return null;
@@ -34,7 +40,7 @@ export default function updateState(store, request, onInstancesChanged, instance
   let action = {};
   if (request.action) action = parseJSON(request.action) || {};
 
-  if (!instance) store.liftedStore.setInstance(request.id);
+  if (!instance) store.liftedStore.setInstance(instanceId);
 
   switch (request.type) {
     case 'INIT':
@@ -45,7 +51,7 @@ export default function updateState(store, request, onInstancesChanged, instance
       );
       break;
     case 'ACTION':
-      const liftedState = store.liftedStore.getState(request.id);
+      const liftedState = store.liftedStore.getState(instanceId);
       newState = recompute(
         liftedState,
         payload,
@@ -61,12 +67,17 @@ export default function updateState(store, request, onInstancesChanged, instance
       return null;
   }
 
-  store.liftedStore.setState(newState, request.id, () => {
+  store.liftedStore.setState(newState, instanceId, () => {
     store.init(request);
-    if (onInstancesChanged) onInstancesChanged(request.id, request.name);
+    if (onInstancesChanged) {
+      onInstancesChanged(
+        { id: request.id, instanceId },
+        request.name
+      );
+    }
   });
 
-  if (sync && request.id === instance) sync(newState, instance);
+  if (sync && instanceId === instance) sync(newState, instance);
 
   return newState;
 }
