@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import shallowCompare from 'react/lib/shallowCompare';
+import { selectInstance } from '../actions';
 import styles from '../styles';
 
-export default class Instances extends Component {
+class Instances extends Component {
   static propTypes = {
     selected: PropTypes.string,
     instances: PropTypes.object.isRequired,
@@ -38,3 +41,19 @@ export default class Instances extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    instances: state.instances.names,
+    selected: state.instances.selected
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onSelect: bindActionCreators(selectInstance, dispatch)
+  };
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Instances);

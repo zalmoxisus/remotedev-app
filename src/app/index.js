@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, hashHistory, createMemoryHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
@@ -17,13 +18,15 @@ const Root = (props) => {
   history = syncHistoryWithStore(history, store);
 
   return (
-    <Router history={history} createElement={createElement({ ...rest, store })}>
-      <Route path="/" component={Layout} {...rest}>
-        <IndexRoute component={App} />
-        <Route path="logs" component={LogsTable} />
-        <Route path="reports" component={LogsTable} />
-      </Route>
-    </Router>
+    <Provider store={store}>
+      <Router history={history} createElement={createElement(rest)}>
+        <Route path="/" component={Layout}>
+          <IndexRoute component={App} />
+          <Route path="logs" component={LogsTable} />
+          <Route path="reports" component={LogsTable} />
+        </Route>
+      </Router>
+    </Provider>
   );
 };
 

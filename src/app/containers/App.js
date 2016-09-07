@@ -155,10 +155,7 @@ export default class App extends Component {
       <div style={styles.container}>
         <div style={styles.buttonBar}>
           <MonitorSelector selected={this.state.monitor} onSelect={this.handleSelectMonitor}/>
-          <Instances
-            instances={this.state.instances} onSelect={this.handleSelectInstance}
-            selected={this.state.instance}
-          />
+          <Instances />
           <SyncToggle
             on={this.state.shouldSync}
             onClick={this.handleSyncToggle}

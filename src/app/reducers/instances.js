@@ -1,6 +1,7 @@
-import { UPDATE_STATE } from '../constants/actionTypes';
+import { UPDATE_STATE, SELECT_INSTANCE } from '../constants/actionTypes';
 
 const initialState = {
+  selected: null,
   names: {},
   connections: {}
 };
@@ -22,6 +23,9 @@ function disconnected(state, connectionId) {
 }
 
 export default function instances(state = initialState, action) {
+  if (action.type === SELECT_INSTANCE) {
+    return { ...state, selected: action.selected };
+  }
   if (action.type !== UPDATE_STATE) return state;
 
   const { request } = action;
