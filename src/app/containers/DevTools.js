@@ -1,5 +1,5 @@
 import React, { Component, PropTypes, createElement } from 'react';
-import { createDevTools } from 'redux-devtools';
+import { connect } from 'react-redux';
 import LogMonitor from 'redux-devtools-log-monitor';
 import SliderMonitor from 'redux-slider-monitor';
 import InspectorMonitor from 'redux-devtools-inspector';
@@ -42,6 +42,7 @@ function getMonitor(type, props) {
 
 export default class extends Component {
   static propTypes = {
+    liftedStore: PropTypes.object,
     monitor: PropTypes.string
   };
 
@@ -50,8 +51,11 @@ export default class extends Component {
   }
 
   render() {
-    const { monitor, ...rest } = this.props;
-    const DevTools = createDevTools(getMonitor(monitor, rest));
-    return <DevTools {...rest} />;
+    const { monitor, liftedStore, ...rest } = this.props;
+    const monitorElement = getMonitor(monitor, rest);
+    const monitorProps = monitorElement.props;
+    const Monitor = monitorElement.type;
+    const ConnectedMonitor = connect(state => state)(Monitor);
+    return <ConnectedMonitor {...rest} {...monitorProps} store={liftedStore} />;
   }
 }

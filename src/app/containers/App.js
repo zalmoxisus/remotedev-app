@@ -148,6 +148,7 @@ export default class App extends Component {
   }
 
   render() {
+    const liftedStore = this.store.liftedStore;
     const { monitor } = this.state;
     const key = (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance;
     return (
@@ -166,16 +167,16 @@ export default class App extends Component {
         </div>
         <DevTools
           monitor={monitor}
-          store={this.store}
+          liftedStore={liftedStore}
           testComponent={this.testComponent}
           key={`${monitor}-${key}`}
         />
         {this.state.sliderIsOpen && <div style={styles.sliderMonitor}>
-          <DevTools monitor="SliderMonitor" store={this.store} key={`Slider-${key}`} />
+          <DevTools monitor="SliderMonitor" liftedStore={liftedStore} key={`Slider-${key}`} />
         </div>}
         {this.state.dispatcherIsOpen && this.store.liftedStore.getInstance() &&
           <Dispatcher
-            store={this.store}
+            liftedStore={liftedStore}
             error={this.state.error}
             clearError={this.clearError}
             key={`Dispatcher-${key}`}
