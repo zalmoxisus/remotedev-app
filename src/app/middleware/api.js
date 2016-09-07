@@ -6,6 +6,17 @@ import { UPDATE_STATE } from '../constants/actionTypes';
 let socket;
 let store;
 
+function emit({ message: type, id, action, state }) {
+  socket.emit(
+    id ? 'sc-' + id : 'respond',
+    { type, action, state }
+  );
+}
+
+function startMonitoring() {
+  store.dispatch({ type: actions.EMIT, message: 'START' });
+}
+
 const watch = subscription => request => {
   store.dispatch({
     type: subscription,
@@ -84,6 +95,8 @@ export default function api(inStore) {
       case actions.CONNECT_REQUEST: connect(action.options); break;
       case actions.AUTH_REQUEST: login(); break;
       case actions.SUBSCRIBE_REQUEST: subscribe(action.baseChannel, action.subscription); break;
+      case actions.SUBSCRIBE_SUCCESS: startMonitoring(); break;
+      case actions.EMIT: emit(action); break;
     }
     return next(action);
   };

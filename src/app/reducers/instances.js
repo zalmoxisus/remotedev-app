@@ -5,7 +5,7 @@ const initialState = {
   connections: {}
 };
 
-function disconnected(connectionId) {
+function disconnected(state, connectionId) {
   const instanceIds = state.connections[connectionId];
   if (!instanceIds) return state;
   const names = { ...state.names };
@@ -28,7 +28,7 @@ export default function instances(state = initialState, action) {
   const connectionId = request.id;
 
   if (request.type === 'DISCONNECTED') {
-    return disconnected(connectionId);
+    return disconnected(state, connectionId);
   }
 
   const instanceId = request.instanceId || connectionId;

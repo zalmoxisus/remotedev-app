@@ -14,5 +14,4 @@ export const DEAUTHENTICATE = 'socket/DEAUTHENTICATE';
 export const SUBSCRIBE_REQUEST = 'socket/SUBSCRIBE_REQUEST';
 export const SUBSCRIBE_SUCCESS = 'socket/SUBSCRIBE_SUCCESS';
 export const SUBSCRIBE_ERROR = 'socket/SUBSCRIBE_ERROR';
-export const EMIT_SUCCESS = 'socket/EMIT_SUCCESS';
-export const EMIT_ERROR = 'socket/EMIT_ERROR';
+export const EMIT = 'socket/EMIT';
