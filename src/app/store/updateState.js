@@ -1,7 +1,7 @@
 import parseJSON from '../utils/parseJSON';
 import commitExcessActions from './commitExcessActions';
 
-function recompute(previousLiftedState, storeState, action, nextActionId = 1, isExcess) {
+export function recompute(previousLiftedState, storeState, action, nextActionId = 1, isExcess) {
   const actionId = nextActionId - 1;
   const liftedState = { ...previousLiftedState };
   liftedState.stagedActionIds = [...liftedState.stagedActionIds, actionId];

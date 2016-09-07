@@ -9,7 +9,7 @@ let store;
 const watch = subscription => request => {
   store.dispatch({
     type: subscription,
-    request: request.data ? { id: request.id, ...request.data } : request
+    request: request.data ? { ...request.data, id: request.id } : request
   });
 };
 

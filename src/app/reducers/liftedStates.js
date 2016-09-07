@@ -50,7 +50,7 @@ function updateState(state, request) {
 }
 
 export default function liftedStates(state = { default: defaultSate }, action) {
-  if (action.type !== UPDATE_STATE || !action.request) return state;
+  if (action.type !== UPDATE_STATE) return state;
 
   const { request } = action;
   if (request.type === 'DISCONNECTED') {
