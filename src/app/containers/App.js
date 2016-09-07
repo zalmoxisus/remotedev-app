@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { LIFTED_ACTION } from '../constants/actionTypes';
 import {
   saveObjToStorage, getSettings, getFromStorage, saveToStorage
 } from '../utils/localStorage';
@@ -16,7 +18,7 @@ import MonitorSelector from '../components/MonitorSelector';
 import SyncToggle from '../components/SyncToggle';
 import TestGenerator from '../components/TestGenerator';
 
-export default class App extends Component {
+class App extends Component {
   static propTypes = {
     selectMonitor: PropTypes.string,
     testTemplates: PropTypes.array,
@@ -147,8 +149,18 @@ export default class App extends Component {
     this.setState({ modalIsOpen: false });
   }
 
+  liftedStore() {
+    return {
+      getState: () => this.props.liftedState,
+      dispatch: (action) => {
+        this.props.dispatch({ type: LIFTED_ACTION, action });
+      },
+      subscribe: () => {}
+    };
+  }
+
   render() {
-    const liftedStore = this.store.liftedStore;
+    const liftedStore = this.liftedStore();
     const { monitor } = this.state;
     const key = (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance;
     return (
@@ -194,3 +206,11 @@ export default class App extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    liftedState: state.lifted.states[state.lifted.selected || state.lifted.current]
+  };
+}
+
+export default connect(mapStateToProps)(App);

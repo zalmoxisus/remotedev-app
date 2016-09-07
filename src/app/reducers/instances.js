@@ -17,6 +17,7 @@ function disconnected(state, connectionId) {
     delete names[id];
   });
   return {
+    selected: null,
     connections,
     names
   };

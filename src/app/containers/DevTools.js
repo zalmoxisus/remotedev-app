@@ -47,7 +47,8 @@ export default class extends Component {
   };
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.monitor !== this.props.monitor;
+    return nextProps.monitor !== this.props.monitor ||
+      nextProps.liftedStore !== this.props.liftedStore;
   }
 
   render() {
