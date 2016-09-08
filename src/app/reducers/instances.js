@@ -1,4 +1,5 @@
-import { UPDATE_STATE, SELECT_INSTANCE } from '../constants/actionTypes';
+import { UPDATE_STATE, SELECT_INSTANCE, REMOVE_INSTANCE } from '../constants/actionTypes';
+import { DISCONNECT } from '../constants/socketActionTypes';
 
 const initialState = {
   selected: null,
@@ -6,7 +7,7 @@ const initialState = {
   connections: {}
 };
 
-function disconnected(state, connectionId) {
+function removeState(state, connectionId) {
   const instanceIds = state.connections[connectionId];
   if (!instanceIds) return state;
   const names = { ...state.names };
@@ -24,34 +25,33 @@ function disconnected(state, connectionId) {
 }
 
 export default function instances(state = initialState, action) {
-  if (action.type === SELECT_INSTANCE) {
-    return { ...state, selected: action.selected };
+  switch (action.type) {
+    case UPDATE_STATE:
+      const { request } = action;
+      const connectionId = request.id;
+      const instanceId = request.instanceId || connectionId;
+      if (typeof state.names[instanceId] !== 'undefined') return state;
+
+      const instanceIds = state.connections[connectionId] || [];
+      instanceIds.push(instanceId);
+      return {
+        ...state,
+        connections: {
+          ...state.connections,
+          [connectionId]: instanceIds
+        },
+        names: {
+          ...state.names,
+          [instanceId]: request.name || instanceId
+        }
+      };
+    case SELECT_INSTANCE:
+      return { ...state, selected: action.selected };
+    case REMOVE_INSTANCE:
+      return removeState(state, action.id);
+    case DISCONNECT:
+      return initialState;
+    default:
+      return state;
   }
-  if (action.type !== UPDATE_STATE) return state;
-
-  const { request } = action;
-  const connectionId = request.id;
-
-  if (request.type === 'DISCONNECTED') {
-    return disconnected(state, connectionId);
-  }
-
-  const instanceId = request.instanceId || connectionId;
-  if (/* request.type === 'START' || */ !state.names[instanceId]) {
-    const instanceIds = state.connections[connectionId] || [];
-    instanceIds.push(instanceId);
-    return {
-      ...state,
-      connections: {
-        ...state.connections,
-        [connectionId]: instanceIds
-      },
-      names: {
-        ...state.names,
-        [instanceId]: request.name || instanceId
-      }
-    };
-  }
-
-  return state;
 }

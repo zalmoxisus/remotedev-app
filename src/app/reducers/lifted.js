@@ -1,5 +1,6 @@
 import omit from 'lodash/omit';
-import { UPDATE_STATE, LIFTED_ACTION, SELECT_INSTANCE } from '../constants/actionTypes';
+import { UPDATE_STATE, LIFTED_ACTION, SELECT_INSTANCE, REMOVE_INSTANCE } from '../constants/actionTypes';
+import { DISCONNECT } from '../constants/socketActionTypes';
 import parseJSON from '../utils/parseJSON';
 import { recompute } from '../store/updateState';
 
@@ -70,8 +71,8 @@ function dispatchAction(state, { action }) {
   return state;
 }
 
-function disconnected(state, { request }) {
-  const states = omit(state.states, request.id);
+function removeState(state, id) {
+  const states = omit(state.states, id);
   let selected = state.selected;
   let current = state.current;
   if (!states[selected]) {
@@ -95,22 +96,24 @@ function init({ type, action }) {
 export default function lifted(state = initialState, action) {
   switch (action.type) {
     case UPDATE_STATE:
-      if (action.request.type === 'DISCONNECTED') {
-        return disconnected(state, action);
-      }
-      const current = action.request.id;
+      const request = action.request;
+      const current = request.id;
       let rest;
       if (!state.states[current]) {
-        rest = init(action.request);
+        rest = init(request);
       }
       return {
         ...state,
         ...rest,
         current,
-        states: updateState(state.states, action.request)
+        states: updateState(state.states, request)
       };
+    case REMOVE_INSTANCE:
+      return removeState(state, action.id);
     case LIFTED_ACTION:
       return dispatchAction(state, action);
+    case DISCONNECT:
+      return initialState;
     case SELECT_INSTANCE:
       return { ...state, selected: action.selected };
     default:
