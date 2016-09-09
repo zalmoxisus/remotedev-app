@@ -9,7 +9,7 @@ import DevTools from '../containers/DevTools';
 import Dispatcher from './monitors/Dispatcher';
 import {
   createRemoteStore, updateStoreInstance, enableSync,
-  startMonitoring, importState, exportState
+  startMonitoring
 } from '../store/createRemoteStore';
 import { addInstance, deleteInstance } from '../services/messaging';
 import ButtonBar from '../components/ButtonBar';
@@ -42,6 +42,8 @@ class App extends Component {
     this.saveSettings = this.saveSettings.bind(this);
     this.clearError = this.clearError.bind(this);
     this.handleError = this.handleError.bind(this);
+    this.exportState = this.exportState.bind(this);
+    this.importState = this.importState.bind(this);
   }
 
   componentWillMount() {
@@ -159,6 +161,14 @@ class App extends Component {
     };
   }
 
+  exportState() {
+    return this.props.liftedState;
+  }
+
+  importState(state) {
+    this.props.dispatch({ type: LIFTED_ACTION, message: 'IMPORT', state });
+  }
+
   render() {
     const liftedStore = this.liftedStore();
     const { monitor } = this.state;
@@ -198,7 +208,7 @@ class App extends Component {
           toggleSlider={this.toggleSlider}
           sliderIsOpen={this.state.sliderIsOpen}
           saveSettings={this.saveSettings}
-          importState={importState} exportState={exportState}
+          importState={this.importState} exportState={this.exportState}
           socketOptions={this.socketOptions}
           noSettings={this.props.noSettings}
         />

@@ -147,7 +147,8 @@ export default function instances(state = initialState, action) {
     case REMOVE_INSTANCE:
       return removeState(state, action.id);
     case LIFTED_ACTION:
-      return dispatchAction(state, action);
+      if (action.message === 'DISPATCH') return dispatchAction(state, action);
+      return state;
     case DISCONNECT:
       return initialState;
     default:

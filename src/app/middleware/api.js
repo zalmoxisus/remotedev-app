@@ -19,15 +19,14 @@ function startMonitoring() {
   store.dispatch({ type: actions.EMIT, message: 'START' });
 }
 
-function dispatchRemoteAction({ message, action }) {
+function dispatchRemoteAction({ message, action, state }) {
   const instances = store.getState().instances;
   const id = instances.selected || instances.current;
-  const state = (
-    message === 'DISPATCH' && !instances.options[id].isRedux ?
-    nonReduxDispatch(store, instances.states[id], action) :
-    undefined
-  );
-  store.dispatch({ type: actions.EMIT, message, action, state, id });
+  let newState = state;
+  if (message === 'DISPATCH' && !instances.options[id].isRedux) {
+    newState = nonReduxDispatch(store, instances.states[id], action);
+  }
+  store.dispatch({ type: actions.EMIT, message, action, state: newState, id });
 }
 
 const watch = subscription => request => {
