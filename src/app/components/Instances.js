@@ -21,7 +21,7 @@ class Instances extends Component {
   render() {
     this.select = [['Autoselect instances', null]];
     Object.keys(this.props.instances).forEach(key => {
-      this.select.push([this.props.instances[key], key]);
+      this.select.push([this.props.instances[key].name, key]);
     });
 
     return (
@@ -44,7 +44,7 @@ class Instances extends Component {
 
 function mapStateToProps(state) {
   return {
-    instances: state.instances.names,
+    instances: state.instances.options,
     selected: state.instances.selected
   };
 }

@@ -209,7 +209,7 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    liftedState: state.lifted.states[state.lifted.selected || state.lifted.current]
+    liftedState: state.instances.states[state.instances.selected || state.instances.current]
   };
 }
 
