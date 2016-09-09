@@ -1,4 +1,7 @@
-import { UPDATE_STATE, LIFTED_ACTION, SELECT_INSTANCE, REMOVE_INSTANCE } from '../constants/actionTypes';
+import {
+  UPDATE_STATE, SET_STATE, LIFTED_ACTION,
+  SELECT_INSTANCE, REMOVE_INSTANCE
+} from '../constants/actionTypes';
 import { DISCONNECT } from '../constants/socketActionTypes';
 import parseJSON from '../utils/parseJSON';
 import { recompute } from '../store/updateState';
@@ -130,6 +133,14 @@ export default function instances(state = initialState, action) {
         connections,
         options,
         states: updateState(state.states, request)
+      };
+    case SET_STATE:
+      return {
+        ...state,
+        states: {
+          ...state.states,
+          [state.selected || state.current]: action.newState
+        }
       };
     case SELECT_INSTANCE:
       return { ...state, selected: action.selected };

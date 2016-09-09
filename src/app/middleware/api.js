@@ -1,9 +1,9 @@
-import { stringify } from 'jsan';
 import socketCluster from 'socketcluster-client';
 import * as actions from '../constants/socketActionTypes';
 import {
   UPDATE_STATE, REMOVE_INSTANCE, LIFTED_ACTION
 } from '../constants/actionTypes';
+import { nonReduxDispatch } from '../store/monitorActions';
 
 let socket;
 let store;
@@ -19,8 +19,15 @@ function startMonitoring() {
   store.dispatch({ type: actions.EMIT, message: 'START' });
 }
 
-function dispatchLiftedAction({ action }) {
-  store.dispatch({ type: actions.EMIT, message: 'DISPATCH', action });
+function dispatchRemoteAction({ message, action }) {
+  const instances = store.getState().instances;
+  const id = instances.selected || instances.current;
+  const state = (
+    message === 'DISPATCH' && !instances.options[id].isRedux ?
+    nonReduxDispatch(store, instances.states[id], action) :
+    undefined
+  );
+  store.dispatch({ type: actions.EMIT, message, action, state, id });
 }
 
 const watch = subscription => request => {
@@ -117,7 +124,7 @@ export default function api(inStore) {
       case actions.SUBSCRIBE_REQUEST: subscribe(action.baseChannel, action.subscription); break;
       case actions.SUBSCRIBE_SUCCESS: startMonitoring(); break;
       case actions.EMIT: emit(action); break;
-      case LIFTED_ACTION: dispatchLiftedAction(action); break;
+      case LIFTED_ACTION: dispatchRemoteAction(action); break;
     }
     return result;
   };

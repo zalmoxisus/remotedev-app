@@ -153,7 +153,7 @@ class App extends Component {
     return {
       getState: () => this.props.liftedState,
       dispatch: (action) => {
-        this.props.dispatch({ type: LIFTED_ACTION, action });
+        this.props.dispatch({ type: LIFTED_ACTION, message: 'DISPATCH', action });
       },
       subscribe: () => {}
     };
