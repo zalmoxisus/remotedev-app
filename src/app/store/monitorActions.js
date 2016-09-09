@@ -23,6 +23,7 @@ export function nonReduxDispatch(store, state, action) {
       return stringify(state.computedStates[0].state);
     case 'SWEEP':
       store.dispatch({ type: SET_STATE, newState: sweep(state) });
+      return undefined;
     default:
       return undefined;
   }

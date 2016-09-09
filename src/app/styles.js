@@ -91,6 +91,8 @@ const styles = {
     width: '2em'
   },
   syncToggle: {
+    color: '#000',
+    fontSize: '15px',
     marginLeft: '6px'
   },
   dialogTitle: {

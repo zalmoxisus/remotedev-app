@@ -1,6 +1,6 @@
 import {
   UPDATE_STATE, SET_STATE, LIFTED_ACTION,
-  SELECT_INSTANCE, REMOVE_INSTANCE
+  SELECT_INSTANCE, REMOVE_INSTANCE, TOGGLE_SYNC
 } from '../constants/actionTypes';
 import { DISCONNECT } from '../constants/socketActionTypes';
 import parseJSON from '../utils/parseJSON';
@@ -9,6 +9,7 @@ import { recompute } from '../store/updateState';
 const initialState = {
   selected: null,
   current: 'default',
+  sync: false,
   connections: {},
   options: {},
   states: {
@@ -84,10 +85,14 @@ function removeState(state, connectionId) {
   const states = { ...state.states };
   let selected = state.selected;
   let current = state.current;
+  let sync = state.sync;
 
   delete connections[connectionId];
   instanceIds.forEach(id => {
-    if (id === selected) selected = null;
+    if (id === selected) {
+      selected = null;
+      sync = false;
+    }
     if (id === current) current = 'default';
     delete options[id];
     delete states[id];
@@ -95,6 +100,7 @@ function removeState(state, connectionId) {
   return {
     selected,
     current,
+    sync,
     connections,
     options,
     states
@@ -142,8 +148,10 @@ export default function instances(state = initialState, action) {
           [state.selected || state.current]: action.newState
         }
       };
+    case TOGGLE_SYNC:
+      return { ...state, sync: !state.sync };
     case SELECT_INSTANCE:
-      return { ...state, selected: action.selected };
+      return { ...state, selected: action.selected, sync: false };
     case REMOVE_INSTANCE:
       return removeState(state, action.id);
     case LIFTED_ACTION:

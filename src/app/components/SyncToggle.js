@@ -8,8 +8,6 @@ export default class Instances extends Component {
   static propTypes = {
     on: PropTypes.bool,
     style: PropTypes.object,
-    offIcon: PropTypes.node,
-    onIcon: PropTypes.node,
     onClick: PropTypes.func.isRequired
   };
 

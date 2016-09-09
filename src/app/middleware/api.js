@@ -1,4 +1,5 @@
 import socketCluster from 'socketcluster-client';
+import { stringify } from 'jsan';
 import * as actions from '../constants/socketActionTypes';
 import {
   UPDATE_STATE, REMOVE_INSTANCE, LIFTED_ACTION
@@ -29,29 +30,46 @@ function dispatchRemoteAction({ message, action, state }) {
   store.dispatch({ type: actions.EMIT, message, action, state: newState, id });
 }
 
-const watch = subscription => request => {
-  if (subscription === UPDATE_STATE) {
-    if (request.type === 'DISCONNECTED') {
-      store.dispatch({
-        type: REMOVE_INSTANCE,
-        id: request.id
-      });
-      return;
-    }
-    if (request.type === 'START') {
-      store.dispatch({ type: actions.EMIT, message: 'START', id: request.id });
-      return;
-    }
+function monitoring(request) {
+  if (request.type === 'DISCONNECTED') {
+    store.dispatch({
+      type: REMOVE_INSTANCE,
+      id: request.id
+    });
+    return;
   }
+  if (request.type === 'START') {
+    store.dispatch({ type: actions.EMIT, message: 'START', id: request.id });
+    return;
+  }
+
   store.dispatch({
-    type: subscription,
+    type: UPDATE_STATE,
     request: request.data ? { ...request.data, id: request.id } : request
   });
-};
+
+  const instances = store.getState().instances;
+  const id = request.instanceId || request.id;
+  if (
+    instances.sync && id === instances.selected &&
+    (request.type === 'ACTION' || request.type === 'STATE')
+  ) {
+    socket.emit('respond', {
+      type: 'SYNC',
+      state: stringify(instances.states[id]),
+      id: request.id
+    });
+  }
+}
 
 function subscribe(channelName, subscription) {
   const channel = socket.subscribe(channelName);
-  channel.watch(watch(subscription));
+  if (subscription === UPDATE_STATE) channel.watch(monitoring);
+  else {
+    channel.watch(request => {
+      store.dispatch({ type: subscription, request });
+    });
+  }
 }
 
 function handleConnection() {

@@ -44,8 +44,7 @@ class Instances extends Component {
 
 function mapStateToProps(state) {
   return {
-    instances: state.instances.options,
-    selected: state.instances.selected
+    instances: state.instances.options
   };
 }
 

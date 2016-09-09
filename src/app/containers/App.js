@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { LIFTED_ACTION } from '../constants/actionTypes';
+import { LIFTED_ACTION, TOGGLE_SYNC } from '../constants/actionTypes';
 import {
   saveObjToStorage, getSettings, getFromStorage, saveToStorage
 } from '../utils/localStorage';
@@ -21,8 +21,10 @@ import TestGenerator from '../components/TestGenerator';
 class App extends Component {
   static propTypes = {
     dispatch: PropTypes.func.isRequired,
+    selected: PropTypes.string,
     liftedState: PropTypes.object.isRequired,
     options: PropTypes.object,
+    shouldSync: PropTypes.bool,
     selectMonitor: PropTypes.string,
     testTemplates: PropTypes.array,
     useCodemirror: PropTypes.bool,
@@ -107,9 +109,7 @@ class App extends Component {
   };
 
   handleSyncToggle = () => {
-    const shouldSync = !this.state.shouldSync;
-    enableSync(shouldSync);
-    this.setState({ shouldSync });
+    this.props.dispatch({ type: TOGGLE_SYNC });
   };
 
   createStore() {
@@ -180,11 +180,11 @@ class App extends Component {
       <div style={styles.container}>
         <div style={styles.buttonBar}>
           <MonitorSelector selected={this.state.monitor} onSelect={this.handleSelectMonitor}/>
-          <Instances />
+          <Instances selected={this.props.selected} />
           <SyncToggle
-            on={this.state.shouldSync}
+            on={this.props.shouldSync}
             onClick={this.handleSyncToggle}
-            style={!this.state.instance ? { display: 'none' } : undefined}
+            style={!this.props.selected ? { display: 'none' } : undefined}
           />
         </div>
         <DevTools
@@ -222,10 +222,14 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const id = state.instances.selected || state.instances.current;
+  const instances = state.instances;
+  const selected = instances.selected;
+  const id = selected || instances.current;
   return {
-    liftedState: state.instances.states[id],
-    options: state.instances.options[id]
+    selected,
+    liftedState: instances.states[id],
+    options: instances.options[id],
+    shouldSync: state.instances.sync
   };
 }
 
