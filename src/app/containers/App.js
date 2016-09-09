@@ -20,6 +20,9 @@ import TestGenerator from '../components/TestGenerator';
 
 class App extends Component {
   static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    liftedState: PropTypes.object.isRequired,
+    options: PropTypes.object,
     selectMonitor: PropTypes.string,
     testTemplates: PropTypes.array,
     useCodemirror: PropTypes.bool,
@@ -193,9 +196,10 @@ class App extends Component {
         {this.state.sliderIsOpen && <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" liftedStore={liftedStore} key={`Slider-${key}`} />
         </div>}
-        {this.state.dispatcherIsOpen && this.store.liftedStore.getInstance() &&
+        {this.state.dispatcherIsOpen && this.props.options &&
           <Dispatcher
-            liftedStore={liftedStore}
+            options={this.props.options}
+            dispatch={this.props.dispatch}
             error={this.state.error}
             clearError={this.clearError}
             key={`Dispatcher-${key}`}
@@ -218,8 +222,10 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
+  const id = state.instances.selected || state.instances.current;
   return {
-    liftedState: state.instances.states[state.instances.selected || state.instances.current]
+    liftedState: state.instances.states[id],
+    options: state.instances.options[id]
   };
 }
 

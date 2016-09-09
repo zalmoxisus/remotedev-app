@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import * as themes from 'redux-devtools-themes';
+import { LIFTED_ACTION } from '../../constants/actionTypes';
 
 const styles = {
   button: {
@@ -35,7 +36,8 @@ const styles = {
 
 export default class Dispatcher extends Component {
   static propTypes = {
-    store: PropTypes.object.isRequired,
+    options: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
     theme: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string,
@@ -62,7 +64,7 @@ export default class Dispatcher extends Component {
     if (selected !== 'default') {
       // Shrink the number args to the number of the new ones
       args = this.state.args.slice(
-        0, this.props.store.getActionCreators()[selected].args.length
+        0, this.props.options.actionCreators[selected].args.length
       );
     }
     this.setState({
@@ -82,18 +84,22 @@ export default class Dispatcher extends Component {
     this.setState({ args });
   }
 
+  dispatch(action) {
+    this.props.dispatch({ type: LIFTED_ACTION, message: 'ACTION', action });
+  }
+
   launchAction() {
     if (this.state.selected !== 'default') {
       let rest = this.refs.restArgs.textContent.trim();
       if (rest === '') rest = undefined;
       const { selected, args } = this.state;
-      this.props.store.dispatch({
-        name: this.props.store.getActionCreators()[selected].name,
+      this.dispatch({
+        name: this.props.options.actionCreators[selected].name,
         selected, args, rest
       });
     } else {
       if (this.refs.action.textContent !== '') {
-        this.props.store.dispatch(this.refs.action.textContent);
+        this.dispatch(this.refs.action.textContent);
       }
     }
     this.props.clearError();
@@ -113,7 +119,7 @@ export default class Dispatcher extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.selected !== 'default' && !nextProps.store.getActionCreators()) {
+    if (this.state.selected !== 'default' && !nextProps.options.actionCreators) {
       this.setState({
         selected: 'default',
         args: []
@@ -122,7 +128,7 @@ export default class Dispatcher extends Component {
   }
 
   resetCustomAction() {
-    this.refs.action.innerHTML = this.props.store.isRedux() ? '{<br/>type: \'\'<br/>}' : 'this.';
+    this.refs.action.innerHTML = this.props.options.isRedux ? '{<br/>type: \'\'<br/>}' : 'this.';
   }
 
   getTheme() {
@@ -147,7 +153,7 @@ export default class Dispatcher extends Component {
     const buttonStyle = {
       ...styles.button, color: theme.base06, backgroundColor: theme.base00
     };
-    const actionCreators = this.props.store.getActionCreators();
+    const actionCreators = this.props.options.actionCreators;
 
     let fields = <div contentEditable style={contentEditableStyle} ref="action"></div>;
     if (this.state.selected !== 'default' && actionCreators) {
