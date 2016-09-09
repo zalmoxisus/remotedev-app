@@ -25,12 +25,11 @@ const initialState = {
   }
 };
 
-function updateState(state, request) {
+function updateState(state, request, id) {
   const payload = parseJSON(request.payload);
   if (typeof payload === 'undefined') return state;
 
   let newState;
-  const { id } = request;
   const action = request.action && parseJSON(request.action) || {};
 
   switch (request.type) {
@@ -107,13 +106,18 @@ function removeState(state, connectionId) {
   };
 }
 
-function init({ type, action, name }, current) {
+function init({ type, action, name, id }, current) {
   let isRedux = type === 'STATE';
   let actionCreators;
   let creators = action;
   if (typeof creators === 'string') creators = JSON.parse(creators);
   if (Array.isArray(creators)) actionCreators = creators;
-  return { name: name || current, isRedux, actionCreators };
+  return {
+    name: name || current,
+    connectionId: id,
+    isRedux,
+    actionCreators
+  };
 }
 
 export default function instances(state = initialState, action) {
@@ -138,7 +142,7 @@ export default function instances(state = initialState, action) {
         current,
         connections,
         options,
-        states: updateState(state.states, request)
+        states: updateState(state.states, request, current)
       };
     case SET_STATE:
       return {

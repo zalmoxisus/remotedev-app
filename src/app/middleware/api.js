@@ -9,10 +9,10 @@ import { nonReduxDispatch } from '../store/monitorActions';
 let socket;
 let store;
 
-function emit({ message: type, id, action, state }) {
+function emit({ message: type, id, instanceId, action, state }) {
   socket.emit(
     id ? 'sc-' + id : 'respond',
-    { type, action, state }
+    { type, action, state, instanceId }
   );
 }
 
@@ -22,12 +22,13 @@ function startMonitoring() {
 
 function dispatchRemoteAction({ message, action, state }) {
   const instances = store.getState().instances;
-  const id = instances.selected || instances.current;
+  const instanceId = instances.selected || instances.current;
+  const id = instances.options[instanceId].connectionId;
   let newState = state;
-  if (message === 'DISPATCH' && !instances.options[id].isRedux) {
-    newState = nonReduxDispatch(store, instances.states[id], action);
+  if (message === 'DISPATCH' && !instances.options[instanceId].isRedux) {
+    newState = nonReduxDispatch(store, instances.states[instanceId], action);
   }
-  store.dispatch({ type: actions.EMIT, message, action, state: newState, id });
+  store.dispatch({ type: actions.EMIT, message, action, state: newState, instanceId, id });
 }
 
 function monitoring(request) {
@@ -49,15 +50,16 @@ function monitoring(request) {
   });
 
   const instances = store.getState().instances;
-  const id = request.instanceId || request.id;
+  const instanceId = request.instanceId || request.id;
   if (
-    instances.sync && id === instances.selected &&
+    instances.sync && instanceId === instances.selected &&
     (request.type === 'ACTION' || request.type === 'STATE')
   ) {
     socket.emit('respond', {
       type: 'SYNC',
-      state: stringify(instances.states[id]),
-      id: request.id
+      state: stringify(instances.states[instanceId]),
+      id: request.id,
+      instanceId
     });
   }
 }
