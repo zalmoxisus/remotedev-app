@@ -2,7 +2,7 @@ import {
   UPDATE_STATE, SET_STATE, LIFTED_ACTION,
   SELECT_INSTANCE, REMOVE_INSTANCE, TOGGLE_SYNC
 } from '../constants/actionTypes';
-import { DISCONNECT } from '../constants/socketActionTypes';
+import { DISCONNECTED } from '../constants/socketActionTypes';
 import parseJSON from '../utils/parseJSON';
 import { recompute } from '../store/updateState';
 
@@ -161,7 +161,7 @@ export default function instances(state = initialState, action) {
     case LIFTED_ACTION:
       if (action.message === 'DISPATCH') return dispatchAction(state, action);
       return state;
-    case DISCONNECT:
+    case DISCONNECTED:
       return initialState;
     default:
       return state;

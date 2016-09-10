@@ -1,39 +1,40 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
+import { RECONNECT } from '../constants/socketActionTypes';
 import styles from '../styles';
 
-export default class Settings extends Component {
+class Settings extends Component {
   static propTypes = {
     isOpen: PropTypes.bool,
     close: PropTypes.func.isRequired,
     saveSettings: PropTypes.func.isRequired,
-    socketOptions: PropTypes.object
+    socketOptions: PropTypes.object.isRequired,
+    isCustom: PropTypes.bool
   };
 
   constructor(props) {
     super(props);
-    let isLocal;
+    const isCustom = props.isCustom;
     this.options = {};
-    if (props.socketOptions) {
-      isLocal = true;
+    if (isCustom) {
       this.options.hostname = props.socketOptions.hostname;
       this.options.port = props.socketOptions.port;
       this.options.secure = props.socketOptions.secure;
     } else {
-      isLocal = false;
       this.options.hostname = 'localhost';
       this.options.port = '8000';
       this.options.secure = false;
     }
 
-    this.state = { isLocal };
+    this.state = { isCustom };
   }
 
   handleLocalChecked = (e, checked) => {
-    this.setState({ isLocal: checked });
+    this.setState({ isCustom: checked });
   };
 
   handleInputChange = (e, value) => {
@@ -45,7 +46,7 @@ export default class Settings extends Component {
   };
 
   save = () => {
-    this.props.saveSettings(this.state.isLocal, this.options);
+    this.props.saveSettings(this.state.isCustom, this.options);
     this.props.close();
   };
 
@@ -77,10 +78,10 @@ export default class Settings extends Component {
       >
         <Checkbox
           label="Use custom (local) server"
-          checked={this.state.isLocal}
+          checked={this.state.isCustom}
           onCheck={this.handleLocalChecked}
         />
-        {this.state.isLocal && <div>
+        {this.state.isCustom && <div>
           <TextField
             id="hostname"
             floatingLabelText="Host name"
@@ -104,3 +105,20 @@ export default class Settings extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    socketOptions: state.socket.options,
+    isCustom: state.socket.isCustom
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    saveSettings: (isCustom, options) => {
+      dispatch({ type: RECONNECT, isCustom, options });
+    }
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

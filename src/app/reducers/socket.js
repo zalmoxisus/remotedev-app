@@ -3,7 +3,9 @@ import * as actions from '../constants/socketActionTypes';
 
 const initialState = {
   options: socketOptions,
+  isCustom: false,
   id: null,
+  channels: [],
   socketState: actions.CLOSED,
   authState: actions.PENDING,
   authToken: null,
@@ -13,8 +15,16 @@ const initialState = {
 export default function socket(state = initialState, action) {
   switch (action.type) {
     case actions.CONNECT_REQUEST:
+      let options = state.options;
+      let isCustom = state.isCustom;
+      if (action.options) {
+        isCustom = true;
+        options = action.options;
+      }
       return {
         ...state,
+        isCustom,
+        options,
         socketState: actions.CONNECTING
       };
     case actions.CONNECT_ERROR:
@@ -54,8 +64,29 @@ export default function socket(state = initialState, action) {
         authState: actions.UNAUTHENTICATED,
         authToken: null
       };
-    case actions.DISCONNECT:
-      return initialState;
+    case actions.SUBSCRIBE_SUCCESS:
+      return {
+        ...state,
+        channels: [...state.channels, action.channelName]
+      };
+    case actions.UNSUBSCRIBE:
+      return {
+        ...state,
+        channels: state.channels.filter(channel =>
+          channel !== action.channelName
+        )
+      };
+    case actions.DISCONNECTED:
+      return {
+        ...initialState,
+        options: state.options
+      };
+    case actions.RECONNECT:
+      return {
+        ...state,
+        isCustom: action.isCustom,
+        options: action.isCustom ? action.options : socketOptions
+      };
     default:
       return state;
   }

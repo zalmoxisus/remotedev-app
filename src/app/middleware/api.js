@@ -90,7 +90,7 @@ function handleConnection() {
     }
   });
   socket.on('disconnect', code => {
-    store.dispatch({ type: actions.DISCONNECT, code });
+    store.dispatch({ type: actions.DISCONNECTED, code });
   });
 
   socket.on('subscribe', channelName => {
@@ -122,6 +122,11 @@ function connect() {
   }
 }
 
+function disconnect() {
+  socket.disconnect();
+  socket.off();
+}
+
 function login() {
   socket.emit('login', {}, (error, baseChannel) => {
     if (error) {
@@ -138,7 +143,8 @@ export default function api(inStore) {
   return next => action => {
     const result = next(action);
     switch (action.type) { // eslint-disable-line default-case
-      case actions.CONNECT_REQUEST: connect(action.options); break;
+      case actions.CONNECT_REQUEST: connect(); break;
+      case actions.RECONNECT: disconnect(); connect(); break;
       case actions.AUTH_REQUEST: login(); break;
       case actions.SUBSCRIBE_REQUEST: subscribe(action.baseChannel, action.subscription); break;
       case actions.SUBSCRIBE_SUCCESS: startMonitoring(); break;
