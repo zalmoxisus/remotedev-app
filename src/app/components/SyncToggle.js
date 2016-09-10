@@ -1,10 +1,13 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PinIcon from 'react-icons/lib/ti/pin';
 import GoIcon from 'react-icons/lib/go/sync';
 import Switch from 'react-switcher';
+import { toggleSync } from '../actions';
 import styles from '../styles';
 
-export default class Instances extends Component {
+class SyncToggle extends Component {
   static propTypes = {
     on: PropTypes.bool,
     style: PropTypes.object,
@@ -29,3 +32,11 @@ export default class Instances extends Component {
    );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onClick: bindActionCreators(toggleSync, dispatch)
+  };
+}
+
+export default connect(null, mapDispatchToProps)(SyncToggle);

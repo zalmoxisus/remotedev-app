@@ -2,7 +2,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import * as themes from 'redux-devtools-themes';
-import { LIFTED_ACTION } from '../../constants/actionTypes';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { dispatchRemotely, clearNotification } from '../../actions';
 
 const styles = {
   button: {
@@ -34,7 +36,7 @@ const styles = {
   }
 };
 
-export default class Dispatcher extends Component {
+class Dispatcher extends Component {
   static propTypes = {
     options: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
@@ -42,7 +44,6 @@ export default class Dispatcher extends Component {
       PropTypes.object,
       PropTypes.string,
     ]),
-    error: PropTypes.string,
     clearError: PropTypes.func.isRequired
   };
 
@@ -84,22 +85,18 @@ export default class Dispatcher extends Component {
     this.setState({ args });
   }
 
-  dispatch(action) {
-    this.props.dispatch({ type: LIFTED_ACTION, message: 'ACTION', action });
-  }
-
   launchAction() {
     if (this.state.selected !== 'default') {
       let rest = this.refs.restArgs.textContent.trim();
       if (rest === '') rest = undefined;
       const { selected, args } = this.state;
-      this.dispatch({
+      this.props.dispatch({
         name: this.props.options.actionCreators[selected].name,
         selected, args, rest
       });
     } else {
       if (this.refs.action.textContent !== '') {
-        this.dispatch(this.refs.action.textContent);
+        this.props.dispatch(this.refs.action.textContent);
       }
     }
     this.props.clearError();
@@ -175,23 +172,6 @@ export default class Dispatcher extends Component {
       );
     }
 
-    let error;
-    if (this.props.error) {
-      error = (
-        <div style={{ color: theme.base06, background: '#FC2424', padding: '5px', display: 'flex' }}>
-          <div style={{ flex: '1', alignItems: 'center' }}>
-            <p style={{ margin: '0px' }}>{this.props.error}</p>
-          </div>
-          <div style={{ alignItems: 'center' }}>
-            <button
-              onClick={this.props.clearError}
-              style={{ ...buttonStyle, margin: '0', background: '#DC2424' }}
-            >&times;</button>
-          </div>
-        </div>
-      );
-    }
-
     let dispatchButtonStyle = buttonStyle;
     if (!actionCreators || actionCreators.length <= 0) {
       dispatchButtonStyle = {
@@ -215,7 +195,6 @@ export default class Dispatcher extends Component {
           position: 'relative'
         }}
       >
-        {error}
         {fields}
         {actionCreators && actionCreators.length > 0 ? <div style={{ display: 'flex' }}>
           <select
@@ -236,3 +215,12 @@ export default class Dispatcher extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch: bindActionCreators(dispatchRemotely, dispatch),
+    clearError: bindActionCreators(clearNotification, dispatch)
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Dispatcher);

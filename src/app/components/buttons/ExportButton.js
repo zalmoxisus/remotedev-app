@@ -5,7 +5,7 @@ import Button from '../Button';
 
 export default class ExportButton extends Component {
   static propTypes = {
-    exportState: PropTypes.func.isRequired
+    liftedState: PropTypes.object.isRequired
   };
 
   constructor() {
@@ -19,9 +19,7 @@ export default class ExportButton extends Component {
   }
 
   handleExport() {
-    let state = this.props.exportState();
-    if (!state) return;
-    state = encodeURIComponent(stringify(state));
+    const state = encodeURIComponent(stringify(this.props.liftedState));
     this.setState({ href: 'data:text/json;charset=utf-8,' + state });
   }
 

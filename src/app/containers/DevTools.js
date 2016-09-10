@@ -42,21 +42,28 @@ function getMonitor(type, props) {
 
 export default class extends Component {
   static propTypes = {
-    liftedStore: PropTypes.object,
+    liftedState: PropTypes.object,
+    dispatch: PropTypes.func.isRequired,
     monitor: PropTypes.string
   };
 
   shouldComponentUpdate(nextProps) {
     return nextProps.monitor !== this.props.monitor ||
-      nextProps.liftedStore !== this.props.liftedStore;
+      nextProps.liftedState !== this.props.liftedState;
   }
 
+  liftedStore = {
+    getState: () => this.props.liftedState,
+    dispatch: this.props.dispatch,
+    subscribe: () => {}
+  };
+
   render() {
-    const { monitor, liftedStore, ...rest } = this.props;
+    const { monitor, liftedState, ...rest } = this.props;
     const monitorElement = getMonitor(monitor, rest);
     const monitorProps = monitorElement.props;
     const Monitor = monitorElement.type;
     const ConnectedMonitor = connect(state => state)(Monitor);
-    return <ConnectedMonitor {...rest} {...monitorProps} store={liftedStore} />;
+    return <ConnectedMonitor {...rest} {...monitorProps} store={this.liftedStore} />;
   }
 }

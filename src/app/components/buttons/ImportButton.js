@@ -1,9 +1,12 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { parse } from 'jsan';
 import UploadIcon from 'react-icons/lib/md/file-upload';
 import Button from '../Button';
+import { importState } from '../../actions';
 
-export default class ImportButton extends Component {
+class ImportButton extends Component {
   static propTypes = {
     importState: PropTypes.func.isRequired
   };
@@ -58,3 +61,11 @@ export default class ImportButton extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    importState: bindActionCreators(importState, dispatch)
+  };
+}
+
+export default connect(null, mapDispatchToProps)(ImportButton);

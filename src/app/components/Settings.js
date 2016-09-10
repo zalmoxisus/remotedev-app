@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
-import { RECONNECT } from '../constants/socketActionTypes';
+import { saveSocketSettings } from '../actions';
 import styles from '../styles';
 
 class Settings extends Component {
@@ -115,9 +116,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    saveSettings: (isCustom, options) => {
-      dispatch({ type: RECONNECT, isCustom, options });
-    }
+    saveSettings: bindActionCreators(saveSocketSettings, dispatch)
   };
 }
 
