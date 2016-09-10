@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { LIFTED_ACTION, TOGGLE_SYNC, SELECT_MONITOR } from '../constants/actionTypes';
+import {
+  LIFTED_ACTION, TOGGLE_SYNC, SELECT_MONITOR, TOGGLE_SLIDER, TOGGLE_DISPATCHER
+} from '../constants/actionTypes';
 import {
   saveObjToStorage, getSettings, getFromStorage, saveToStorage
 } from '../utils/localStorage';
@@ -25,6 +27,8 @@ class App extends Component {
     liftedState: PropTypes.object.isRequired,
     options: PropTypes.object,
     monitor: PropTypes.string,
+    dispatcherIsOpen: PropTypes.bool,
+    sliderIsOpen: PropTypes.bool,
     shouldSync: PropTypes.bool,
     selectMonitor: PropTypes.string,
     testTemplates: PropTypes.array,
@@ -131,7 +135,7 @@ class App extends Component {
   }
 
   toggleDispatcher() {
-    this.setState({ dispatcherIsOpen: !this.state.dispatcherIsOpen });
+    this.props.dispatch({ type: TOGGLE_DISPATCHER });
   }
 
   handleError(error) {
@@ -143,7 +147,7 @@ class App extends Component {
   }
 
   toggleSlider() {
-    this.setState({ sliderIsOpen: !this.state.sliderIsOpen });
+    this.props.dispatch({ type: TOGGLE_SLIDER });
   }
 
   openModal(content) {
@@ -175,7 +179,7 @@ class App extends Component {
 
   render() {
     const liftedStore = this.liftedStore();
-    const { monitor } = this.props;
+    const { monitor, dispatcherIsOpen, sliderIsOpen, options } = this.props;
     const key = (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance;
     return (
       <div style={styles.container}>
@@ -194,12 +198,12 @@ class App extends Component {
           testComponent={this.testComponent}
           key={`${monitor}-${key}`}
         />
-        {this.state.sliderIsOpen && <div style={styles.sliderMonitor}>
+        {sliderIsOpen && <div style={styles.sliderMonitor}>
           <DevTools monitor="SliderMonitor" liftedStore={liftedStore} key={`Slider-${key}`} />
         </div>}
-        {this.state.dispatcherIsOpen && this.props.options &&
+        {dispatcherIsOpen && options &&
           <Dispatcher
-            options={this.props.options}
+            options={options}
             dispatch={this.props.dispatch}
             error={this.state.error}
             clearError={this.clearError}
@@ -209,9 +213,9 @@ class App extends Component {
         <ButtonBar
           openModal={this.openModal} closeModal={this.closeModal}
           toggleDispatcher={this.toggleDispatcher}
-          dispatcherIsOpen={this.state.dispatcherIsOpen}
+          dispatcherIsOpen={dispatcherIsOpen}
           toggleSlider={this.toggleSlider}
-          sliderIsOpen={this.state.sliderIsOpen}
+          sliderIsOpen={sliderIsOpen}
           saveSettings={this.saveSettings}
           importState={this.importState} exportState={this.exportState}
           socketOptions={this.socketOptions}
@@ -231,6 +235,8 @@ function mapStateToProps(state) {
     liftedState: instances.states[id],
     options: instances.options[id],
     monitor: state.monitor.selected,
+    dispatcherIsOpen: state.monitor.dispatcherIsOpen,
+    sliderIsOpen: state.monitor.sliderIsOpen,
     shouldSync: state.instances.sync
   };
 }

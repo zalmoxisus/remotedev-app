@@ -5,3 +5,5 @@ export const REMOVE_INSTANCE = 'devTools/REMOVE_INSTANCE';
 export const LIFTED_ACTION = 'devTools/LIFTED_ACTION';
 export const TOGGLE_SYNC = 'devTools/TOGGLE_SYNC';
 export const SELECT_MONITOR = 'devTools/SELECT_MONITOR';
+export const TOGGLE_SLIDER = 'devTools/TOGGLE_SLIDER';
+export const TOGGLE_DISPATCHER = 'devTools/TOGGLE_DISPATCHER';

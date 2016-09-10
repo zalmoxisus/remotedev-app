@@ -41,6 +41,8 @@ export function getSocketSettings() {
 export function getMonitorSettings() {
   if (localStorage.isChromeStorage) return undefined;
   return {
-    selected: localStorage.getItem('select-monitor')
+    selected: localStorage.getItem('select-monitor') || 'inspectorMonitor',
+    sliderIsOpen: localStorage.getItem('slider-open') === 'true',
+    dispatcherIsOpen: localStorage.getItem('dispatcher-open') === 'true'
   };
 }
