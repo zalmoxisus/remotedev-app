@@ -14,18 +14,17 @@ export function saveToStorage(key, value) {
   return value;
 }
 
-export function saveObjToStorage(remove, keys, values) {
+export function saveObjToStorage(remove, obj) {
   if (remove) {
-    keys.forEach(key => {
+    Object.keys(obj).forEach(key => {
       localStorage.removeItem('s:' + key);
     });
     return null;
   }
 
-  let obj = {};
-  keys.forEach(key => {
-    localStorage.setItem('s:' + key, values[key]);
-    obj[key] = values[key];
+  Object.keys(obj).forEach(key => {
+    localStorage.setItem('s:' + key, obj[key]);
+    obj[key] = obj[key];
   });
   return obj;
 }

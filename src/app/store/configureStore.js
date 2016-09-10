@@ -1,10 +1,11 @@
 import { createStore, compose, applyMiddleware } from 'redux';
-import api from '../middleware/api';
+import api from '../middlewares/api';
+import persist from '../middlewares/persist';
 import rootReducer from '../reducers';
 
 export default function configureStore(initialState) {
   let enhancer;
-  const middlewares = applyMiddleware(api);
+  const middlewares = applyMiddleware(api, persist);
   if (process.env.NODE_ENV === 'production') {
     enhancer = middlewares;
   } else {
