@@ -5,6 +5,7 @@ import {
 import { RECONNECT } from '../constants/socketActionTypes';
 
 export function liftedDispatch(action) {
+  if (action.type[0] === '@') return { type: MONITOR_ACTION, action };
   return { type: LIFTED_ACTION, message: 'DISPATCH', action };
 }
 
