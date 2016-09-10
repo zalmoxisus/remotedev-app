@@ -29,13 +29,18 @@ export function saveObjToStorage(remove, obj) {
   return obj;
 }
 
-export function getSettings() {
-  if (!localStorage.isChromeStorage) {
-    const hostname = localStorage.getItem('s:hostname');
-    const port = localStorage.getItem('s:port');
-    let secure = localStorage.getItem('s:secure');
-    secure = secure === 'true';
-    if (hostname && port) return { hostname, port: Number(port), secure };
-  }
-  return null;
+export function getSocketSettings() {
+  if (localStorage.isChromeStorage) return undefined;
+  const hostname = localStorage.getItem('s:hostname');
+  const port = localStorage.getItem('s:port');
+  let secure = localStorage.getItem('s:secure');
+  secure = secure === 'true';
+  if (hostname && port) return { hostname, port: Number(port), secure };
+}
+
+export function getMonitorSettings() {
+  if (localStorage.isChromeStorage) return undefined;
+  return {
+    selected: localStorage.getItem('select-monitor')
+  };
 }

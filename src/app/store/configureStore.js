@@ -3,7 +3,7 @@ import api from '../middlewares/api';
 import persist from '../middlewares/persist';
 import rootReducer from '../reducers';
 
-export default function configureStore(initialState) {
+export default function configureStore(preloadedState) {
   let enhancer;
   const middlewares = applyMiddleware(api, persist);
   if (process.env.NODE_ENV === 'production') {
@@ -14,7 +14,7 @@ export default function configureStore(initialState) {
       window.devToolsExtension && window.devToolsExtension()
     );
   }
-  const store = createStore(rootReducer, initialState, enhancer);
+  const store = createStore(rootReducer, preloadedState, enhancer);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers

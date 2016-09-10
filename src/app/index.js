@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, hashHistory, createMemoryHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
-import { getSettings } from './utils/localStorage';
+import { getMonitorSettings, getSocketSettings } from './utils/localStorage';
 import { CONNECT_REQUEST } from './constants/socketActionTypes';
 import createElement from './utils/createElement';
 import Layout from './containers/Layout';
@@ -12,10 +12,12 @@ import LogsTable from './components/logs/Table';
 
 export default class Root extends Component {
   componentWillMount() {
-    this.store = configureStore();
+    this.store = configureStore({
+      monitor: getMonitorSettings() || this.props.monitorOptions
+    });
     this.store.dispatch({
       type: CONNECT_REQUEST,
-      options: getSettings() || this.props.socketOptions
+      options: getSocketSettings() || this.props.socketOptions
     });
 
     const history = this.props.hash ? hashHistory : createMemoryHistory(location);
@@ -45,5 +47,8 @@ Root.propTypes = {
     port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     autoReconnect: PropTypes.bool,
     secure: PropTypes.bool
+  }),
+  monitorOptions: PropTypes.shape({
+    selected: PropTypes.string
   })
 };

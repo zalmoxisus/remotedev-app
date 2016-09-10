@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { LIFTED_ACTION, TOGGLE_SYNC } from '../constants/actionTypes';
+import { LIFTED_ACTION, TOGGLE_SYNC, SELECT_MONITOR } from '../constants/actionTypes';
 import {
   saveObjToStorage, getSettings, getFromStorage, saveToStorage
 } from '../utils/localStorage';
@@ -24,6 +24,7 @@ class App extends Component {
     selected: PropTypes.string,
     liftedState: PropTypes.object.isRequired,
     options: PropTypes.object,
+    monitor: PropTypes.string,
     shouldSync: PropTypes.bool,
     selectMonitor: PropTypes.string,
     testTemplates: PropTypes.array,
@@ -105,7 +106,7 @@ class App extends Component {
   };
 
   handleSelectMonitor = (event, index, value) => {
-    this.setState({ monitor: saveToStorage('select-monitor', value) });
+    this.props.dispatch({ type: SELECT_MONITOR, monitor: value });
   };
 
   handleSyncToggle = () => {
@@ -174,12 +175,12 @@ class App extends Component {
 
   render() {
     const liftedStore = this.liftedStore();
-    const { monitor } = this.state;
+    const { monitor } = this.props;
     const key = (this.socketOptions ? this.socketOptions.hostname : '') + this.state.instance;
     return (
       <div style={styles.container}>
         <div style={styles.buttonBar}>
-          <MonitorSelector selected={this.state.monitor} onSelect={this.handleSelectMonitor}/>
+          <MonitorSelector selected={monitor} onSelect={this.handleSelectMonitor}/>
           <Instances selected={this.props.selected} />
           <SyncToggle
             on={this.props.shouldSync}
@@ -229,6 +230,7 @@ function mapStateToProps(state) {
     selected,
     liftedState: instances.states[id],
     options: instances.options[id],
+    monitor: state.monitor.selected,
     shouldSync: state.instances.sync
   };
 }
