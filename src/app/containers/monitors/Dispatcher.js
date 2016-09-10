@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 import * as themes from 'redux-devtools-themes';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { dispatchRemotely, clearNotification } from '../../actions';
+import { dispatchRemotely } from '../../actions';
 
 const styles = {
   button: {
@@ -43,8 +43,7 @@ class Dispatcher extends Component {
     theme: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string,
-    ]),
-    clearError: PropTypes.func.isRequired
+    ])
   };
 
   static defaultProps = {
@@ -99,7 +98,6 @@ class Dispatcher extends Component {
         this.props.dispatch(this.refs.action.textContent);
       }
     }
-    this.props.clearError();
   }
 
   componentDidMount() {
@@ -218,8 +216,7 @@ class Dispatcher extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch: bindActionCreators(dispatchRemotely, dispatch),
-    clearError: bindActionCreators(clearNotification, dispatch)
+    dispatch: bindActionCreators(dispatchRemotely, dispatch)
   };
 }
 

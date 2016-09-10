@@ -4,6 +4,7 @@ import * as actions from '../constants/socketActionTypes';
 import {
   UPDATE_STATE, REMOVE_INSTANCE, LIFTED_ACTION
 } from '../constants/actionTypes';
+import { showNotification } from '../actions';
 import { nonReduxDispatch } from '../store/monitorActions';
 
 let socket;
@@ -41,6 +42,11 @@ function monitoring(request) {
   }
   if (request.type === 'START') {
     store.dispatch({ type: actions.EMIT, message: 'START', id: request.id });
+    return;
+  }
+
+  if (request.type === 'ERROR') {
+    store.dispatch(showNotification(request.payload));
     return;
   }
 
@@ -119,6 +125,7 @@ function connect() {
     handleConnection(store);
   } catch (error) {
     store.dispatch({ type: actions.CONNECT_ERROR, error });
+    store.dispatch(showNotification(error.message || error));
   }
 }
 

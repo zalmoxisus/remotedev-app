@@ -6,6 +6,7 @@ import styles from '../styles';
 import DevTools from '../containers/DevTools';
 import Dispatcher from './monitors/Dispatcher';
 import ButtonBar from '../components/ButtonBar';
+import Notification from '../components/Notification';
 import Instances from '../components/Instances';
 import MonitorSelector from '../components/MonitorSelector';
 import SyncToggle from '../components/SyncToggle';
@@ -59,6 +60,7 @@ class App extends Component {
           dispatch={this.props.liftedDispatch}
           testComponent={this.testComponent}
         />
+        <Notification />
         {sliderIsOpen && <div style={styles.sliderMonitor}>
           <DevTools
             monitor="SliderMonitor"

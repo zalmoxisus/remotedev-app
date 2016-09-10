@@ -1,6 +1,7 @@
 import {
   LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR,
   TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER,
+  SHOW_NOTIFICATION, CLEAR_NOTIFICATION
 } from '../constants/actionTypes';
 import { RECONNECT } from '../constants/socketActionTypes';
 
@@ -41,3 +42,10 @@ export function saveSocketSettings(isCustom, options) {
   return { type: RECONNECT, isCustom, options };
 }
 
+export function showNotification(message) {
+  return { type: SHOW_NOTIFICATION, notification: { type: 'ERROR', message } };
+}
+
+export function clearNotification() {
+  return { type: CLEAR_NOTIFICATION };
+}

@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 import { parse } from 'jsan';
 import UploadIcon from 'react-icons/lib/md/file-upload';
 import Button from '../Button';
-import { importState } from '../../actions';
+import { importState, showNotification } from '../../actions';
 
 class ImportButton extends Component {
   static propTypes = {
-    importState: PropTypes.func.isRequired
+    importState: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired
   };
 
   constructor() {
@@ -39,10 +40,7 @@ class ImportButton extends Component {
         parse(state); // Check if it is in JSON format
         this.props.importState(state);
       } catch (error) {
-        // FIXME: add error notification
-        /* eslint-disable no-alert */
-        alert('Invalid file');
-        /* eslint-enable */
+        this.props.showNotification('Invalid file');
       }
     };
     reader.readAsText(file);
@@ -64,7 +62,8 @@ class ImportButton extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    importState: bindActionCreators(importState, dispatch)
+    importState: bindActionCreators(importState, dispatch),
+    showNotification: bindActionCreators(showNotification, dispatch)
   };
 }
 
