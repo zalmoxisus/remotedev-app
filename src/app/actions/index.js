@@ -1,6 +1,6 @@
 import {
   LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR,
-  TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER,
+  TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER, GET_REPORT_REQUEST,
   SHOW_NOTIFICATION, CLEAR_NOTIFICATION
 } from '../constants/actionTypes';
 import { RECONNECT } from '../constants/socketActionTypes';
@@ -48,4 +48,8 @@ export function showNotification(message) {
 
 export function clearNotification() {
   return { type: CLEAR_NOTIFICATION };
+}
+
+export function getReport(report) {
+  return { type: GET_REPORT_REQUEST, report };
 }

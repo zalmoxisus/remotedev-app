@@ -10,3 +10,8 @@ export const TOGGLE_SLIDER = 'devTools/TOGGLE_SLIDER';
 export const TOGGLE_DISPATCHER = 'devTools/TOGGLE_DISPATCHER';
 export const SHOW_NOTIFICATION = 'devTools/SHOW_NOTIFICATION';
 export const CLEAR_NOTIFICATION = 'devTools/CLEAR_NOTIFICATION';
+
+export const UPDATE_REPORTS = 'reports/UPDATE';
+export const GET_REPORT_REQUEST = 'reports/GET_REPORT_REQUEST';
+export const GET_REPORT_ERROR = 'reports/GET_REPORT_ERROR';
+export const GET_REPORT_SUCCESS = 'reports/GET_REPORT_SUCCESS';

@@ -8,7 +8,7 @@ import { CONNECT_REQUEST } from './constants/socketActionTypes';
 import createElement from './utils/createElement';
 import Layout from './containers/Layout';
 import App from './containers/App';
-import LogsTable from './components/logs/Table';
+import LogsTable from './components/reports/Table';
 
 export default class Root extends Component {
   componentWillMount() {
