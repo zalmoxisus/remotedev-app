@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { sideMonitors } from '../containers/DevTools';
+import { monitors } from '../containers/getMonitor';
 import { selectMonitor } from '../actions';
 import styles from '../styles';
 
@@ -12,6 +12,10 @@ class MonitorSelector extends Component {
     selected: PropTypes.string,
     selectMonitor: PropTypes.func.isRequired
   };
+
+  items = monitors.map((item, i) =>
+    <MenuItem key={i} value={item.key} primaryText={item.title} />
+  );
 
   shouldComponentUpdate(nextProps) {
     return nextProps.selected !== this.props.selected;
@@ -26,9 +30,7 @@ class MonitorSelector extends Component {
         onChange={this.props.selectMonitor}
         value={this.props.selected || 'InspectorMonitor'}
       >
-        {sideMonitors.map((item, i) =>
-          <MenuItem key={i} value={item.key} primaryText={item.title} />
-        )}
+        {this.items}
       </SelectField>
     );
   }
