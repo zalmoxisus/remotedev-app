@@ -160,13 +160,17 @@ function login() {
 }
 
 function getReport(report) {
+  if (report.payload) {
+    store.dispatch(importState(report.payload));
+    return;
+  }
   socket.emit('getReport', report.id, (error, data) => {
     if (error) {
       store.dispatch({ type: GET_REPORT_ERROR, error });
       return;
     }
     store.dispatch({ type: GET_REPORT_SUCCESS, data });
-    importState(data.payload);
+    store.dispatch(importState(data.payload));
   });
 }
 

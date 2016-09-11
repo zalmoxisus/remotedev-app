@@ -1,11 +1,18 @@
-import { UPDATE_REPORTS } from '../constants/actionTypes';
+import { UPDATE_REPORTS, GET_REPORT_SUCCESS } from '../constants/actionTypes';
 
 const initialState = {
   data: []
 };
 
 export default function reports(state = initialState, action) {
-  if (action.type !== UPDATE_REPORTS) return state;
+  if (action.type === GET_REPORT_SUCCESS) {
+    const id = action.data.id;
+    return {
+      ...state,
+      data: state.data.map(d => (d.id === id ? action.data : d))
+    };
+  } else if (action.type !== UPDATE_REPORTS) return state;
+
   const request = action.request;
   const data = request.data;
   switch (request.type) {
