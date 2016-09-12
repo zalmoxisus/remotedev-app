@@ -22,7 +22,6 @@ export default class Layout extends Component {
           tabItemContainerStyle={styles.tabs}
         >
           <Tab label="Monitoring" style={styles.tab} value="/"/>
-          <Tab label="Logs" style={styles.tab} value="/logs"/>
           <Tab label="Reports" style={styles.tab} value="/reports"/>
         </Tabs>
         {cloneElement(children, rest)}

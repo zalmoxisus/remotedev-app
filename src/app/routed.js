@@ -1,12 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import enhance from './hoc';
+import { Router, Route, IndexRoute, hashHistory, createMemoryHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from './store/configureStore';
 import { getMonitorSettings, getSocketSettings } from './utils/localStorage';
 import { CONNECT_REQUEST } from './constants/socketActionTypes';
+import createElement from './utils/createElement';
+import Layout from './containers/Layout';
 import App from './containers/App';
+import LogsTable from './components/reports/Table';
 
-class Root extends Component {
+export default class Root extends Component {
   componentWillMount() {
     this.store = configureStore({
       monitor: getMonitorSettings() || this.props.monitorOptions
@@ -15,12 +19,20 @@ class Root extends Component {
       type: CONNECT_REQUEST,
       options: getSocketSettings() || this.props.socketOptions
     });
+
+    const history = this.props.hash ? hashHistory : createMemoryHistory(location);
+    this.history = syncHistoryWithStore(history, this.store);
   }
 
   render() {
     return (
       <Provider store={this.store}>
-        <App {...this.props} />
+        <Router history={this.history} createElement={createElement(this.props)}>
+          <Route path="/" component={Layout}>
+            <IndexRoute component={App} />
+            <Route path="reports" component={LogsTable} />
+          </Route>
+        </Router>
       </Provider>
     );
   }
@@ -38,5 +50,3 @@ Root.propTypes = {
     selected: PropTypes.string
   })
 };
-
-export default enhance(Root);
