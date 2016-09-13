@@ -5,7 +5,12 @@ export function getFromStorage(key) {
   return localStorage.getItem(key);
 }
 
-export function saveToStorage(key, value) {
+export function saveToStorage(key, value, remove) {
+  if (remove) {
+    localStorage.removeItem(key);
+    return null;
+  }
+
   let sValue = value;
   if (typeof value === 'object' && !localStorage.isChromeStorage) {
     sValue = JSON.stringify(value);
@@ -41,8 +46,8 @@ export function getSocketSettings() {
 export function getMonitorSettings() {
   if (localStorage.isChromeStorage) return undefined;
   return {
-    selected: localStorage.getItem('select-monitor') || 'inspectorMonitor',
-    sliderIsOpen: localStorage.getItem('slider-open') === 'true',
-    dispatcherIsOpen: localStorage.getItem('dispatcher-open') === 'true'
+    selected: localStorage.getItem('monitor') || 'InspectorMonitor',
+    sliderIsOpen: localStorage.getItem('slider') === 'true',
+    dispatcherIsOpen: localStorage.getItem('dispatcher') === 'true'
   };
 }

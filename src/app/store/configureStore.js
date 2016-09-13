@@ -5,13 +5,13 @@ import rootReducer from '../reducers';
 
 export default function configureStore(preloadedState) {
   let enhancer;
-  const middlewares = applyMiddleware(api, persist);
+  const middlewares = applyMiddleware(api, persist());
   if (process.env.NODE_ENV === 'production') {
     enhancer = middlewares;
   } else {
     enhancer = compose(
       middlewares,
-      window.devToolsExtension && window.devToolsExtension()
+      window.devToolsExtension ? window.devToolsExtension() : noop => noop
     );
   }
   const store = createStore(rootReducer, preloadedState, enhancer);

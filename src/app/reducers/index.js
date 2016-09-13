@@ -15,5 +15,4 @@ const rootReducer = combineReducers({
   notification
 });
 
-
 export default rootReducer;
