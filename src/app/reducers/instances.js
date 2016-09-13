@@ -124,7 +124,7 @@ export default function instances(state = initialState, action) {
   switch (action.type) {
     case UPDATE_STATE:
       const { request } = action;
-      const connectionId = request.id;
+      const connectionId = action.id || request.id;
       const current = request.instanceId || connectionId;
       let connections = state.connections;
       let options = state.options;
