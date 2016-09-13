@@ -107,15 +107,16 @@ function removeState(state, connectionId) {
 }
 
 function init({ type, action, name, id }, current) {
-  let isRedux = type === 'STATE';
+  let lib;
   let actionCreators;
   let creators = action;
   if (typeof creators === 'string') creators = JSON.parse(creators);
   if (Array.isArray(creators)) actionCreators = creators;
+  if (type === 'STATE') lib = 'redux';
   return {
     name: name || current,
     connectionId: id,
-    isRedux,
+    lib,
     actionCreators
   };
 }

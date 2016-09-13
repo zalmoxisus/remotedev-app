@@ -33,7 +33,7 @@ class App extends Component {
       !this.props.options ? null :
         <TestGenerator
           name={this.props.options.name}
-          isRedux={this.props.options.isRedux}
+          isRedux={this.props.options.type === 'redux'}
           testTemplates={this.props.testTemplates}
           selectedTemplate={this.props.selectedTemplate}
           useCodemirror={this.props.useCodemirror}

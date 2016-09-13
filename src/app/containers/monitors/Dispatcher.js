@@ -123,7 +123,9 @@ class Dispatcher extends Component {
   }
 
   resetCustomAction() {
-    this.refs.action.innerHTML = this.props.options.isRedux ? '{<br/>type: \'\'<br/>}' : 'this.';
+    this.refs.action.innerHTML = (
+      this.props.options.lib === 'redux' ? '{<br/>type: \'\'<br/>}' : 'this.'
+    );
   }
 
   getTheme() {
