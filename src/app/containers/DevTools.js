@@ -1,27 +1,27 @@
 import React, { Component, PropTypes, createElement } from 'react';
 import getMonitor from './getMonitor';
 
-export default class extends Component {
-  static propTypes = {
-    liftedState: PropTypes.object,
-    dispatch: PropTypes.func.isRequired,
-    monitor: PropTypes.string
-  };
-
+export default class DevTools extends Component {
   constructor(props) {
     super(props);
     this.monitorElement = getMonitor(props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.monitor !== this.props.monitor) {
+    if (
+      nextProps.monitor !== this.props.monitor ||
+      nextProps.testComponent !== this.props.testComponent
+    ) {
       this.monitorElement = getMonitor(nextProps);
     }
   }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.monitor !== this.props.monitor ||
-      nextProps.liftedState !== this.props.liftedState;
+    return (
+      nextProps.monitor !== this.props.monitor ||
+      nextProps.liftedState !== this.props.liftedState ||
+      nextProps.testComponent !== this.props.testComponent
+    );
   }
 
   render() {
@@ -31,3 +31,13 @@ export default class extends Component {
     return <Monitor dispatch={dispatch} {...liftedState} {...monitorProps} />;
   }
 }
+
+DevTools.propTypes = {
+  liftedState: PropTypes.object,
+  dispatch: PropTypes.func.isRequired,
+  monitor: PropTypes.string,
+  testComponent: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.func
+  ])
+};

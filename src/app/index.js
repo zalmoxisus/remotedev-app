@@ -2,14 +2,20 @@ import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import enhance from './hoc';
 import configureStore from './store/configureStore';
-import { getMonitorSettings, getSocketSettings } from './utils/localStorage';
+import {
+  getMonitorSettings, getSocketSettings, getTestTemplates, getTemplatesSelected
+} from './utils/localStorage';
 import { CONNECT_REQUEST } from './constants/socketActionTypes';
 import App from './containers/App';
 
 class Root extends Component {
   componentWillMount() {
     this.store = configureStore({
-      monitor: getMonitorSettings() || this.props.monitorOptions
+      monitor: getMonitorSettings() || this.props.monitorOptions,
+      test: {
+        selected: getTemplatesSelected(),
+        templates: getTestTemplates() || this.props.testTemplates
+      }
     });
     this.store.dispatch({
       type: CONNECT_REQUEST,
@@ -36,7 +42,8 @@ Root.propTypes = {
   }),
   monitorOptions: PropTypes.shape({
     selected: PropTypes.string
-  })
+  }),
+  testTemplates: PropTypes.array
 };
 
 export default enhance(Root);

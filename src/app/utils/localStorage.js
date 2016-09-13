@@ -51,3 +51,12 @@ export function getMonitorSettings() {
     dispatcherIsOpen: localStorage.getItem('dispatcher') === 'true'
   };
 }
+
+export function getTestTemplates() {
+  const templates = getFromStorage('test-templates');
+  return templates && JSON.parse(templates);
+}
+
+export function getTemplatesSelected() {
+  return Number(getFromStorage('test-templates-sel')) || 0;
+}

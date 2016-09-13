@@ -1,5 +1,6 @@
 import 'codemirror/mode/javascript/javascript';
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Button from './Button';
@@ -12,51 +13,24 @@ import avaTemplate from 'redux-devtools-test-generator/lib/redux/ava/template';
 import mochaVTemplate from 'redux-devtools-test-generator/lib/vanilla/mocha/template';
 import tapeVTemplate from 'redux-devtools-test-generator/lib/vanilla/tape/template';
 import avaVTemplate from 'redux-devtools-test-generator/lib/vanilla/ava/template';
+import { TEST_ADD, TEST_EDIT, TEST_REMOVE, TEST_SELECT } from '../constants/actionTypes';
 import TestForm from './TestForm';
-import { getFromStorage, saveToStorage } from '../utils/localStorage';
 import styles from '../styles';
 
-let testTemplates;
-let selected;
-let isDefaultTemplate;
-
-export default class TestGen extends Component {
+class TestGen extends Component {
   constructor(props) {
     super(props);
-    if (!testTemplates) {
-      testTemplates = props.testTemplates || getFromStorage('test-templates');
-      selected = props.selectedTemplate || getFromStorage('test-templates-sel') || 0;
-      if (typeof testTemplates === 'string') {
-        testTemplates = JSON.parse(testTemplates);
-      }
-      if (!testTemplates || testTemplates.length === 0 || !testTemplates[0].dispatcher) {
-        testTemplates = this.getDefaultTemplates();
-        isDefaultTemplate = true;
-      }
-      if (typeof selected === 'string') {
-        selected = Number(selected);
-      }
-    } else if (isDefaultTemplate) {
-      testTemplates = this.getDefaultTemplates();
-    }
-
-    this.state = { testTemplates, selected, dialogStatus: 0 };
-  }
-
-  componentWillUpdate(nextProps) {
-    if (isDefaultTemplate && this.props.isRedux !== nextProps.isRedux) {
-      testTemplates = this.getDefaultTemplates(nextProps.isRedux);
-      this.setState({ testTemplates });
-    }
+    this.state = { dialogStatus: 0 };
   }
 
   onSelect = (event, index, value) => {
-    selected = saveToStorage('test-templates-sel', value);
-    this.setState({ selected });
+    this.props.dispatch({ type: TEST_SELECT, selected: value });
   };
 
-  getDefaultTemplates(isRedux = this.props.isRedux) {
-    if (isRedux) return [mochaTemplate, tapeTemplate, avaTemplate];
+  getDefaultTemplates() {
+    if (this.props.options.lib === 'redux') {
+      return [mochaTemplate, tapeTemplate, avaTemplate];
+    }
     return [mochaVTemplate, tapeVTemplate, avaVTemplate];
   }
 
@@ -68,33 +42,25 @@ export default class TestGen extends Component {
     this.setState({ dialogStatus: 2 });
   };
 
+  dispatch = (action) => {
+    let templates;
+    if (!this.props.templates) templates = this.getDefaultTemplates();
+    this.props.dispatch({ ...action, templates });
+  };
+
   handleSave = (template) => {
-    testTemplates = [...this.state.testTemplates];
-    selected = this.state.selected;
-
     if (this.state.dialogStatus === 1) {
-      testTemplates[this.state.selected] = template;
+      this.dispatch({ type: TEST_EDIT, template });
     } else {
-      testTemplates.push(template);
-      selected = testTemplates.length - 1;
-      saveToStorage('test-templates-sel', selected);
+      this.dispatch({ type: TEST_ADD, template });
     }
-
-    saveToStorage('test-templates', testTemplates);
-    this.setState({ testTemplates, selected, dialogStatus: 0 });
-    isDefaultTemplate = false;
+    this.handleCloseDialog();
   };
 
   handleRemove = () => {
     // Todo: add snackbar with undo
-    selected = 0;
-    testTemplates = [...this.state.testTemplates];
-    testTemplates.splice(this.state.selected, 1);
-    if (testTemplates.length === 0) testTemplates = this.getDefaultTemplates();
-    saveToStorage('test-templates-sel', selected);
-    saveToStorage('test-templates', testTemplates);
-    this.setState({ testTemplates, selected, dialogStatus: 0 });
-    isDefaultTemplate = false;
+    this.dispatch({ type: TEST_REMOVE });
+    this.handleCloseDialog();
   };
 
   handleCloseDialog = () => {
@@ -102,15 +68,18 @@ export default class TestGen extends Component {
   };
 
   render() {
-    const { dialogStatus, selected, testTemplates } = this.state; // eslint-disable-line
-    const template = testTemplates[selected];
+    const { dialogStatus } = this.state;
+    const { selected } = this.props;
+    const templates = this.props.templates || this.getDefaultTemplates();
+    const template = templates[selected];
     const { assertion, dispatcher, wrap } = template;
 
     return (
       <TestGenerator
-        isVanilla={!this.props.isRedux}
+        isVanilla={this.props.options.lib !== 'redux'}
+        name={this.props.options.name}
         assertion={assertion} dispatcher={dispatcher} wrap={wrap}
-        theme="night" useCodemirror={this.props.useCodemirror}
+        theme="night" useCodemirror
         header={
           <div style={{ height: '2.5em', minHeight: '2.5em', display: 'flex' }}>
             <SelectField
@@ -120,7 +89,7 @@ export default class TestGen extends Component {
               onChange={this.onSelect}
               value={selected}
             >
-              {testTemplates.map((item, i) =>
+              {templates.map((item, i) =>
                 <MenuItem key={i} value={i} primaryText={item.name} />
               )}
             </SelectField>
@@ -142,14 +111,19 @@ export default class TestGen extends Component {
 }
 
 TestGen.propTypes = {
-  isRedux: PropTypes.bool,
-  testTemplates: PropTypes.oneOfType([
-    PropTypes.array,
-    PropTypes.string
-  ]),
-  selectedTemplate: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]),
-  useCodemirror: PropTypes.bool
+  templates: PropTypes.array,
+  selected: PropTypes.number,
+  options: PropTypes.object.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
+
+function mapStateToProps(state) {
+  const instances = state.instances;
+  return {
+    templates: state.test.templates,
+    selected: state.test.selected,
+    options: instances.options[instances.selected || instances.current]
+  };
+}
+
+export default connect(mapStateToProps)(TestGen);

@@ -11,7 +11,7 @@ const initialState = {
   current: 'default',
   sync: false,
   connections: {},
-  options: {},
+  options: { default: {} },
   states: {
     default: {
       actionsById: {},

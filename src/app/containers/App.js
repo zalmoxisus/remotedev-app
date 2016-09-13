@@ -17,30 +17,13 @@ class App extends Component {
     liftedDispatch: PropTypes.func.isRequired,
     selected: PropTypes.string,
     liftedState: PropTypes.object.isRequired,
-    options: PropTypes.object,
+    options: PropTypes.object.isRequired,
     monitor: PropTypes.string,
     dispatcherIsOpen: PropTypes.bool,
     sliderIsOpen: PropTypes.bool,
     shouldSync: PropTypes.bool,
-    testTemplates: PropTypes.array,
-    useCodemirror: PropTypes.bool,
-    selectedTemplate: PropTypes.number,
     noSettings: PropTypes.bool
   };
-
-  componentWillMount() {
-    this.testComponent = (props) => (
-      !this.props.options ? null :
-        <TestGenerator
-          name={this.props.options.name}
-          isRedux={this.props.options.type === 'redux'}
-          testTemplates={this.props.testTemplates}
-          selectedTemplate={this.props.selectedTemplate}
-          useCodemirror={this.props.useCodemirror}
-          {...props}
-        />
-    );
-  }
 
   render() {
     const { monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState } = this.props;
@@ -58,7 +41,7 @@ class App extends Component {
           monitor={monitor}
           liftedState={liftedState}
           dispatch={this.props.liftedDispatch}
-          testComponent={this.testComponent}
+          testComponent={options.lib === 'redux' && TestGenerator}
         />
         <Notification />
         {sliderIsOpen && <div style={styles.sliderMonitor}>

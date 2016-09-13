@@ -15,3 +15,8 @@ export const UPDATE_REPORTS = 'reports/UPDATE';
 export const GET_REPORT_REQUEST = 'reports/GET_REPORT_REQUEST';
 export const GET_REPORT_ERROR = 'reports/GET_REPORT_ERROR';
 export const GET_REPORT_SUCCESS = 'reports/GET_REPORT_SUCCESS';
+
+export const TEST_ADD = 'test/ADD';
+export const TEST_EDIT = 'test/EDIT';
+export const TEST_REMOVE = 'test/REMOVE';
+export const TEST_SELECT = 'test/SELECT';

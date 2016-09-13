@@ -1,4 +1,7 @@
-import { SELECT_MONITOR, TOGGLE_SLIDER, TOGGLE_DISPATCHER } from '../constants/actionTypes';
+import {
+  SELECT_MONITOR, TOGGLE_SLIDER, TOGGLE_DISPATCHER,
+  TEST_ADD, TEST_EDIT, TEST_REMOVE, TEST_SELECT
+} from '../constants/actionTypes';
 import { RECONNECT } from '../constants/socketActionTypes';
 import { saveToStorage, saveObjToStorage } from '../utils/localStorage';
 
@@ -16,6 +19,16 @@ const persist = (suffix = '') => store => next => action => {
       break;
     case TOGGLE_DISPATCHER:
       saveToStorage('dispatcher' + suffix, true, !store.getState().monitor.dispatcherIsOpen);
+      break;
+    case TEST_SELECT:
+      saveToStorage('test-templates-sel', action.selected);
+      break;
+    case TEST_ADD:
+    case TEST_EDIT:
+    case TEST_REMOVE:
+      const testsTemplates = store.getState().test.templates;
+      saveToStorage('test-templates', testsTemplates, !testsTemplates);
+      saveToStorage('test-templates-sel', action.selected);
       break;
   }
   return result;
