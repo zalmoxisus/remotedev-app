@@ -6,7 +6,7 @@ import { DISCONNECTED } from '../constants/socketActionTypes';
 import parseJSON from '../utils/parseJSON';
 import { recompute } from '../store/updateState';
 
-const initialState = {
+export const initialState = {
   selected: null,
   current: 'default',
   sync: false,
@@ -60,7 +60,7 @@ function updateState(state, request, id) {
   return { ...state, [id]: newState };
 }
 
-function dispatchAction(state, { action }) {
+export function dispatchAction(state, { action }) {
   if (action.type === 'JUMP_TO_STATE') {
     const id = state.selected || state.current;
     const liftedState = state.states[id];
@@ -106,7 +106,7 @@ function removeState(state, connectionId) {
   };
 }
 
-function init({ type, action, name, id }, current) {
+function init({ type, action, name }, connectionId, current) {
   let lib;
   let actionCreators;
   let creators = action;
@@ -115,7 +115,7 @@ function init({ type, action, name, id }, current) {
   if (type === 'STATE') lib = 'redux';
   return {
     name: name || current,
-    connectionId: id,
+    connectionId,
     lib,
     actionCreators
   };
@@ -135,7 +135,7 @@ export default function instances(state = initialState, action) {
           ...state.connections,
           [connectionId]: [...(connections[connectionId] || []), current]
         };
-        options = { ...options, [current]: init(request, current) };
+        options = { ...options, [current]: init(request, connectionId, current) };
       }
 
       return {
@@ -156,6 +156,7 @@ export default function instances(state = initialState, action) {
     case TOGGLE_SYNC:
       return { ...state, sync: !state.sync };
     case SELECT_INSTANCE:
+      if (!state.options[action.selected]) return state;
       return { ...state, selected: action.selected, sync: false };
     case REMOVE_INSTANCE:
       return removeState(state, action.id);
@@ -168,3 +169,7 @@ export default function instances(state = initialState, action) {
       return state;
   }
 }
+
+/* eslint-disable no-shadow */
+export const getActiveInstance = instances => instances.selected || instances.current;
+/* eslint-enable */

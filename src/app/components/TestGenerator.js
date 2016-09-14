@@ -14,6 +14,7 @@ import mochaVTemplate from 'redux-devtools-test-generator/lib/vanilla/mocha/temp
 import tapeVTemplate from 'redux-devtools-test-generator/lib/vanilla/tape/template';
 import avaVTemplate from 'redux-devtools-test-generator/lib/vanilla/ava/template';
 import { TEST_ADD, TEST_EDIT, TEST_REMOVE, TEST_SELECT } from '../constants/actionTypes';
+import { getActiveInstance } from '../reducers/instances';
 import TestForm from './TestForm';
 import styles from '../styles';
 
@@ -122,7 +123,7 @@ function mapStateToProps(state) {
   return {
     templates: state.test.templates,
     selected: state.test.selected,
-    options: instances.options[instances.selected || instances.current]
+    options: instances.options[getActiveInstance(instances)]
   };
 }
 

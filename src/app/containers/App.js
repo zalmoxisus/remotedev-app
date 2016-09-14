@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { liftedDispatch } from '../actions';
+import { getActiveInstance } from '../reducers/instances';
 import styles from '../styles';
 import DevTools from '../containers/DevTools';
 import Dispatcher from './monitors/Dispatcher';
@@ -51,7 +52,7 @@ class App extends Component {
             dispatch={this.props.liftedDispatch}
           />
         </div>}
-        {dispatcherIsOpen && options &&
+        {dispatcherIsOpen && options.connectionId &&
           <Dispatcher options={options} />
         }
         <ButtonBar
@@ -67,10 +68,9 @@ class App extends Component {
 
 function mapStateToProps(state) {
   const instances = state.instances;
-  const selected = instances.selected;
-  const id = selected || instances.current;
+  const id = getActiveInstance(instances);
   return {
-    selected,
+    selected: instances.selected,
     liftedState: instances.states[id],
     options: instances.options[id],
     monitor: state.monitor.selected,

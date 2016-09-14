@@ -1,6 +1,7 @@
 import socketCluster from 'socketcluster-client';
 import { stringify } from 'jsan';
 import * as actions from '../constants/socketActionTypes';
+import { getActiveInstance } from '../reducers/instances';
 import {
   UPDATE_STATE, REMOVE_INSTANCE, LIFTED_ACTION,
   UPDATE_REPORTS, GET_REPORT_REQUEST, GET_REPORT_ERROR, GET_REPORT_SUCCESS
@@ -25,7 +26,7 @@ function startMonitoring(channel) {
 
 function dispatchRemoteAction({ message, action, state }) {
   const instances = store.getState().instances;
-  const instanceId = instances.selected || instances.current;
+  const instanceId = getActiveInstance(instances);
   const id = instances.options[instanceId].connectionId;
   let newState = state;
   if (message === 'DISPATCH' && instances.options[instanceId].lib !== 'redux') {
