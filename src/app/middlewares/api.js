@@ -7,7 +7,7 @@ import {
   UPDATE_REPORTS, GET_REPORT_REQUEST, GET_REPORT_ERROR, GET_REPORT_SUCCESS
 } from '../constants/actionTypes';
 import { showNotification, importState } from '../actions';
-import { nonReduxDispatch } from '../store/monitorActions';
+import { nonReduxDispatch } from '../utils/monitorActions';
 
 let socket;
 let store;

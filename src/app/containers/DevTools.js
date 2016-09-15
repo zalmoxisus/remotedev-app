@@ -1,5 +1,5 @@
 import React, { Component, PropTypes, createElement } from 'react';
-import getMonitor from './getMonitor';
+import getMonitor from '../utils/getMonitor';
 
 export default class DevTools extends Component {
   constructor(props) {

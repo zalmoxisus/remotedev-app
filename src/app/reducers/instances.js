@@ -4,7 +4,7 @@ import {
 } from '../constants/actionTypes';
 import { DISCONNECTED } from '../constants/socketActionTypes';
 import parseJSON from '../utils/parseJSON';
-import { recompute } from '../store/updateState';
+import { recompute } from '../utils/updateState';
 
 export const initialState = {
   selected: null,

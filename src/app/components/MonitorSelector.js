@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { monitors } from '../containers/getMonitor';
+import { monitors } from '../utils/getMonitor';
 import { selectMonitor } from '../actions';
 import styles from '../styles';
 
