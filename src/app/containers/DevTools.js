@@ -1,57 +1,43 @@
 import React, { Component, PropTypes, createElement } from 'react';
-import { createDevTools } from 'redux-devtools';
-import LogMonitor from 'redux-devtools-log-monitor';
-import SliderMonitor from 'redux-slider-monitor';
-import InspectorMonitor from 'redux-devtools-inspector';
-import ChartMonitor from 'redux-devtools-chart-monitor';
+import getMonitor from './getMonitor';
 
-export const sideMonitors = [
-  { key: 'LogMonitor', title: 'Log monitor' },
-  { key: 'InspectorMonitor', title: 'Inspector' },
-  { key: 'ChartMonitor', title: 'Chart' }
-];
-
-function getMonitor(type, props) {
-  switch (type) {
-    case 'LogMonitor':
-      return createElement(LogMonitor, { preserveScrollTop: false });
-    case 'SliderMonitor':
-      return createElement(SliderMonitor);
-    case 'DispatchMonitor':
-      return createElement('div'); // deprecated
-    case 'ChartMonitor':
-      return createElement(ChartMonitor, {
-        defaultIsVisible: true, invertTheme: true,
-        tooltipOptions: {
-          style: {
-            'background-color': '#ffffff',
-            'color': '#000000',
-            'opacity': '0.9',
-            'border-radius': '5px',
-            'padding': '5px'
-          }
-        }
-      });
-    default:
-      return createElement(InspectorMonitor, {
-        shouldPersistState: false, isLightTheme: false, theme: 'nicinabox',
-        tabs: defaultTabs => [...defaultTabs, { name: 'Test', component: props.testComponent }]
-      });
+export default class DevTools extends Component {
+  constructor(props) {
+    super(props);
+    this.monitorElement = getMonitor(props);
   }
-}
 
-export default class extends Component {
-  static propTypes = {
-    monitor: PropTypes.string
-  };
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.monitor !== this.props.monitor ||
+      nextProps.testComponent !== this.props.testComponent
+    ) {
+      this.monitorElement = getMonitor(nextProps);
+    }
+  }
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.monitor !== this.props.monitor;
+    return (
+      nextProps.monitor !== this.props.monitor ||
+      nextProps.liftedState !== this.props.liftedState ||
+      nextProps.testComponent !== this.props.testComponent
+    );
   }
 
   render() {
-    const { monitor, ...rest } = this.props;
-    const DevTools = createDevTools(getMonitor(monitor, rest));
-    return <DevTools {...rest} />;
+    const { liftedState, dispatch } = this.props;
+    const monitorProps = this.monitorElement.props;
+    const Monitor = this.monitorElement.type;
+    return <Monitor dispatch={dispatch} {...liftedState} {...monitorProps} />;
   }
 }
+
+DevTools.propTypes = {
+  liftedState: PropTypes.object,
+  dispatch: PropTypes.func.isRequired,
+  monitor: PropTypes.string,
+  testComponent: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.func
+  ])
+};

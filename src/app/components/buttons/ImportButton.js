@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { parse } from 'jsan';
 import UploadIcon from 'react-icons/lib/md/file-upload';
 import Button from '../Button';
+import { importState, showNotification } from '../../actions';
 
-export default class ImportButton extends Component {
+class ImportButton extends Component {
   static propTypes = {
-    importState: PropTypes.func.isRequired
+    importState: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired
   };
 
   constructor() {
@@ -36,10 +40,7 @@ export default class ImportButton extends Component {
         parse(state); // Check if it is in JSON format
         this.props.importState(state);
       } catch (error) {
-        // FIXME: add error notification
-        /* eslint-disable no-alert */
-        alert('Invalid file');
-        /* eslint-enable */
+        this.props.showNotification('Invalid file');
       }
     };
     reader.readAsText(file);
@@ -58,3 +59,12 @@ export default class ImportButton extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    importState: bindActionCreators(importState, dispatch),
+    showNotification: bindActionCreators(showNotification, dispatch)
+  };
+}
+
+export default connect(null, mapDispatchToProps)(ImportButton);

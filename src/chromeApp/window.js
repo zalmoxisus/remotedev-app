@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import App from '../app';
 
 chrome.storage.local.get({
-  'select-monitor': 'InspectorMonitor',
+  'monitor': 'InspectorMonitor',
   'test-templates': null,
   'test-templates-sel': null,
   's:hostname': null,
@@ -12,10 +12,9 @@ chrome.storage.local.get({
 }, options => {
   render(
     <App
-      selectMonitor={options['select-monitor']}
+      selectMonitor={options.monitor}
       testTemplates={options['test-templates']}
       selectedTemplate={options['test-templates-sel']}
-      testTemplates={options['test-templates']}
       useCodemirror
       socketOptions={
         options['s:hostname'] && options['s:port'] ?

@@ -2,6 +2,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import * as themes from 'redux-devtools-themes';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { dispatchRemotely } from '../../actions';
 
 const styles = {
   button: {
@@ -33,15 +36,14 @@ const styles = {
   }
 };
 
-export default class Dispatcher extends Component {
+class Dispatcher extends Component {
   static propTypes = {
-    store: PropTypes.object.isRequired,
+    options: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
     theme: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string,
-    ]),
-    error: PropTypes.string,
-    clearError: PropTypes.func.isRequired
+    ])
   };
 
   static defaultProps = {
@@ -62,7 +64,7 @@ export default class Dispatcher extends Component {
     if (selected !== 'default') {
       // Shrink the number args to the number of the new ones
       args = this.state.args.slice(
-        0, this.props.store.getActionCreators()[selected].args.length
+        0, this.props.options.actionCreators[selected].args.length
       );
     }
     this.setState({
@@ -87,16 +89,15 @@ export default class Dispatcher extends Component {
       let rest = this.refs.restArgs.textContent.trim();
       if (rest === '') rest = undefined;
       const { selected, args } = this.state;
-      this.props.store.dispatch({
-        name: this.props.store.getActionCreators()[selected].name,
+      this.props.dispatch({
+        name: this.props.options.actionCreators[selected].name,
         selected, args, rest
       });
     } else {
       if (this.refs.action.textContent !== '') {
-        this.props.store.dispatch(this.refs.action.textContent);
+        this.props.dispatch(this.refs.action.textContent);
       }
     }
-    this.props.clearError();
   }
 
   componentDidMount() {
@@ -113,7 +114,7 @@ export default class Dispatcher extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.state.selected !== 'default' && !nextProps.store.getActionCreators()) {
+    if (this.state.selected !== 'default' && !nextProps.options.actionCreators) {
       this.setState({
         selected: 'default',
         args: []
@@ -122,7 +123,9 @@ export default class Dispatcher extends Component {
   }
 
   resetCustomAction() {
-    this.refs.action.innerHTML = this.props.store.isRedux() ? '{<br/>type: \'\'<br/>}' : 'this.';
+    this.refs.action.innerHTML = (
+      this.props.options.lib === 'redux' ? '{<br/>type: \'\'<br/>}' : 'this.'
+    );
   }
 
   getTheme() {
@@ -147,7 +150,7 @@ export default class Dispatcher extends Component {
     const buttonStyle = {
       ...styles.button, color: theme.base06, backgroundColor: theme.base00
     };
-    const actionCreators = this.props.store.getActionCreators();
+    const actionCreators = this.props.options.actionCreators;
 
     let fields = <div contentEditable style={contentEditableStyle} ref="action"></div>;
     if (this.state.selected !== 'default' && actionCreators) {
@@ -165,23 +168,6 @@ export default class Dispatcher extends Component {
         <div key="action" style={{ display: 'flex' }}>
           <span style={fieldStyles}>args...</span>
           <div contentEditable style={contentEditableStyle} ref="restArgs" />
-        </div>
-      );
-    }
-
-    let error;
-    if (this.props.error) {
-      error = (
-        <div style={{ color: theme.base06, background: '#FC2424', padding: '5px', display: 'flex' }}>
-          <div style={{ flex: '1', alignItems: 'center' }}>
-            <p style={{ margin: '0px' }}>{this.props.error}</p>
-          </div>
-          <div style={{ alignItems: 'center' }}>
-            <button
-              onClick={this.props.clearError}
-              style={{ ...buttonStyle, margin: '0', background: '#DC2424' }}
-            >&times;</button>
-          </div>
         </div>
       );
     }
@@ -209,7 +195,6 @@ export default class Dispatcher extends Component {
           position: 'relative'
         }}
       >
-        {error}
         {fields}
         {actionCreators && actionCreators.length > 0 ? <div style={{ display: 'flex' }}>
           <select
@@ -230,3 +215,11 @@ export default class Dispatcher extends Component {
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch: bindActionCreators(dispatchRemotely, dispatch)
+  };
+}
+
+export default connect(null, mapDispatchToProps)(Dispatcher);

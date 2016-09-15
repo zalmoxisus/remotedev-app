@@ -11,23 +11,15 @@ import Settings from './Settings';
 
 export default class ButtonBar extends Component {
   static propTypes = {
-    openModal: PropTypes.func.isRequired,
-    toggleDispatcher: PropTypes.func.isRequired,
-    toggleSlider: PropTypes.func.isRequired,
+    liftedState: PropTypes.object.isRequired,
     dispatcherIsOpen: PropTypes.bool,
     sliderIsOpen: PropTypes.bool,
-    closeModal: PropTypes.func.isRequired,
-    saveSettings: PropTypes.func.isRequired,
-    importState: PropTypes.func.isRequired,
-    exportState: PropTypes.func.isRequired,
-    socketOptions: PropTypes.object,
     noSettings: PropTypes.bool
   };
 
   constructor() {
     super();
     this.state = { settingsOpened: false };
-
     this.openSettings = this.openSettings.bind(this);
     this.closeSettings = this.closeSettings.bind(this);
   }
@@ -53,23 +45,16 @@ export default class ButtonBar extends Component {
   render() {
     return (
       <div style={styles.buttonBar}>
-        <DispatcherButton
-          dispatcherIsOpen={this.props.dispatcherIsOpen} onClick={this.props.toggleDispatcher}
-        />
-        <SliderButton isOpen={this.props.sliderIsOpen} onClick={this.props.toggleSlider} />
-        <ImportButton importState={this.props.importState} />
-        <ExportButton exportState={this.props.exportState} />
+        <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
+        <SliderButton isOpen={this.props.sliderIsOpen}/>
+        <ImportButton />
+        <ExportButton liftedState={this.props.liftedState} />
         {!this.props.noSettings &&
           <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
         }
         <Button Icon={HelpIcon} onClick={this.openHelp}>How to use</Button>
         {!this.props.noSettings &&
-          <Settings
-            isOpen={this.state.settingsOpened}
-            close={this.closeSettings}
-            saveSettings={this.props.saveSettings}
-            socketOptions={this.props.socketOptions}
-          />
+          <Settings isOpen={this.state.settingsOpened} close={this.closeSettings} />
         }
       </div>
     );

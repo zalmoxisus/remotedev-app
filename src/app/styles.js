@@ -6,6 +6,12 @@ const styles = {
     display: 'flex',
     flexFlow: 'column nowrap'
   },
+  tabs: {
+    backgroundColor: 'rgb(79, 90, 101)'
+  },
+  tab: {
+    fontSize: '11px'
+  },
   sliderMonitor: {
     minWidth: '300px',
     zIndex: '0',
@@ -85,6 +91,8 @@ const styles = {
     width: '2em'
   },
   syncToggle: {
+    color: '#000',
+    fontSize: '15px',
     marginLeft: '6px'
   },
   dialogTitle: {
