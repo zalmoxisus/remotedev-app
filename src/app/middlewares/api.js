@@ -28,11 +28,14 @@ function dispatchRemoteAction({ message, action, state }) {
   const instances = store.getState().instances;
   const instanceId = getActiveInstance(instances);
   const id = instances.options[instanceId].connectionId;
-  let newState = state;
-  if (message === 'DISPATCH' && instances.options[instanceId].lib !== 'redux') {
-    newState = nonReduxDispatch(store, instances.states[instanceId], action);
-  }
-  store.dispatch({ type: actions.EMIT, message, action, state: newState, instanceId, id });
+  store.dispatch({
+    type: actions.EMIT,
+    message,
+    action,
+    state: nonReduxDispatch(store, message, instanceId, action, state, instances),
+    instanceId,
+    id
+  });
 }
 
 function monitoring(request) {

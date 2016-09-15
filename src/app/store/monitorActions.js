@@ -13,7 +13,12 @@ export function sweep(state) {
   };
 }
 
-export function nonReduxDispatch(store, state, action) {
+export function nonReduxDispatch(store, message, instanceId, action, initialState, preInstances) {
+  if (message !== 'DISPATCH') return initialState;
+  const instances = preInstances || store.getState().instances;
+  if (!instances.options[instanceId].lib === 'redux') return initialState;
+  const state = instances.states[instanceId];
+
   switch (action.type) {
     case 'TOGGLE_ACTION':
       return stringify(state);
