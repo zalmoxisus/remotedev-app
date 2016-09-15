@@ -92,7 +92,11 @@ function removeState(state, connectionId) {
       selected = null;
       sync = false;
     }
-    if (id === current) current = 'default';
+    if (id === current) {
+      const inst = Object.keys(connections)[0];
+      if (inst) current = connections[inst][0];
+      else current = 'default';
+    }
     delete options[id];
     delete states[id];
   });
