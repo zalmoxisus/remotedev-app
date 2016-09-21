@@ -1,7 +1,6 @@
 import expect from 'expect';
 import React from 'react';
 import { mount } from 'enzyme';
-import createDevStore from '../src/app/store/createDevStore';
 import App from '../src/app';
 
 const component = mount(<App />);
