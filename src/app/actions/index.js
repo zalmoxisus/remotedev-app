@@ -26,6 +26,10 @@ export function lockChanges(status) {
   return { type: LIFTED_ACTION, message: 'DISPATCH', action: { type: 'LOCK_CHANGES', status } };
 }
 
+export function pauseRecording(status) {
+  return { type: LIFTED_ACTION, message: 'DISPATCH', action: { type: 'PAUSE_RECORDING', status } };
+}
+
 export function dispatchRemotely(action) {
   return { type: LIFTED_ACTION, message: 'ACTION', action };
 }

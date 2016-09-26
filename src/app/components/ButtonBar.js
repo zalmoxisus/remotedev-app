@@ -7,6 +7,7 @@ import ImportButton from './buttons/ImportButton';
 import ExportButton from './buttons/ExportButton';
 import SliderButton from './buttons/SliderButton';
 import LockButton from './buttons/LockButton';
+import RecordButton from './buttons/RecordButton';
 import styles from '../styles';
 import Settings from './Settings';
 
@@ -29,7 +30,8 @@ export default class ButtonBar extends Component {
     return nextProps.dispatcherIsOpen !== this.props.dispatcherIsOpen
       || nextProps.sliderIsOpen !== this.props.sliderIsOpen
       || nextState.settingsOpened !== this.state.settingsOpened
-      || nextProps.liftedState.isLocked !== this.props.liftedState.isLocked;
+      || nextProps.liftedState.isLocked !== this.props.liftedState.isLocked
+      || nextProps.liftedState.isPaused !== this.props.liftedState.isPaused;
   }
 
   openHelp() {
@@ -47,6 +49,7 @@ export default class ButtonBar extends Component {
   render() {
     return (
       <div style={styles.buttonBar}>
+        <RecordButton paused={this.props.liftedState.isPaused} />
         <LockButton locked={this.props.liftedState.isLocked} />
         <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
         <SliderButton isOpen={this.props.sliderIsOpen}/>
