@@ -59,6 +59,7 @@ class App extends Component {
           liftedState={liftedState}
           dispatcherIsOpen={dispatcherIsOpen}
           sliderIsOpen={sliderIsOpen}
+          lib={options.lib}
           noSettings={this.props.noSettings}
         />
       </div>

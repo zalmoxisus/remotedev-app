@@ -16,7 +16,8 @@ export default class ButtonBar extends Component {
     liftedState: PropTypes.object.isRequired,
     dispatcherIsOpen: PropTypes.bool,
     sliderIsOpen: PropTypes.bool,
-    noSettings: PropTypes.bool
+    noSettings: PropTypes.bool,
+    lib: PropTypes.string
   };
 
   constructor() {
@@ -30,6 +31,7 @@ export default class ButtonBar extends Component {
     return nextProps.dispatcherIsOpen !== this.props.dispatcherIsOpen
       || nextProps.sliderIsOpen !== this.props.sliderIsOpen
       || nextState.settingsOpened !== this.state.settingsOpened
+      || nextProps.lib !== this.props.lib
       || nextProps.liftedState.isLocked !== this.props.liftedState.isLocked
       || nextProps.liftedState.isPaused !== this.props.liftedState.isPaused;
   }
@@ -47,10 +49,15 @@ export default class ButtonBar extends Component {
   }
 
   render() {
+    const isRedux = this.props.lib === 'redux';
     return (
       <div style={styles.buttonBar}>
-        <RecordButton paused={this.props.liftedState.isPaused} />
-        <LockButton locked={this.props.liftedState.isLocked} />
+        {isRedux &&
+          <RecordButton paused={this.props.liftedState.isPaused} />
+        }
+        {isRedux &&
+          <LockButton locked={this.props.liftedState.isLocked} />
+        }
         <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
         <SliderButton isOpen={this.props.sliderIsOpen}/>
         <ImportButton />
