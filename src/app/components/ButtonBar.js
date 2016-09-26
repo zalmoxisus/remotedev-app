@@ -6,6 +6,7 @@ import DispatcherButton from './buttons/DispatcherButton';
 import ImportButton from './buttons/ImportButton';
 import ExportButton from './buttons/ExportButton';
 import SliderButton from './buttons/SliderButton';
+import LockButton from './buttons/LockButton';
 import styles from '../styles';
 import Settings from './Settings';
 
@@ -27,7 +28,8 @@ export default class ButtonBar extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.dispatcherIsOpen !== this.props.dispatcherIsOpen
       || nextProps.sliderIsOpen !== this.props.sliderIsOpen
-      || nextState.settingsOpened !== this.state.settingsOpened;
+      || nextState.settingsOpened !== this.state.settingsOpened
+      || nextProps.liftedState.isLocked !== this.props.liftedState.isLocked;
   }
 
   openHelp() {
@@ -45,6 +47,7 @@ export default class ButtonBar extends Component {
   render() {
     return (
       <div style={styles.buttonBar}>
+        <LockButton locked={this.props.liftedState.isLocked} />
         <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
         <SliderButton isOpen={this.props.sliderIsOpen}/>
         <ImportButton />

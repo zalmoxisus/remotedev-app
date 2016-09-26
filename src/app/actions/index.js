@@ -22,6 +22,10 @@ export function importState(state) {
   return { type: LIFTED_ACTION, message: 'IMPORT', state };
 }
 
+export function lockChanges(status) {
+  return { type: LIFTED_ACTION, message: 'DISPATCH', action: { type: 'LOCK_CHANGES', status } };
+}
+
 export function dispatchRemotely(action) {
   return { type: LIFTED_ACTION, message: 'ACTION', action };
 }
