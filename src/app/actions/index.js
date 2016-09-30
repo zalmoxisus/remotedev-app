@@ -23,11 +23,21 @@ export function importState(state) {
 }
 
 export function lockChanges(status) {
-  return { type: LIFTED_ACTION, message: 'DISPATCH', action: { type: 'LOCK_CHANGES', status } };
+  return {
+    type: LIFTED_ACTION,
+    message: 'DISPATCH',
+    action: { type: 'LOCK_CHANGES', status },
+    toAll: true
+  };
 }
 
 export function pauseRecording(status) {
-  return { type: LIFTED_ACTION, message: 'DISPATCH', action: { type: 'PAUSE_RECORDING', status } };
+  return {
+    type: LIFTED_ACTION,
+    message: 'DISPATCH',
+    action: { type: 'PAUSE_RECORDING', status },
+    toAll: true
+  };
 }
 
 export function dispatchRemotely(action) {

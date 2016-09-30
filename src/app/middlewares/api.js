@@ -24,10 +24,10 @@ function startMonitoring(channel) {
   store.dispatch({ type: actions.EMIT, message: 'START' });
 }
 
-function dispatchRemoteAction({ message, action, state }) {
+function dispatchRemoteAction({ message, action, state, toAll }) {
   const instances = store.getState().instances;
   const instanceId = getActiveInstance(instances);
-  const id = instances.options[instanceId].connectionId;
+  const id = !toAll && instances.options[instanceId].connectionId;
   store.dispatch({
     type: actions.EMIT,
     message,
