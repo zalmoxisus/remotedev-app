@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import RecordIcon from 'react-icons/lib/md/fiber-manual-record';
-import StopIcon from 'react-icons/lib/md/stop';
+import PauseIcon from 'react-icons/lib/md/pause-circle-filled';
 import Button from '../Button';
 import { pauseRecording } from '../../actions';
 
@@ -18,9 +18,9 @@ class RecordButton extends Component {
   render() {
     return (
       <Button
-        Icon={this.props.paused ? RecordIcon : StopIcon}
+        Icon={this.props.paused ? RecordIcon : PauseIcon}
         onClick={this.props.pauseRecording}
-      >{this.props.paused ? 'Start recording' : 'Stop recording'}</Button>
+      >{this.props.paused ? 'Start recording' : 'Pause recording'}</Button>
     );
   }
 }
