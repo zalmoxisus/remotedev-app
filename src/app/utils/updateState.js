@@ -3,6 +3,10 @@ import commitExcessActions from './commitExcessActions';
 export function recompute(previousLiftedState, storeState, action, nextActionId = 1, isExcess) {
   const actionId = nextActionId - 1;
   const liftedState = { ...previousLiftedState };
+
+  if (liftedState.currentStateIndex === liftedState.stagedActionIds.length - 1) {
+    liftedState.currentStateIndex++;
+  }
   liftedState.stagedActionIds = [...liftedState.stagedActionIds, actionId];
   liftedState.actionsById = { ...liftedState.actionsById };
   if (action.type === 'PERFORM_ACTION') {
@@ -16,7 +20,6 @@ export function recompute(previousLiftedState, storeState, action, nextActionId 
   }
   liftedState.nextActionId = nextActionId;
   liftedState.computedStates = [...liftedState.computedStates, { state: storeState }];
-  liftedState.currentStateIndex++;
 
   if (isExcess) commitExcessActions(liftedState);
 
