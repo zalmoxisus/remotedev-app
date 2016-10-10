@@ -91,7 +91,7 @@ export default class TestForm extends Component {
           rows={2}
           rowsMax={2}
           floatingLabelText="Assertion template"
-          hintText="({ path, curState }) => (`<template>`)"
+          hintText="({ curState }) => (`<template>`)"
           hintStyle={styles.hint}
           inputStyle={styles.input}
           defaultValue={assertion}

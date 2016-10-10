@@ -7,12 +7,15 @@ import Button from './Button';
 import AddButton from 'react-icons/lib/md/add';
 import EditButton from 'react-icons/lib/md/edit';
 import TestGenerator from 'redux-devtools-test-generator';
+import jestTemplate from 'redux-devtools-test-generator/lib/redux/jest/template';
 import mochaTemplate from 'redux-devtools-test-generator/lib/redux/mocha/template';
 import tapeTemplate from 'redux-devtools-test-generator/lib/redux/tape/template';
 import avaTemplate from 'redux-devtools-test-generator/lib/redux/ava/template';
+/*
 import mochaVTemplate from 'redux-devtools-test-generator/lib/vanilla/mocha/template';
 import tapeVTemplate from 'redux-devtools-test-generator/lib/vanilla/tape/template';
 import avaVTemplate from 'redux-devtools-test-generator/lib/vanilla/ava/template';
+*/
 import { TEST_ADD, TEST_EDIT, TEST_REMOVE, TEST_SELECT } from '../constants/actionTypes';
 import { getActiveInstance } from '../reducers/instances';
 import TestForm from './TestForm';
@@ -29,10 +32,13 @@ class TestGen extends Component {
   };
 
   getDefaultTemplates() {
+    /*
     if (this.props.options.lib === 'redux') {
       return [mochaTemplate, tapeTemplate, avaTemplate];
     }
     return [mochaVTemplate, tapeVTemplate, avaVTemplate];
+    */
+    return [jestTemplate, mochaTemplate, tapeTemplate, avaTemplate];
   }
 
   editTemplate = () => {
