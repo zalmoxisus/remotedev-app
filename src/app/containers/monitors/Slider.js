@@ -1,4 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { Flex, Box } from 'reflexbox';
 import Select from 'rebass/dist/Select';
 import Slider from 'rebass/dist/Slider';
@@ -7,6 +9,7 @@ import PlayButton from 'react-icons/lib/md/play-arrow';
 import PauseButton from 'react-icons/lib/md/pause';
 import LeftButton from 'react-icons/lib/md/keyboard-arrow-left';
 import RightButton from 'react-icons/lib/md/keyboard-arrow-right';
+import { getReport } from '../../actions';
 
 const speedOptions = [
   { children: 'Live', value: 100 },
@@ -14,21 +17,11 @@ const speedOptions = [
   { children: '2x', value: 1200 }
 ];
 
-export default class SliderMonitor extends React.Component {
-  static propTypes = {
-    showActions: PropTypes.bool,
-    dispatch: PropTypes.func.isRequired,
-    liftedState: PropTypes.shape({
-      computedStates: PropTypes.array,
-      stagedActionIds: PropTypes.array,
-      actionsById: PropTypes.object,
-      currentStateIndex: PropTypes.number
-    }).isRequired
-  };
-
+class SliderMonitor extends React.Component {
   state = {
     isPlaying: false,
-    speed: 600
+    speed: 600,
+    reportId: ''
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -41,7 +34,8 @@ export default class SliderMonitor extends React.Component {
         nextProps.liftedState.currentStateIndex < 1
       ) ||
       nextProps.liftedState.currentStateIndex !== nextProps.liftedState.computedStates.length - 1 ||
-      this.props.liftedState.currentStateIndex !== this.props.liftedState.computedStates.length - 1;
+      this.props.liftedState.currentStateIndex !== this.props.liftedState.computedStates.length - 1 ||
+      nextProps.reports !== this.props.reports;
   }
 
   jumpToState(index, fromPlaying) {
@@ -98,6 +92,12 @@ export default class SliderMonitor extends React.Component {
     if (this.state.isPlaying) this.dismissPlay();
   };
 
+  handleReportChange = (e) => {
+    const reportId = e.target.value;
+    this.setState({ reportId });
+    if (reportId) this.props.getReport(reportId);
+  };
+
   render() {
     const { currentStateIndex, computedStates } = this.props.liftedState;
     const showActions = this.props.showActions && currentStateIndex !== -1;
@@ -110,6 +110,17 @@ export default class SliderMonitor extends React.Component {
     if (showActions) {
       const { actionsById, stagedActionIds } = this.props.liftedState;
       label = actionsById[stagedActionIds[currentStateIndex]].action.type;
+    }
+
+    const reports = this.props.reports;
+    let reportsOptions;
+    if (reports.length) {
+      reportsOptions = [
+        { children: 'Current history', value: '' },
+        ...reports.map(report => (
+          { children: report.title, value: report.id }
+        ))
+      ];
     }
 
     return (
@@ -160,7 +171,45 @@ export default class SliderMonitor extends React.Component {
             style={{ marginBottom: '0' }}
           />
         </Box>
+        {reportsOptions &&
+          <Box p={1}>
+            <Select
+              label="" name="select_report"
+              options={reportsOptions}
+              value={this.state.reportId}
+              onChange={this.handleReportChange}
+              style={{ marginBottom: '0' }}
+            />
+          </Box>
+        }
       </Flex>
     );
   }
 }
+
+SliderMonitor.propTypes = {
+  showActions: PropTypes.bool,
+  dispatch: PropTypes.func.isRequired,
+  liftedState: PropTypes.shape({
+    computedStates: PropTypes.array,
+    stagedActionIds: PropTypes.array,
+    actionsById: PropTypes.object,
+    currentStateIndex: PropTypes.number
+  }).isRequired,
+  reports: PropTypes.array.isRequired,
+  getReport: PropTypes.func.isRequired
+};
+
+function mapStateToProps(state) {
+  return {
+    reports: state.reports.data
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    getReport: bindActionCreators(getReport, dispatch)
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SliderMonitor);

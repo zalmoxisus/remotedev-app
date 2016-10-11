@@ -18,8 +18,8 @@ export function selectMonitor(event, index, value) {
   return { type: SELECT_MONITOR, monitor: value };
 }
 
-export function importState(state) {
-  return { type: LIFTED_ACTION, message: 'IMPORT', state };
+export function importState(state, preloadedState) {
+  return { type: LIFTED_ACTION, message: 'IMPORT', state, preloadedState };
 }
 
 export function lockChanges(status) {

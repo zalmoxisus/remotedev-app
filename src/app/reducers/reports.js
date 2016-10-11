@@ -5,13 +5,13 @@ const initialState = {
 };
 
 export default function reports(state = initialState, action) {
-  if (action.type === GET_REPORT_SUCCESS) {
+  /* if (action.type === GET_REPORT_SUCCESS) {
     const id = action.data.id;
     return {
       ...state,
       data: state.data.map(d => (d.id === id ? action.data : d))
     };
-  } else if (action.type !== UPDATE_REPORTS) return state;
+  } else */ if (action.type !== UPDATE_REPORTS) return state;
 
   const request = action.request;
   const data = request.data;
