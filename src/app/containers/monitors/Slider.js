@@ -35,7 +35,11 @@ export default class SliderMonitor extends React.Component {
     return nextState !== this.state ||
       nextProps.showActions !== this.props.showActions ||
       nextProps.liftedState.currentStateIndex !== this.props.liftedState.currentStateIndex &&
-      (nextProps.showActions || this.props.liftedState.currentStateIndex < 1) ||
+      (
+        nextProps.showActions ||
+        this.props.liftedState.currentStateIndex < 1 ||
+        nextProps.liftedState.currentStateIndex < 1
+      ) ||
       nextProps.liftedState.currentStateIndex !== nextProps.liftedState.computedStates.length - 1 ||
       this.props.liftedState.currentStateIndex !== this.props.liftedState.computedStates.length - 1;
   }
@@ -49,9 +53,13 @@ export default class SliderMonitor extends React.Component {
   }
 
   handleSlider = (e) => {
-    this.jumpToState(Math.round(
-      (e.target.value / 100) * (this.props.liftedState.computedStates.length - 1)
-    ));
+    const limit = this.props.liftedState.computedStates.length - 1;
+    if (limit < 1) return;
+    const prevValue = this.props.liftedState.currentStateIndex;
+    let value = (e.target.value / 100) * limit;
+    if (prevValue < value) value = Math.ceil(value);
+    else value = Math.floor(value);
+    this.jumpToState(value);
   };
 
   handlePrev = () => {
@@ -93,7 +101,8 @@ export default class SliderMonitor extends React.Component {
   render() {
     const { currentStateIndex, computedStates } = this.props.liftedState;
     const showActions = this.props.showActions && currentStateIndex !== -1;
-    const value = (currentStateIndex / (computedStates.length - 1)) * 100;
+    const value = computedStates.length < 2 ? 100 :
+      (currentStateIndex / (computedStates.length - 1)) * 100;
     const isEnd = value === 100;
     const isBegin = value === 0 || currentStateIndex <= 0;
     let label = '';

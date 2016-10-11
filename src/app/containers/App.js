@@ -46,7 +46,7 @@ class App extends Component {
           testComponent={options.lib === 'redux' && TestGenerator}
         />
         <Notification />
-        {sliderIsOpen &&
+        {sliderIsOpen && options.connectionId &&
           <SliderMonitor
             monitor="SliderMonitor"
             liftedState={liftedState}
