@@ -1,6 +1,5 @@
 import React, { Component, PropTypes, createElement } from 'react';
 import LogMonitor from 'redux-devtools-log-monitor';
-import SliderMonitor from 'redux-slider-monitor';
 import InspectorMonitor from 'redux-devtools-inspector';
 import ChartMonitor from 'redux-devtools-chart-monitor';
 
@@ -15,7 +14,7 @@ export default function getMonitor({ monitor, testComponent }) {
     case 'LogMonitor':
       return <LogMonitor preserveScrollTop={false} />;
     case 'SliderMonitor':
-      return <SliderMonitor />;
+      return <div></div>; // deprecated
     case 'ChartMonitor':
       return createElement(ChartMonitor, {
         defaultIsVisible: true, invertTheme: true,

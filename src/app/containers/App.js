@@ -6,6 +6,7 @@ import { getActiveInstance } from '../reducers/instances';
 import styles from '../styles';
 import DevTools from '../containers/DevTools';
 import Dispatcher from './monitors/Dispatcher';
+import SliderMonitor from './monitors/Slider';
 import ButtonBar from '../components/ButtonBar';
 import Notification from '../components/Notification';
 import Instances from '../components/Instances';
@@ -45,13 +46,14 @@ class App extends Component {
           testComponent={options.lib === 'redux' && TestGenerator}
         />
         <Notification />
-        {sliderIsOpen && <div style={styles.sliderMonitor}>
-          <DevTools
+        {sliderIsOpen &&
+          <SliderMonitor
             monitor="SliderMonitor"
             liftedState={liftedState}
             dispatch={this.props.liftedDispatch}
+            showActions={monitor === 'ChartMonitor'}
           />
-        </div>}
+        }
         {dispatcherIsOpen && options.connectionId &&
           <Dispatcher options={options} />
         }
