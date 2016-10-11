@@ -94,13 +94,14 @@
     "react-redux": "^4.0.6",
     "react-switcher": "^1.0.2",
     "react-tap-event-plugin": "^1.0.0",
+    "rebass": "0.4.0-beta.6",
     "redux": "^3.0.5",
     "redux-devtools-chart-monitor": "^1.4.1",
     "redux-devtools-inspector": "^0.7.1",
     "redux-devtools-log-monitor": "^1.0.11",
     "redux-devtools-test-generator": "^0.3.1",
     "redux-devtools-themes": "^1.0.0",
-    "redux-slider-monitor": "^1.0.7",
+    "reflexbox": "^2.2.2",
     "socketcluster-client": "^5.0.0"
   },
   "peerDependencies": {

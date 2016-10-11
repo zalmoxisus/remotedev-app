@@ -12,11 +12,6 @@ const styles = {
   tab: {
     fontSize: '11px'
   },
-  sliderMonitor: {
-    minWidth: '300px',
-    zIndex: '0',
-    borderTop: '1px solid #4F5A65'
-  },
   buttonBar: {
     padding: '5px',
     textAlign: 'center',
