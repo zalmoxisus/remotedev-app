@@ -2,7 +2,7 @@ import { SELECT_MONITOR, TOGGLE_SLIDER, TOGGLE_DISPATCHER } from '../constants/a
 
 const initialState = {
   selected: 'InspectorMonitor',
-  sliderIsOpen: false,
+  sliderIsOpen: true,
   dispatcherIsOpen: false
 };
 

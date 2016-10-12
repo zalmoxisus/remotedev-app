@@ -102,6 +102,7 @@
     "redux-devtools-test-generator": "^0.3.1",
     "redux-devtools-themes": "^1.0.0",
     "reflexbox": "^2.2.2",
+    "remotedev-slider": "^1.0.0",
     "socketcluster-client": "^5.0.0"
   },
   "peerDependencies": {
