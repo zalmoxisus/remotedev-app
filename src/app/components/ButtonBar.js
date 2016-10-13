@@ -8,6 +8,7 @@ import ExportButton from './buttons/ExportButton';
 import SliderButton from './buttons/SliderButton';
 import LockButton from './buttons/LockButton';
 import RecordButton from './buttons/RecordButton';
+import PrintButton from './buttons/PrintButton';
 import styles from '../styles';
 import Settings from './Settings';
 
@@ -65,6 +66,7 @@ export default class ButtonBar extends Component {
         {!this.props.noSettings &&
           <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
         }
+        <PrintButton />
         <Button Icon={HelpIcon} onClick={this.openHelp}>How to use</Button>
         {!this.props.noSettings &&
           <Settings isOpen={this.state.settingsOpened} close={this.closeSettings} />
