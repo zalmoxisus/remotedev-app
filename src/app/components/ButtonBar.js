@@ -63,10 +63,10 @@ export default class ButtonBar extends Component {
         <SliderButton isOpen={this.props.sliderIsOpen}/>
         <ImportButton />
         <ExportButton liftedState={this.props.liftedState} />
+        <PrintButton />
         {!this.props.noSettings &&
           <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
         }
-        <PrintButton />
         <Button Icon={HelpIcon} onClick={this.openHelp}>How to use</Button>
         {!this.props.noSettings &&
           <Settings isOpen={this.state.settingsOpened} close={this.closeSettings} />
