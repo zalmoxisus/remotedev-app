@@ -26,8 +26,16 @@ export const initialState = {
 };
 
 function updateState(state, request, id) {
-  const payload = parseJSON(request.payload);
-  if (typeof payload === 'undefined') return state;
+  let payload = request.payload;
+  if (request.actionsById) {
+    payload = {
+      ...payload,
+      actionsById: JSON.parse(request.actionsById),
+      computedStates: JSON.parse(request.computedStates)
+    };
+  } else {
+    payload = parseJSON(payload);
+  }
 
   let newState;
   const action = request.action && parseJSON(request.action) || {};
