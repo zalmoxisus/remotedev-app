@@ -14,11 +14,14 @@ export default class PrintButton extends Component {
       return;
     }
 
-    const g = d3svg.firstChild;
-    const currTransform = g.getAttribute('transform');
-    g.setAttribute('transform', 'translate(57, 10) scale(1)');
+    const initHeight = d3svg.style.height;
+    const initWidth = d3svg.style.width;
+    const box = d3svg.getBBox();
+    d3svg.style.height = box.height;
+    d3svg.style.width = box.width;
     window.print();
-    g.setAttribute('transform', currTransform);
+    d3svg.style.height = initHeight;
+    d3svg.style.width = initWidth;
   }
 
   render() {
