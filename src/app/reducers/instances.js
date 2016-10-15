@@ -27,11 +27,14 @@ export const initialState = {
 
 function updateState(state, request, id) {
   let payload = request.payload;
-  if (request.actionsById) {
+  const actionsById = request.actionsById;
+  if (actionsById) {
+    const committedState = request.committedState;
     payload = {
       ...payload,
-      actionsById: JSON.parse(request.actionsById),
-      computedStates: JSON.parse(request.computedStates)
+      actionsById: JSON.parse(actionsById),
+      computedStates: JSON.parse(request.computedStates),
+      committedState: committedState ? JSON.parse(request.committedState) : committedState
     };
   } else {
     payload = parseJSON(payload);
