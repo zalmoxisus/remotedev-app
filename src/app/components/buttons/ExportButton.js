@@ -19,12 +19,18 @@ export default class ExportButton extends Component {
   }
 
   handleExport() {
-    const state = encodeURIComponent(stringify(this.props.liftedState));
-    this.setState({ href: 'data:text/json;charset=utf-8,' + state });
+    const state = stringify(this.props.liftedState);
+    const blob = new Blob([state], { type: 'octet/stream' });
+    const href = window.URL.createObjectURL(blob);
+    this.setState({ href });
   }
 
   cleanHref = () => {
-    setTimeout(() => { this.setState({ href: undefined }); }, 0);
+    const { href } = this.state;
+    setTimeout(() => {
+      window.URL.revokeObjectURL(href);
+      this.setState({ href: undefined });
+    }, 10000);
   };
 
   render() {
