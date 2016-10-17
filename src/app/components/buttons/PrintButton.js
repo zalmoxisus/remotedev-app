@@ -19,9 +19,16 @@ export default class PrintButton extends Component {
     const box = d3svg.getBBox();
     d3svg.style.height = box.height;
     d3svg.style.width = box.width;
+
+    const g = d3svg.firstChild;
+    const initTransform = g.getAttribute('transform');
+    g.setAttribute('transform', initTransform.replace(/.+scale\(/, 'translate(57, 10) scale('));
+
     window.print();
+
     d3svg.style.height = initHeight;
     d3svg.style.width = initWidth;
+    g.setAttribute('transform', initTransform);
   }
 
   render() {
