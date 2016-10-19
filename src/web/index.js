@@ -3,6 +3,6 @@ import { render } from 'react-dom';
 import App from '../app';
 
 render(
-  <App hash useCodemirror />,
+  <App />,
   document.getElementById('root')
 );
