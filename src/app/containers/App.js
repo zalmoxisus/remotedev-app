@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import SliderMonitor from 'remotedev-slider';
+import SliderMonitor from 'remotedev-slider/lib/Slider';
 import { liftedDispatch, getReport } from '../actions';
 import { getActiveInstance } from '../reducers/instances';
 import styles from '../styles';

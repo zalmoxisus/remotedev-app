@@ -34,7 +34,7 @@ export default function getMonitor({ monitor, testComponent }) {
         tabs = defaultTabs => [...defaultTabs, { name: 'Test', component: testComponent }];
       }
       return createElement(InspectorMonitor, {
-        shouldPersistState: false, isLightTheme: false, theme: 'nicinabox', tabs
+        shouldPersistState: false, invertTheme: false, theme: 'nicinabox', tabs
       });
   }
 }
