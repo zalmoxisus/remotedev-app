@@ -28,20 +28,21 @@ export const initialState = {
 function updateState(state, request, id) {
   let payload = request.payload;
   const actionsById = request.actionsById;
+  const serialize = request.serialize !== false;
   if (actionsById) {
     const committedState = request.committedState;
     payload = {
       ...payload,
-      actionsById: JSON.parse(actionsById),
-      computedStates: JSON.parse(request.computedStates),
-      committedState: committedState ? JSON.parse(request.committedState) : committedState
+      actionsById: parseJSON(actionsById, serialize),
+      computedStates: parseJSON(request.computedStates, serialize),
+      committedState: committedState ? parseJSON(request.committedState, serialize) : committedState
     };
   } else {
-    payload = parseJSON(payload);
+    payload = parseJSON(payload, serialize);
   }
 
   let newState;
-  const action = request.action && parseJSON(request.action) || {};
+  const action = request.action && parseJSON(request.action, serialize) || {};
 
   switch (request.type) {
     case 'INIT':
