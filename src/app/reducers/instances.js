@@ -42,6 +42,8 @@ function updateState(state, request, id) {
   }
 
   let newState;
+  let liftedState;
+  let isExcess;
   const action = request.action && parseJSON(request.action, serialize) || {};
 
   switch (request.type) {
@@ -53,17 +55,60 @@ function updateState(state, request, id) {
       );
       break;
     case 'ACTION':
-      const liftedState = state[id] || state.default;
+      liftedState = state[id] || state.default;
+      isExcess = request.isExcess;
+      if (typeof isExcess === 'undefined') isExcess = request.nextActionId > request.maxAge;
       newState = recompute(
         liftedState,
         payload,
         action,
         request.nextActionId || (liftedState.nextActionId + 1),
-        request.isExcess
+        isExcess
       );
       break;
     case 'STATE':
       newState = payload;
+      break;
+    case 'PARTIAL_STATE':
+      liftedState = state[id] || state.default;
+      const maxAge = request.maxAge;
+      const nextActionId = payload.nextActionId;
+      const stagedActionIds = payload.stagedActionIds;
+      const computedStates = payload.computedStates;
+      let oldActionsById;
+      let oldComputedStates;
+      let committedState;
+      if (nextActionId > maxAge) {
+        const oldStagedActionIds = liftedState.stagedActionIds;
+        const excess = oldStagedActionIds.indexOf(stagedActionIds[1]);
+        let key;
+        if (excess > 0) {
+          oldComputedStates = liftedState.computedStates.slice(excess - 1);
+          oldActionsById = { ...liftedState.actionsById };
+          for (let i = 1; i < excess; i++) {
+            key = oldStagedActionIds[i];
+            if (key) delete oldActionsById[key];
+          }
+          committedState = computedStates[0].state;
+        } else {
+          oldActionsById = liftedState.actionsById;
+          oldComputedStates = liftedState.computedStates;
+          committedState = liftedState.committedState;
+        }
+      } else {
+        oldActionsById = liftedState.actionsById;
+        oldComputedStates = liftedState.computedStates;
+        committedState = liftedState.committedState;
+      }
+      newState = {
+        ...liftedState,
+        actionsById: { ...oldActionsById, ...payload.actionsById },
+        computedStates: [...oldComputedStates, ...computedStates],
+        currentStateIndex: payload.currentStateIndex,
+        nextActionId,
+        stagedActionIds,
+        committedState
+      };
       break;
     default:
       return state;
