@@ -30,13 +30,14 @@ function updateState(state, request, id) {
   const actionsById = request.actionsById;
   const serialize = request.serialize;
   if (actionsById) {
-    const committedState = request.committedState;
     payload = {
       ...payload,
       actionsById: parseJSON(actionsById, serialize),
-      computedStates: parseJSON(request.computedStates, serialize),
-      committedState: committedState ? parseJSON(request.committedState, serialize) : committedState
+      computedStates: parseJSON(request.computedStates, serialize)
     };
+    if (request.type === 'STATE' && request.committedState) {
+      payload.committedState = payload.computedStates[0].state;
+    }
   } else {
     payload = parseJSON(payload, serialize);
   }
