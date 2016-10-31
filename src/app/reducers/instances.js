@@ -28,7 +28,7 @@ export const initialState = {
 function updateState(state, request, id) {
   let payload = request.payload;
   const actionsById = request.actionsById;
-  const serialize = request.serialize !== false;
+  const serialize = request.serialize;
   if (actionsById) {
     const committedState = request.committedState;
     payload = {
