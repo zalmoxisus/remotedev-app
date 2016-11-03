@@ -219,7 +219,6 @@ export default function instances(state = initialState, action) {
     case TOGGLE_SYNC:
       return { ...state, sync: !state.sync };
     case SELECT_INSTANCE:
-      if (!state.options[action.selected]) return state;
       return { ...state, selected: action.selected, sync: false };
     case REMOVE_INSTANCE:
       return removeState(state, action.id);
