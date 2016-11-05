@@ -5,8 +5,17 @@ import {
 } from '../constants/actionTypes';
 import { RECONNECT } from '../constants/socketActionTypes';
 
+let monitorReducer;
+let monitorProps = {};
+
 export function liftedDispatch(action) {
-  if (action.type[0] === '@') return { type: MONITOR_ACTION, action };
+  if (action.type[0] === '@') {
+    if (action.type === '@@INIT_MONITOR') {
+      monitorReducer = action.update;
+      monitorProps = action.monitorProps;
+    }
+    return { type: MONITOR_ACTION, action, monitorReducer, monitorProps };
+  }
   return { type: LIFTED_ACTION, message: 'DISPATCH', action };
 }
 

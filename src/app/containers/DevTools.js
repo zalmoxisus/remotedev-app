@@ -4,16 +4,34 @@ import getMonitor from '../utils/getMonitor';
 export default class DevTools extends Component {
   constructor(props) {
     super(props);
-    this.monitorElement = getMonitor(props);
+    this.getMonitor(props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  getMonitor(props) {
+    const monitorElement = getMonitor(props);
+    this.monitorProps = monitorElement.props;
+    this.Monitor = monitorElement.type;
+
+    const update = this.Monitor.update;
+    if (update) {
+      const newMonitorState = update(this.monitorProps, undefined, {});
+      if (newMonitorState !== this.props.liftedState.monitorState) {
+        this.preventRender = true;
+      }
+      this.dispatch({
+        type: '@@INIT_MONITOR',
+        newMonitorState,
+        update,
+        monitorProps: this.monitorProps
+      });
+    }
+  }
+
+  componentWillUpdate(nextProps) {
     if (
       nextProps.monitor !== this.props.monitor ||
       nextProps.testComponent !== this.props.testComponent
-    ) {
-      this.monitorElement = getMonitor(nextProps);
-    }
+    ) this.getMonitor(nextProps);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -24,11 +42,22 @@ export default class DevTools extends Component {
     );
   }
 
+  dispatch = action => {
+    this.props.dispatch(action);
+  };
+
   render() {
-    const { liftedState, dispatch } = this.props;
-    const monitorProps = this.monitorElement.props;
-    const Monitor = this.monitorElement.type;
-    return <Monitor dispatch={dispatch} {...liftedState} {...monitorProps} />;
+    if (this.preventRender) {
+      this.preventRender = false;
+      return null;
+    }
+    return (
+      <this.Monitor
+        dispatch={this.dispatch}
+        {...this.props.liftedState}
+        {...this.monitorProps}
+      />
+    );
   }
 }
 
