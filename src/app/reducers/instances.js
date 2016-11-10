@@ -17,7 +17,6 @@ export const initialState = {
       actionsById: {},
       computedStates: [],
       currentStateIndex: -1,
-      monitorState: {},
       nextActionId: 0,
       skippedActionIds: [],
       stagedActionIds: []
@@ -43,7 +42,7 @@ function updateState(state, request, id) {
   }
 
   let newState;
-  let liftedState;
+  const liftedState = state[id] || state.default;
   let isExcess;
   const action = request.action && parseJSON(request.action, serialize) || {};
 
@@ -56,7 +55,6 @@ function updateState(state, request, id) {
       );
       break;
     case 'ACTION':
-      liftedState = state[id] || state.default;
       isExcess = request.isExcess;
       if (typeof isExcess === 'undefined') isExcess = request.nextActionId > request.maxAge;
       newState = recompute(
@@ -71,7 +69,6 @@ function updateState(state, request, id) {
       newState = payload;
       break;
     case 'PARTIAL_STATE':
-      liftedState = state[id] || state.default;
       const maxAge = request.maxAge;
       const nextActionId = payload.nextActionId;
       const stagedActionIds = payload.stagedActionIds;
@@ -213,7 +210,7 @@ export default function instances(state = initialState, action) {
         ...state,
         states: {
           ...state.states,
-          [state.selected || state.current]: action.newState
+          [getActiveInstance(state)]: action.newState
         }
       };
     case TOGGLE_SYNC:

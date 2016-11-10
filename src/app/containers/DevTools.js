@@ -4,36 +4,72 @@ import getMonitor from '../utils/getMonitor';
 export default class DevTools extends Component {
   constructor(props) {
     super(props);
-    this.monitorElement = getMonitor(props);
+    this.getMonitor(props);
   }
 
-  componentWillReceiveProps(nextProps) {
+  getMonitor(props) {
+    const monitorElement = getMonitor(props);
+    this.monitorProps = monitorElement.props;
+    this.Monitor = monitorElement.type;
+
+    const update = this.Monitor.update;
+    if (update) {
+      const newMonitorState = update(this.monitorProps, undefined, {});
+      if (newMonitorState !== this.props.liftedState.monitorState) {
+        this.preventRender = true;
+      }
+      this.dispatch({
+        type: '@@INIT_MONITOR',
+        newMonitorState,
+        update,
+        monitorProps: this.monitorProps
+      });
+    }
+  }
+
+  componentWillUpdate(nextProps) {
     if (
       nextProps.monitor !== this.props.monitor ||
       nextProps.testComponent !== this.props.testComponent
-    ) {
-      this.monitorElement = getMonitor(nextProps);
-    }
+    ) this.getMonitor(nextProps);
   }
 
   shouldComponentUpdate(nextProps) {
     return (
       nextProps.monitor !== this.props.monitor ||
       nextProps.liftedState !== this.props.liftedState ||
+      nextProps.monitorState !== this.props.liftedState ||
       nextProps.testComponent !== this.props.testComponent
     );
   }
 
+  dispatch = action => {
+    this.props.dispatch(action);
+  };
+
   render() {
-    const { liftedState, dispatch } = this.props;
-    const monitorProps = this.monitorElement.props;
-    const Monitor = this.monitorElement.type;
-    return <Monitor dispatch={dispatch} {...liftedState} {...monitorProps} />;
+    if (this.preventRender) {
+      this.preventRender = false;
+      return null;
+    }
+
+    const liftedState = {
+      ...this.props.liftedState,
+      monitorState: this.props.monitorState
+    };
+    return (
+      <this.Monitor
+        dispatch={this.dispatch}
+        {...liftedState}
+        {...this.monitorProps}
+      />
+    );
   }
 }
 
 DevTools.propTypes = {
   liftedState: PropTypes.object,
+  monitorState: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   monitor: PropTypes.string,
   testComponent: PropTypes.oneOfType([

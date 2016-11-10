@@ -1,13 +1,26 @@
-import { SELECT_MONITOR, TOGGLE_SLIDER, TOGGLE_DISPATCHER } from '../constants/actionTypes';
+import {
+  MONITOR_ACTION, SELECT_MONITOR, TOGGLE_SLIDER, TOGGLE_DISPATCHER
+} from '../constants/actionTypes';
 
 const initialState = {
   selected: 'InspectorMonitor',
+  monitorState: undefined,
   sliderIsOpen: true,
   dispatcherIsOpen: false
 };
 
+export function dispatchMonitorAction(state, action) {
+  return {
+    ...state,
+    monitorState: action.action.newMonitorState ||
+      action.monitorReducer(action.monitorProps, state.monitorState, action.action)
+  };
+}
+
 export default function monitor(state = initialState, action) {
   switch (action.type) {
+    case MONITOR_ACTION:
+      return dispatchMonitorAction(state, action);
     case SELECT_MONITOR:
       return {
         ...state,
