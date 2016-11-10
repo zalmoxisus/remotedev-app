@@ -12,7 +12,7 @@ export const monitors = [
 export default function getMonitor({ monitor, testComponent }) {
   switch (monitor) {
     case 'LogMonitor':
-      return <LogMonitor preserveScrollTop={false} />;
+      return <LogMonitor preserveScrollTop={false} markStateDiff />;
     case 'SliderMonitor':
       return <div></div>; // deprecated
     case 'ChartMonitor':
