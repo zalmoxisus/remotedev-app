@@ -1,17 +1,8 @@
-/* eslint strict: 0 */
-'use strict';
+const { app, BrowserWindow, Menu, shell } = require('electron');
 
-const electron = require('electron');
-const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const Menu = electron.Menu;
-const crashReporter = electron.crashReporter;
-const shell = electron.shell;
 let menu;
 let template;
 let win = null;
-
-crashReporter.start();
 
 // require('electron-debug')();
 

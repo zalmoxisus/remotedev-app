@@ -7,12 +7,15 @@ const component = mount(<App />);
 
 describe('App container', () => {
   it('should render inspector monitor\'s component', () => {
-    expect(component.find('div.inspector--jss-0-0').html()).toExist();
+    expect(component.find('DevtoolsInspector').html()).toExist();
   });
 
   it('should contain an empty action list', () => {
     expect(
-      component.find('div.actionListRows--jss-0-4').html()
-    ).toBe('<div class="actionListRows--jss-0-4"></div>');
+      component.find('ActionList').findWhere(n => {
+        const { className } = n.props();
+        return className && className.startsWith('actionListRows-');
+      }).html()
+    ).toMatch(/<div class="actionListRows-[0-9]+"><\/div>/);
   });
 });
