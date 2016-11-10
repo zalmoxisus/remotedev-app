@@ -38,6 +38,7 @@ export default class DevTools extends Component {
     return (
       nextProps.monitor !== this.props.monitor ||
       nextProps.liftedState !== this.props.liftedState ||
+      nextProps.monitorState !== this.props.liftedState ||
       nextProps.testComponent !== this.props.testComponent
     );
   }
@@ -51,10 +52,15 @@ export default class DevTools extends Component {
       this.preventRender = false;
       return null;
     }
+
+    const liftedState = {
+      ...this.props.liftedState,
+      monitorState: this.props.monitorState
+    };
     return (
       <this.Monitor
         dispatch={this.dispatch}
-        {...this.props.liftedState}
+        {...liftedState}
         {...this.monitorProps}
       />
     );
@@ -63,6 +69,7 @@ export default class DevTools extends Component {
 
 DevTools.propTypes = {
   liftedState: PropTypes.object,
+  monitorState: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   monitor: PropTypes.string,
   testComponent: PropTypes.oneOfType([

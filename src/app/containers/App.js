@@ -30,6 +30,7 @@ class App extends Component {
         <DevTools
           monitor={monitor}
           liftedState={liftedState}
+          monitorState={this.props.monitorState}
           dispatch={this.props.liftedDispatch}
           testComponent={options.lib === 'redux' && TestGenerator}
         />
@@ -66,6 +67,7 @@ App.propTypes = {
   getReport: PropTypes.func.isRequired,
   selected: PropTypes.string,
   liftedState: PropTypes.object.isRequired,
+  monitorState: PropTypes.object,
   options: PropTypes.object.isRequired,
   monitor: PropTypes.string,
   dispatcherIsOpen: PropTypes.bool,
@@ -81,6 +83,7 @@ function mapStateToProps(state) {
   return {
     selected: instances.selected,
     liftedState: instances.states[id],
+    monitorState: state.monitor.monitorState,
     options: instances.options[id],
     monitor: state.monitor.selected,
     dispatcherIsOpen: state.monitor.dispatcherIsOpen,

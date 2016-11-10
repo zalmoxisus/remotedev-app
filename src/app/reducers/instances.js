@@ -1,5 +1,5 @@
 import {
-  UPDATE_STATE, SET_STATE, LIFTED_ACTION, MONITOR_ACTION,
+  UPDATE_STATE, SET_STATE, LIFTED_ACTION,
   SELECT_INSTANCE, REMOVE_INSTANCE, TOGGLE_SYNC
 } from '../constants/actionTypes';
 import { DISCONNECTED } from '../constants/socketActionTypes';
@@ -17,7 +17,6 @@ export const initialState = {
       actionsById: {},
       computedStates: [],
       currentStateIndex: -1,
-      monitorState: undefined,
       nextActionId: 0,
       skippedActionIds: [],
       stagedActionIds: []
@@ -67,10 +66,7 @@ function updateState(state, request, id) {
       );
       break;
     case 'STATE':
-      newState = {
-        ...payload,
-        monitorState: liftedState.monitorState
-      };
+      newState = payload;
       break;
     case 'PARTIAL_STATE':
       const maxAge = request.maxAge;
@@ -132,21 +128,6 @@ export function dispatchAction(state, { action }) {
     };
   }
   return state;
-}
-
-export function dispatchMonitorAction(state, action) {
-  const id = getActiveInstance(state);
-  return {
-    ...state,
-    states: {
-      ...state.states,
-      [id]: {
-        ...state.states[id],
-        monitorState: action.action.newMonitorState ||
-          action.monitorReducer(action.monitorProps, state.states[id].monitorState, action.action)
-      }
-    }
-  };
 }
 
 function removeState(state, connectionId) {
@@ -232,12 +213,9 @@ export default function instances(state = initialState, action) {
           [getActiveInstance(state)]: action.newState
         }
       };
-    case MONITOR_ACTION:
-      return dispatchMonitorAction(state, action);
     case TOGGLE_SYNC:
       return { ...state, sync: !state.sync };
     case SELECT_INSTANCE:
-      if (!state.options[action.selected]) return state;
       return { ...state, selected: action.selected, sync: false };
     case REMOVE_INSTANCE:
       return removeState(state, action.id);
