@@ -8,6 +8,7 @@ export const TOGGLE_SYNC = 'devTools/TOGGLE_SYNC';
 export const SELECT_MONITOR = 'devTools/SELECT_MONITOR';
 export const TOGGLE_SLIDER = 'devTools/TOGGLE_SLIDER';
 export const TOGGLE_DISPATCHER = 'devTools/TOGGLE_DISPATCHER';
+export const EXPORT = 'devTools/EXPORT';
 export const SHOW_NOTIFICATION = 'devTools/SHOW_NOTIFICATION';
 export const CLEAR_NOTIFICATION = 'devTools/CLEAR_NOTIFICATION';
 

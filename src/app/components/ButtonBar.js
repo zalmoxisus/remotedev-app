@@ -62,7 +62,7 @@ export default class ButtonBar extends Component {
         <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
         <SliderButton isOpen={this.props.sliderIsOpen}/>
         <ImportButton />
-        <ExportButton liftedState={this.props.liftedState} />
+        <ExportButton />
         <PrintButton />
         {!this.props.noSettings &&
           <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>

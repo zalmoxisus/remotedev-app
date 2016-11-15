@@ -1,5 +1,5 @@
 import {
-  LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR,
+  LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR, EXPORT,
   TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER, GET_REPORT_REQUEST,
   SHOW_NOTIFICATION, CLEAR_NOTIFICATION
 } from '../constants/actionTypes';
@@ -29,6 +29,10 @@ export function selectMonitor(event, index, value) {
 
 export function importState(state, preloadedState) {
   return { type: LIFTED_ACTION, message: 'IMPORT', state, preloadedState };
+}
+
+export function exportState() {
+  return { type: EXPORT };
 }
 
 export function lockChanges(status) {

@@ -1,0 +1,44 @@
+import { stringify } from 'jsan';
+import { UPDATE_STATE, LIFTED_ACTION, EXPORT } from '../constants/actionTypes';
+import { getActiveInstance } from '../reducers/instances';
+let toExport;
+
+function download(state) {
+  const blob = new Blob([state], { type: 'octet/stream' });
+  const href = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.style = 'display: none';
+  a.download = 'state.json';
+  a.href = href;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => {
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(href);
+  }, 0);
+}
+
+const exportState = store => next => action => {
+  const result = next(action);
+
+  if (toExport && action.type === UPDATE_STATE && action.request.type === 'EXPORT') {
+    const request = action.request;
+    const id = request.instanceId || request.id;
+    if (id === toExport) {
+      toExport = undefined;
+      download(`{\n\t"payload": ${request.payload},\n\t"preloadedState": ${request.committedState}\n}`);
+    }
+  } else if (action.type === EXPORT) {
+    const instances = store.getState().instances;
+    const instanceId = getActiveInstance(instances);
+    if (instances.options[instanceId].lib !== 'redux') {
+      download(stringify(instances.states[instanceId]));
+    } else {
+      toExport = instanceId;
+      next({ type: LIFTED_ACTION, message: 'EXPORT', toExport: true });
+    }
+  }
+  return result;
+};
+
+export default exportState;
