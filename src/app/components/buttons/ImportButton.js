@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { parse } from 'jsan';
 import UploadIcon from 'react-icons/lib/md/file-upload';
 import Button from '../Button';
 import { importState, showNotification } from '../../actions';
@@ -35,13 +34,7 @@ class ImportButton extends Component {
     const file = e.target.files[0];
     const reader = new FileReader();
     reader.onload = () => {
-      try {
-        const state = reader.result;
-        parse(state); // Check if it is in JSON format
-        this.props.importState(state);
-      } catch (error) {
-        this.props.showNotification('Invalid file');
-      }
+      this.props.importState(reader.result);
     };
     reader.readAsText(file);
     e.target.value = '';
