@@ -26,7 +26,9 @@ const exportState = store => next => action => {
     const id = request.instanceId || request.id;
     if (id === toExport) {
       toExport = undefined;
-      download(`{\n\t"payload": ${request.payload},\n\t"preloadedState": ${request.committedState}\n}`);
+      download(JSON.stringify({
+        payload: request.payload, preloadedState: request.committedState
+      }, null, '\t'));
     }
   } else if (action.type === EXPORT) {
     const instances = store.getState().instances;
