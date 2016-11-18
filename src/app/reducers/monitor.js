@@ -22,8 +22,16 @@ export default function monitor(state = initialState, action) {
     case MONITOR_ACTION:
       return dispatchMonitorAction(state, action);
     case SELECT_MONITOR:
+      let monitorState = state.monitorState;
+      if (action.monitorState) {
+        monitorState = {
+          ...action.monitorState,
+          __overwritten__: action.monitor
+        };
+      }
       return {
         ...state,
+        monitorState,
         selected: action.monitor
       };
     case TOGGLE_SLIDER:

@@ -14,9 +14,15 @@ export default class DevTools extends Component {
 
     const update = this.Monitor.update;
     if (update) {
-      const newMonitorState = update(this.monitorProps, undefined, {});
-      if (newMonitorState !== this.props.liftedState.monitorState) {
-        this.preventRender = true;
+      let newMonitorState;
+      const monitorState = props.monitorState;
+      if (monitorState && monitorState.__overwritten__ === props.monitor) {
+        newMonitorState = monitorState;
+      } else {
+        newMonitorState = update(this.monitorProps, undefined, {});
+        if (newMonitorState !== monitorState) {
+          this.preventRender = true;
+        }
       }
       this.dispatch({
         type: '@@INIT_MONITOR',
