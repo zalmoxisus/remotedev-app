@@ -20,8 +20,11 @@ class Instances extends Component {
 
   render() {
     this.select = [['Autoselect instances', null]];
-    Object.keys(this.props.instances).forEach(key => {
-      this.select.push([this.props.instances[key].name, key]);
+    const instances = this.props.instances;
+    let name;
+    Object.keys(instances).forEach(key => {
+      name = instances[key].name;
+      if (name !== undefined) this.select.push([instances[key].name, key]);
     });
 
     return (
