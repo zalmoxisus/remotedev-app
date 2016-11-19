@@ -67,12 +67,15 @@ function updateState(state, request, id) {
       break;
     case 'STATE':
       newState = payload;
+      if (newState.computedStates.length <= newState.currentStateIndex) {
+        newState.currentStateIndex = newState.computedStates.length - 1;
+      }
       break;
     case 'PARTIAL_STATE':
       const maxAge = request.maxAge;
       const nextActionId = payload.nextActionId;
       const stagedActionIds = payload.stagedActionIds;
-      const computedStates = payload.computedStates;
+      let computedStates = payload.computedStates;
       let oldActionsById;
       let oldComputedStates;
       let committedState;
@@ -98,11 +101,16 @@ function updateState(state, request, id) {
         oldComputedStates = liftedState.computedStates;
         committedState = liftedState.committedState;
       }
+      computedStates = [...oldComputedStates, ...computedStates];
+      const statesCount = computedStates.length;
+      let currentStateIndex = payload.currentStateIndex;
+      if (statesCount <= currentStateIndex) currentStateIndex = statesCount - 1;
+
       newState = {
         ...liftedState,
         actionsById: { ...oldActionsById, ...payload.actionsById },
-        computedStates: [...oldComputedStates, ...computedStates],
-        currentStateIndex: payload.currentStateIndex,
+        computedStates,
+        currentStateIndex,
         nextActionId,
         stagedActionIds,
         committedState
