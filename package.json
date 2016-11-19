@@ -68,9 +68,9 @@
     "mocha": "^3.1.2",
     "mock-local-storage": "^1.0.2",
     "raw-loader": "^0.5.1",
-    "react": "^15.2.1",
-    "react-addons-test-utils": "^15.2.1",
-    "react-dom": "^15.2.1",
+    "react": "^15.4.0",
+    "react-addons-test-utils": "^15.4.0",
+    "react-dom": "^15.4.0",
     "react-transform-catch-errors": "^1.0.0",
     "react-transform-hmr": "^1.0.1",
     "redbox-react": "^1.2.0",
@@ -92,7 +92,7 @@
     "react-icons": "^2.2.1",
     "react-redux": "^4.0.6",
     "react-switcher": "^1.0.2",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-tap-event-plugin": "^2.0.1",
     "rebass": "0.4.0-beta.6",
     "redux": "^3.0.5",
     "redux-devtools": "^3.0.0",
@@ -106,7 +106,7 @@
     "socketcluster-client": "^5.0.0"
   },
   "peerDependencies": {
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0"
+    "react": "^15.4.0",
+    "react-dom": "^15.4.0"
   }
 }
