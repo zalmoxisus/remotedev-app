@@ -13,10 +13,10 @@ export function sweep(state) {
   };
 }
 
-export function nonReduxDispatch(store, message, instanceId, action, initialState, preInstances) {
-  if (message !== 'DISPATCH') return initialState;
+export function nonReduxDispatch(store, message, instanceId, action, preInstances) {
+  if (message !== 'DISPATCH') return undefined;
   const instances = preInstances || store.getState().instances;
-  if (!instances.options[instanceId].lib === 'redux') return initialState;
+  if (instances.options[instanceId].lib === 'redux') return undefined;
   const state = instances.states[instanceId];
 
   switch (action.type) {
