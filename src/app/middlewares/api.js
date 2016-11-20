@@ -184,7 +184,7 @@ export default function api(inStore) {
       case actions.AUTH_REQUEST: login(); break;
       case actions.SUBSCRIBE_REQUEST: subscribe(action.channel, action.subscription); break;
       case actions.SUBSCRIBE_SUCCESS: startMonitoring(action.channel); break;
-      case actions.EMIT: emit(action); break;
+      case actions.EMIT: if (socket) emit(action); break;
       case LIFTED_ACTION: dispatchRemoteAction(action); break;
       case GET_REPORT_REQUEST: getReport(action.report); break;
     }
