@@ -27,24 +27,23 @@ export const initialState = {
 function updateState(state, request, id) {
   let payload = request.payload;
   const actionsById = request.actionsById;
-  const serialize = request.serialize;
   if (actionsById) {
     payload = {
       ...payload,
-      actionsById: parseJSON(actionsById, serialize),
-      computedStates: parseJSON(request.computedStates, serialize)
+      actionsById: parseJSON(actionsById),
+      computedStates: parseJSON(request.computedStates)
     };
     if (request.type === 'STATE' && request.committedState) {
       payload.committedState = payload.computedStates[0].state;
     }
   } else {
-    payload = parseJSON(payload, serialize);
+    payload = parseJSON(payload);
   }
 
   let newState;
   const liftedState = state[id] || state.default;
   let isExcess;
-  const action = request.action && parseJSON(request.action, serialize) || {};
+  const action = request.action && parseJSON(request.action) || {};
 
   switch (request.type) {
     case 'INIT':
