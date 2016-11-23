@@ -32,7 +32,7 @@ function dispatchRemoteAction({ message, action, state, toAll }) {
     type: actions.EMIT,
     message,
     action,
-    state: nonReduxDispatch(store, message, instanceId, action, instances),
+    state: nonReduxDispatch(store, message, instanceId, action, state, instances),
     instanceId,
     id
   });
