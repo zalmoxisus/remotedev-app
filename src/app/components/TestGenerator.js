@@ -1,4 +1,3 @@
-import 'codemirror/mode/javascript/javascript';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';

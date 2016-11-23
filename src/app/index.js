@@ -1,3 +1,4 @@
+import 'remotedev-monitor-components/lib/presets';
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import enhance from './hoc';
