@@ -6,7 +6,7 @@ import StateTree from 'redux-devtools-inspector/lib/tabs/StateTab';
 import ActionTree from 'redux-devtools-inspector/lib/tabs/ActionTab';
 import DiffTree from 'redux-devtools-inspector/lib/tabs/DiffTab';
 import { selectMonitorTab } from '../../../actions';
-import JSONTab from './JSONTab';
+import RawTab from './RawTab';
 
 class SubTabs extends Component {
   constructor(props) {
@@ -51,8 +51,8 @@ class SubTabs extends Component {
         selector: () => this.props
       },
       {
-        name: 'JSON',
-        component: JSONTab,
+        name: 'Raw',
+        component: RawTab,
         selector: this.selector
       }
     ];

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Editor } from 'remotedev-monitor-components';
 import stringify from 'javascript-stringify';
 
-export default class InspectorWrapper extends Component {
+export default class RawTab extends Component {
   constructor(props) {
     super(props);
     this.stringifyData(props);
