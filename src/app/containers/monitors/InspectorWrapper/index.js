@@ -23,7 +23,10 @@ class InspectorWrapper extends Component {
     let tabs;
     if (lib === 'redux') {
       tabs = () => [...DEFAULT_TABS, { name: 'Test', component: TestTab }];
+    } else {
+      tabs = () => DEFAULT_TABS;
     }
+
     return (
       <InspectorMonitor
         shouldPersistState={false}

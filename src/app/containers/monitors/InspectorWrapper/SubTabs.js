@@ -5,6 +5,7 @@ import { Tabs } from 'remotedev-monitor-components';
 import StateTree from 'redux-devtools-inspector/lib/tabs/StateTab';
 import ActionTree from 'redux-devtools-inspector/lib/tabs/ActionTab';
 import { selectMonitorTab } from '../../../actions';
+import JSONTab from './JSONTab';
 
 class SubTabs extends Component {
   constructor(props) {
@@ -19,16 +20,17 @@ class SubTabs extends Component {
   }
 
   updateTabs(props) {
+    const isAction = props.parentTab === 'Action';
     this.tabs = [
       {
         name: 'Tree',
-        component: props.parentTab === 'Action' ? ActionTree : StateTree,
-        selector: () => props
+        component: isAction ? ActionTree : StateTree,
+        selector: () => this.props
       },
       {
         name: 'JSON',
-        component: StateTree,
-        selector: () => props
+        component: JSONTab,
+        selector: () => ({ data: isAction ? this.props.action : this.props.nextState })
       }
     ];
   }
@@ -47,7 +49,9 @@ class SubTabs extends Component {
 SubTabs.propTypes = {
   selected: PropTypes.string,
   parentTab: PropTypes.string,
-  selectMonitorTab: PropTypes.func.isRequired
+  selectMonitorTab: PropTypes.func.isRequired,
+  action: PropTypes.object,
+  nextState: PropTypes.object
 };
 
 function mapStateToProps(state) {

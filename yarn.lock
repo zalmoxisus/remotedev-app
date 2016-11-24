@@ -3958,7 +3958,7 @@ istanbul@^0.4.5:
     which "^1.1.1"
     wordwrap "^1.0.0"
 
-javascript-stringify@^1.1.0, javascript-stringify@^1.2.0:
+javascript-stringify, javascript-stringify@^1.1.0, javascript-stringify@^1.2.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/javascript-stringify/-/javascript-stringify-1.5.0.tgz#0486fa46aeb1cbb93b76c01984a60db4129cd841"
 
@@ -6326,6 +6326,13 @@ regjsparser@^0.1.4:
 remotedev-monitor-components@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/remotedev-monitor-components/-/remotedev-monitor-components-0.0.2.tgz#96c1e14f7b7fd25d8fc0fd954e2311d00cbb7b56"
+  dependencies:
+    codemirror "^5.21.0"
+    styled-components "^1.1.1"
+
+remotedev-monitor-components@0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/remotedev-monitor-components/-/remotedev-monitor-components-0.0.3.tgz#f9bdc335a3de1006d8fc747962b692b4aa6ceade"
   dependencies:
     codemirror "^5.21.0"
     styled-components "^1.1.1"
