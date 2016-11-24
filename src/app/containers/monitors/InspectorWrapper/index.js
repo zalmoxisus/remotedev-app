@@ -1,6 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import InspectorMonitor from 'redux-devtools-inspector';
-import TestGenerator from '../../components/TestGenerator';
+import DiffTab from 'redux-devtools-inspector/lib/tabs/DiffTab';
+import SubTabs from './SubTabs';
+import TestTab from './TestTab';
+
+const DEFAULT_TABS = [{
+  name: 'Action',
+  component: SubTabs
+}, {
+  name: 'State',
+  component: SubTabs
+}, {
+  name: 'Diff',
+  component: DiffTab
+}];
 
 class InspectorWrapper extends Component {
   static update = InspectorMonitor.update;
@@ -9,7 +22,7 @@ class InspectorWrapper extends Component {
     const { lib, ...rest } = this.props;
     let tabs;
     if (lib === 'redux') {
-      tabs = defaultTabs => [...defaultTabs, { name: 'Test', component: TestGenerator }];
+      tabs = () => [...DEFAULT_TABS, { name: 'Test', component: TestTab }];
     }
     return (
       <InspectorMonitor
@@ -28,4 +41,3 @@ InspectorWrapper.propTypes = {
 };
 
 export default InspectorWrapper;
-

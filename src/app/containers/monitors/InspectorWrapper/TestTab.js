@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import Button from './Button';
+import Button from '../../../components/Button';
 import AddButton from 'react-icons/lib/md/add';
 import EditButton from 'react-icons/lib/md/edit';
 import TestGenerator from 'redux-devtools-test-generator';
@@ -15,12 +15,12 @@ import mochaVTemplate from 'redux-devtools-test-generator/lib/vanilla/mocha/temp
 import tapeVTemplate from 'redux-devtools-test-generator/lib/vanilla/tape/template';
 import avaVTemplate from 'redux-devtools-test-generator/lib/vanilla/ava/template';
 */
-import { TEST_ADD, TEST_EDIT, TEST_REMOVE, TEST_SELECT } from '../constants/actionTypes';
-import { getActiveInstance } from '../reducers/instances';
+import { TEST_ADD, TEST_EDIT, TEST_REMOVE, TEST_SELECT } from '../../../constants/actionTypes';
+import { getActiveInstance } from '../../../reducers/instances';
 import TestForm from './TestForm';
-import styles from '../styles';
+import styles from '../../../styles';
 
-class TestGen extends Component {
+class TestTab extends Component {
   constructor(props) {
     super(props);
     this.state = { dialogStatus: 0 };
@@ -116,7 +116,7 @@ class TestGen extends Component {
   }
 }
 
-TestGen.propTypes = {
+TestTab.propTypes = {
   templates: PropTypes.array,
   selected: PropTypes.number,
   options: PropTypes.object.isRequired,
@@ -132,4 +132,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(TestGen);
+export default connect(mapStateToProps)(TestTab);

@@ -1,5 +1,5 @@
 import {
-  LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR, EXPORT,
+  LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR, SELECT_MONITOR_TAB, EXPORT,
   TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER, GET_REPORT_REQUEST,
   SHOW_NOTIFICATION, CLEAR_NOTIFICATION
 } from '../constants/actionTypes';
@@ -29,6 +29,10 @@ export function selectMonitor(event, index, value, nextMonitorState) {
 
 export function selectMonitorWithState(value, monitorState) {
   return { type: SELECT_MONITOR, monitor: value, monitorState };
+}
+
+export function selectMonitorTab(tab) {
+  return { type: SELECT_MONITOR_TAB, tab };
 }
 
 export function importState(state, preloadedState) {
