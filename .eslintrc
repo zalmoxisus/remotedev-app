@@ -4,7 +4,7 @@
     "chrome": true
   },
   "env": {
-    "mocha": true,
+    "jest": true,
     "browser": true,
     "node": true
   },

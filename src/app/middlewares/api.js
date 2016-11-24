@@ -129,6 +129,7 @@ function handleConnection() {
 }
 
 function connect() {
+  if (process.env.NODE_ENV === 'test') return;
   try {
     socket = socketCluster.connect(store.getState().socket.options);
     handleConnection(store);

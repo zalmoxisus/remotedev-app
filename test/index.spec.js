@@ -1,18 +1,28 @@
-import expect from 'expect';
 import React from 'react';
 import { mount } from 'enzyme';
+// import { mountToJson } from 'enzyme-to-json';
+import 'mock-local-storage';
 import App from '../src/app';
-
-const component = mount(<App />);
+let wrapper;
 
 describe('App container', () => {
-  it('should render inspector monitor\'s component', () => {
-    expect(component.find('DevtoolsInspector').html()).toExist();
+  beforeAll(() => {
+    wrapper = mount(<App />);
+  });
+
+/*
+  it('should render the App', () => {
+    expect(mountToJson(wrapper)).toMatchSnapshot();
+  });
+*/
+  
+  it('should render inspector monitor\'s wrapper', () => {
+    expect(wrapper.find('DevtoolsInspector').html()).toBeDefined();
   });
 
   it('should contain an empty action list', () => {
     expect(
-      component.find('ActionList').findWhere(n => {
+      wrapper.find('ActionList').findWhere(n => {
         const { className } = n.props();
         return className && className.startsWith('actionListRows-');
       }).html()
