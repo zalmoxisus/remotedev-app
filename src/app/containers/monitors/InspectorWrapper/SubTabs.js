@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Tabs } from 'remotedev-monitor-components';
 import StateTree from 'redux-devtools-inspector/lib/tabs/StateTab';
 import ActionTree from 'redux-devtools-inspector/lib/tabs/ActionTab';
+import DiffTree from 'redux-devtools-inspector/lib/tabs/DiffTab';
 import { selectMonitorTab } from '../../../actions';
 import JSONTab from './JSONTab';
 
@@ -19,18 +20,40 @@ class SubTabs extends Component {
     }
   }
 
+  selector = () => {
+    switch (this.props.parentTab) {
+      case 'Action':
+        return { data: this.props.action };
+      case 'Diff':
+        return { data: this.props.delta };
+      default:
+        return { data: this.props.nextState };
+    }
+  };
+
   updateTabs(props) {
-    const isAction = props.parentTab === 'Action';
+    let component;
+    switch (props.parentTab) {
+      case 'Action':
+        component = ActionTree;
+        break;
+      case 'Diff':
+        component = DiffTree;
+        break;
+      default:
+        component = StateTree;
+    }
+
     this.tabs = [
       {
         name: 'Tree',
-        component: isAction ? ActionTree : StateTree,
+        component,
         selector: () => this.props
       },
       {
         name: 'JSON',
         component: JSONTab,
-        selector: () => ({ data: isAction ? this.props.action : this.props.nextState })
+        selector: this.selector
       }
     ];
   }
@@ -51,6 +74,7 @@ SubTabs.propTypes = {
   parentTab: PropTypes.string,
   selectMonitorTab: PropTypes.func.isRequired,
   action: PropTypes.object,
+  delta: PropTypes.object,
   nextState: PropTypes.object
 };
 

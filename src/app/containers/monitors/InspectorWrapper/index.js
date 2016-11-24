@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import InspectorMonitor from 'redux-devtools-inspector';
-import DiffTab from 'redux-devtools-inspector/lib/tabs/DiffTab';
 import SubTabs from './SubTabs';
 import TestTab from './TestTab';
 
@@ -12,7 +11,7 @@ const DEFAULT_TABS = [{
   component: SubTabs
 }, {
   name: 'Diff',
-  component: DiffTab
+  component: SubTabs
 }];
 
 class InspectorWrapper extends Component {
