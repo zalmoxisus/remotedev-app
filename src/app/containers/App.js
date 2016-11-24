@@ -12,7 +12,6 @@ import Notification from '../components/Notification';
 import Instances from '../components/Instances';
 import MonitorSelector from '../components/MonitorSelector';
 import SyncToggle from '../components/SyncToggle';
-import TestGenerator from '../components/TestGenerator';
 
 class App extends Component {
   render() {
@@ -32,7 +31,7 @@ class App extends Component {
           liftedState={liftedState}
           monitorState={this.props.monitorState}
           dispatch={this.props.liftedDispatch}
-          testComponent={options.lib === 'redux' && TestGenerator}
+          lib={options.lib}
         />
         <Notification />
         {sliderIsOpen && options.connectionId &&
