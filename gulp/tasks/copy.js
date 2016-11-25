@@ -3,8 +3,6 @@ import rename from 'gulp-rename';
 
 const copy = (dest) => () => {
   gulp.src('./src/assets/**/*').pipe(gulp.dest(dest));
-  gulp.src('./node_modules/codemirror/lib/codemirror.css').pipe(gulp.dest(`${dest}/css`));
-  gulp.src('./node_modules/codemirror/theme/night.css').pipe(gulp.dest(`${dest}/css`));
 };
 
 gulp.task('copy:dev', copy('./dev'));
