@@ -1860,7 +1860,7 @@ d@^0.1.1, d@~0.1.1:
   dependencies:
     es5-ext "~0.10.2"
 
-d3-state-visualizer@^1.2.1:
+d3-state-visualizer@^1.2.1, d3-state-visualizer@1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/d3-state-visualizer/-/d3-state-visualizer-1.2.1.tgz#e3776b2df367564638ccae69dd2967be360e0816"
   dependencies:

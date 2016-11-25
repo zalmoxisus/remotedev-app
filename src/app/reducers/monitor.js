@@ -1,5 +1,6 @@
 import {
-  MONITOR_ACTION, SELECT_MONITOR, SELECT_MONITOR_TAB, TOGGLE_SLIDER, TOGGLE_DISPATCHER
+  MONITOR_ACTION, SELECT_MONITOR, SELECT_MONITOR_TAB, UPDATE_MONITOR_STATE,
+  TOGGLE_SLIDER, TOGGLE_DISPATCHER
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -34,12 +35,12 @@ export default function monitor(state = initialState, action) {
         monitorState,
         selected: action.monitor
       };
-    case SELECT_MONITOR_TAB:
+    case UPDATE_MONITOR_STATE:
       return {
         ...state,
         monitorState: {
           ...state.monitorState,
-          subTabName: action.tab
+          ...action.nextState
         }
       };
     case TOGGLE_SLIDER:

@@ -88,6 +88,7 @@
   },
   "dependencies": {
     "chrome-storage-local": "^0.1.6",
+    "d3-state-visualizer": "1.2.1",
     "javascript-stringify": "^1.5.0",
     "jsan": "^3.1.2",
     "lodash": "^4.0.0",

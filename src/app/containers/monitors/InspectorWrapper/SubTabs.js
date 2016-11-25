@@ -7,6 +7,7 @@ import ActionTree from 'redux-devtools-inspector/lib/tabs/ActionTab';
 import DiffTree from 'redux-devtools-inspector/lib/tabs/DiffTab';
 import { selectMonitorTab } from '../../../actions';
 import RawTab from './RawTab';
+import ChartTab from './ChartTab';
 
 class SubTabs extends Component {
   constructor(props) {
@@ -49,6 +50,11 @@ class SubTabs extends Component {
         name: 'Tree',
         component,
         selector: () => this.props
+      },
+      {
+        name: 'Chart',
+        component: ChartTab,
+        selector: this.selector
       },
       {
         name: 'Raw',
