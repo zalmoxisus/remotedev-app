@@ -4248,7 +4248,7 @@ json5@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/json5/-/json5-0.5.0.tgz#9b20715b026cbe3778fd769edccd822d8332a5b2"
 
-jsondiffpatch@^0.2.4:
+jsondiffpatch, jsondiffpatch@^0.2.4:
   version "0.2.4"
   resolved "https://registry.yarnpkg.com/jsondiffpatch/-/jsondiffpatch-0.2.4.tgz#d4b6c53b3fc7da1b4b91c1c2aec8b932b7511d5c"
   dependencies:
@@ -6887,7 +6887,7 @@ style-loader@^0.13.0:
   dependencies:
     loader-utils "^0.2.7"
 
-styled-components@^1.1.1:
+styled-components, styled-components@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/styled-components/-/styled-components-1.1.1.tgz#14fa0f4d34fec62e22edceaef3e291f108607d40"
   dependencies:

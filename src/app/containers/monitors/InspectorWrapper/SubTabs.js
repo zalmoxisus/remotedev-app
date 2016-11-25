@@ -8,6 +8,7 @@ import DiffTree from 'redux-devtools-inspector/lib/tabs/DiffTab';
 import { selectMonitorTab } from '../../../actions';
 import RawTab from './RawTab';
 import ChartTab from './ChartTab';
+import VisualDiffTab from './VisualDiffTab';
 
 class SubTabs extends Component {
   constructor(props) {
@@ -33,22 +34,28 @@ class SubTabs extends Component {
   };
 
   updateTabs(props) {
-    let component;
-    switch (props.parentTab) {
-      case 'Action':
-        component = ActionTree;
-        break;
-      case 'Diff':
-        component = DiffTree;
-        break;
-      default:
-        component = StateTree;
+    const parentTab = props.parentTab;
+
+    if (parentTab === 'Diff') {
+      this.tabs = [
+        {
+          name: 'Tree',
+          component: DiffTree,
+          selector: () => this.props
+        },
+        {
+          name: 'Raw',
+          component: VisualDiffTab,
+          selector: this.selector
+        }
+      ];
+      return;
     }
 
     this.tabs = [
       {
         name: 'Tree',
-        component,
+        component: parentTab === 'Action' ? ActionTree : StateTree,
         selector: () => this.props
       },
       {
