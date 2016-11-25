@@ -33,6 +33,7 @@ class ChartMonitorWrapper extends Component {
     this.props.selectMonitorWithState('InspectorMonitor', {
       inspectedStatePath,
       tabName: 'State',
+      subTabName: data.children ? 'Chart' : 'Tree',
       selectedActionId: null,
       startActionId: null,
       inspectedActionPath: []

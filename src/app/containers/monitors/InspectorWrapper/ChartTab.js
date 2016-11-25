@@ -62,7 +62,7 @@ class ChartTab extends Component {
     getPath(data, inspectedStatePath);
     this.props.updateMonitorState({
       inspectedStatePath,
-      subTabName: 'Raw'
+      subTabName: data.children ? 'Chart' : 'Tree'
     });
   };
 

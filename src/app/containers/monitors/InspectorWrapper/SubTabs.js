@@ -72,10 +72,13 @@ class SubTabs extends Component {
   }
 
   render() {
+    let selected = this.props.selected;
+    if (selected === 'Chart' && this.props.parentTab === 'Diff') selected = 'Tree';
+
     return (
       <Tabs
         tabs={this.tabs}
-        selected={this.props.selected}
+        selected={selected}
         onClick={this.props.selectMonitorTab}
       />
     );
