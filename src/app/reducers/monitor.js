@@ -36,11 +36,19 @@ export default function monitor(state = initialState, action) {
         selected: action.monitor
       };
     case UPDATE_MONITOR_STATE:
+      let inspectedStatePath = state.monitorState.inspectedStatePath;
+      if (action.nextState.inspectedStatePath) {
+        inspectedStatePath = [
+          ...inspectedStatePath.slice(0, -1),
+          ...action.nextState.inspectedStatePath
+        ];
+      }
       return {
         ...state,
         monitorState: {
           ...state.monitorState,
-          ...action.nextState
+          ...action.nextState,
+          inspectedStatePath
         }
       };
     case TOGGLE_SLIDER:
