@@ -1508,10 +1508,6 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-codemirror@^5.16.0:
-  version "5.20.2"
-  resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.20.2.tgz#918e0ece96d57a99030b2f8b33011284bed5217a"
-
 codemirror@^5.21.0:
   version "5.21.0"
   resolved "https://registry.yarnpkg.com/codemirror/-/codemirror-5.21.0.tgz#9ec4caeda50807575b2115226bf12414f85d2246"
@@ -1860,7 +1856,7 @@ d@^0.1.1, d@~0.1.1:
   dependencies:
     es5-ext "~0.10.2"
 
-d3-state-visualizer@^1.3.1, d3-state-visualizer@1.3.1:
+d3-state-visualizer@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/d3-state-visualizer/-/d3-state-visualizer-1.3.1.tgz#14c9fc31509c51db909ed715a41c05686870f182"
   dependencies:
@@ -6184,7 +6180,7 @@ redeyed@~1.0.0:
   dependencies:
     esprima "~3.0.0"
 
-redux-devtools-chart-monitor@1.6.1:
+redux-devtools-chart-monitor@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/redux-devtools-chart-monitor/-/redux-devtools-chart-monitor-1.6.1.tgz#6e1f99aaf6efcb3aee1c118dd6a8d7bf2b36953a"
   dependencies:
@@ -6193,9 +6189,9 @@ redux-devtools-chart-monitor@1.6.1:
     react-pure-render "^1.0.2"
     redux-devtools-themes "^1.0.0"
 
-redux-devtools-inspector@0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/redux-devtools-inspector/-/redux-devtools-inspector-0.9.3.tgz#7be80dda288943b9c8675beeaa8ae5756bbb723d"
+redux-devtools-inspector@^0.9.4:
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/redux-devtools-inspector/-/redux-devtools-inspector-0.9.4.tgz#7cbe388f5fced0dbc493f0e727b1285af4ca5167"
   dependencies:
     babel-runtime "^6.3.19"
     dateformat "^1.0.12"
@@ -6228,17 +6224,16 @@ redux-devtools-log-monitor@^1.1.0:
     react-pure-render "^1.0.2"
     redux-devtools-themes "^1.0.0"
 
-redux-devtools-test-generator@0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/redux-devtools-test-generator/-/redux-devtools-test-generator-0.4.0.tgz#f1a4d986069c591fcbcddec48e35634732cde80e"
+redux-devtools-test-generator@^0.4.0:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/redux-devtools-test-generator/-/redux-devtools-test-generator-0.4.1.tgz#426f7dc346ada000309d2d317dc63eb63807397d"
   dependencies:
-    codemirror "^5.16.0"
     es6template "^1.0.4"
     javascript-stringify "^1.2.0"
     jsan "^3.1.3"
     object-path "^0.11.1"
     react "^15.1.0"
-    remotedev-monitor-components "0.0.2"
+    remotedev-monitor-components "^0.0.2"
     simple-diff "^1.3.0"
 
 redux-devtools-themes@^1.0.0:
@@ -6318,14 +6313,14 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-remotedev-monitor-components@0.0.2:
+remotedev-monitor-components@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/remotedev-monitor-components/-/remotedev-monitor-components-0.0.2.tgz#96c1e14f7b7fd25d8fc0fd954e2311d00cbb7b56"
   dependencies:
     codemirror "^5.21.0"
     styled-components "^1.1.1"
 
-remotedev-monitor-components@0.0.4:
+remotedev-monitor-components@^0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/remotedev-monitor-components/-/remotedev-monitor-components-0.0.4.tgz#b782c3992c89367f04af5ca1fc63b81b582c761a"
   dependencies:
