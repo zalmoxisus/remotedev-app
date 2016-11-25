@@ -118,6 +118,7 @@ export const StyledContainer = styled.div`
 
   .jsondiffpatch-property-name:after {
     content: ': ';
+    color: #FFFFFF;
   }
 
   .jsondiffpatch-child-node-type-array > .jsondiffpatch-property-name:after {
