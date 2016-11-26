@@ -3,10 +3,6 @@ import { format } from 'jsondiffpatch/src/formatters/html';
 import styled from 'styled-components';
 
 export const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-
   .jsondiffpatch-delta {
     font-family: monaco, Consolas, "Lucida Console", monospace;
     font-size: 12px;

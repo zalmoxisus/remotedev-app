@@ -6320,9 +6320,9 @@ remotedev-monitor-components@^0.0.2:
     codemirror "^5.21.0"
     styled-components "^1.1.1"
 
-remotedev-monitor-components@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/remotedev-monitor-components/-/remotedev-monitor-components-0.0.4.tgz#b782c3992c89367f04af5ca1fc63b81b582c761a"
+remotedev-monitor-components@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/remotedev-monitor-components/-/remotedev-monitor-components-0.0.5.tgz#3a8142a0795f4893d665e42e1d4825fe7536104d"
   dependencies:
     codemirror "^5.21.0"
     styled-components "^1.1.1"
