@@ -150,6 +150,7 @@ export const StyledContainer = styled.div`
   }
 
   .jsondiffpatch-value pre:after {
+    color: #FFFFFF;
     content: ',';
   }
 
@@ -195,6 +196,7 @@ export const StyledContainer = styled.div`
   }
 
   .jsondiffpatch-textdiff-line-number:after {
+    color: #FFFFFF;
     content: ',';
   }
 
