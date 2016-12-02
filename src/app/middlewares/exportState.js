@@ -33,7 +33,7 @@ const exportState = store => next => action => {
   } else if (action.type === EXPORT) {
     const instances = store.getState().instances;
     const instanceId = getActiveInstance(instances);
-    if (instances.options[instanceId].lib !== 'redux') {
+    if (instances.options[instanceId].explicitLib !== 'redux') {
       download(stringify(instances.states[instanceId]));
     } else {
       toExport = instanceId;

@@ -172,16 +172,17 @@ function removeState(state, connectionId) {
   };
 }
 
-function init({ type, action, name }, connectionId, current) {
+function init({ type, action, name, libConfig = {} }, connectionId, current) {
   let lib;
   let actionCreators;
-  let creators = action;
+  let creators = libConfig.actionCreators || action;
   if (typeof creators === 'string') creators = JSON.parse(creators);
   if (Array.isArray(creators)) actionCreators = creators;
   if (type === 'STATE') lib = 'redux';
   return {
-    name: name || current,
+    name: libConfig.name || name || current,
     connectionId,
+    explicitLib: libConfig.type,
     lib,
     actionCreators
   };
