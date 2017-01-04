@@ -102,7 +102,7 @@
     "redux-devtools": "^3.0.0",
     "redux-devtools-chart-monitor": "^1.6.1",
     "redux-devtools-inspector": "^0.9.4",
-    "redux-devtools-log-monitor": "^1.1.0",
+    "redux-devtools-log-monitor": "^1.2.0",
     "redux-devtools-test-generator": "^0.4.0",
     "redux-devtools-themes": "^1.0.0",
     "remotedev-monitor-components": "^0.0.5",
