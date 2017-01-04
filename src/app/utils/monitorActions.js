@@ -27,6 +27,8 @@ export function nonReduxDispatch(store, message, instanceId, action, initialStat
       return stringify(state);
     case 'JUMP_TO_STATE':
       return stringify(state.computedStates[action.index].state);
+    case 'JUMP_TO_ACTION':
+      return stringify(state.computedStates[state.stagedActionIds.indexOf(action.actionId)].state);
     case 'ROLLBACK':
       return stringify(state.computedStates[0].state);
     case 'SWEEP':

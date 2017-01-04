@@ -123,14 +123,18 @@ function updateState(state, request, id) {
 }
 
 export function dispatchAction(state, { action }) {
-  if (action.type === 'JUMP_TO_STATE') {
+  if (action.type === 'JUMP_TO_STATE' || action.type === 'JUMP_TO_ACTION') {
     const id = state.selected || state.current;
     const liftedState = state.states[id];
+    let currentStateIndex = action.index;
+    if (typeof currentStateIndex === 'undefined' && action.actionId) {
+      currentStateIndex = liftedState.stagedActionIds.indexOf(action.actionId);
+    }
     return {
       ...state,
       states: {
         ...state.states,
-        [id]: { ...liftedState, currentStateIndex: action.index }
+        [id]: { ...liftedState, currentStateIndex }
       }
     };
   }
