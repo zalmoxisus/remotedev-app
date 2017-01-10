@@ -24,20 +24,20 @@ export const initialState = {
   }
 };
 
-function updateState(state, request, id) {
+function updateState(state, request, id, serialize) {
   let payload = request.payload;
   const actionsById = request.actionsById;
   if (actionsById) {
     payload = {
       ...payload,
-      actionsById: parseJSON(actionsById),
-      computedStates: parseJSON(request.computedStates)
+      actionsById: parseJSON(actionsById, serialize),
+      computedStates: parseJSON(request.computedStates, serialize)
     };
     if (request.type === 'STATE' && request.committedState) {
       payload.committedState = payload.computedStates[0].state;
     }
   } else {
-    payload = parseJSON(payload);
+    payload = parseJSON(payload, serialize);
   }
 
   let newState;
@@ -188,7 +188,8 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
     connectionId,
     explicitLib: libConfig.type,
     lib,
-    actionCreators
+    actionCreators,
+    serialize: libConfig.serialize
   };
 }
 
@@ -215,7 +216,7 @@ export default function instances(state = initialState, action) {
         current,
         connections,
         options,
-        states: updateState(state.states, request, current)
+        states: updateState(state.states, request, current, options[current].serialize)
       };
     case SET_STATE:
       return {

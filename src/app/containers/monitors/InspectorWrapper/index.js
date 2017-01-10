@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import InspectorMonitor from 'redux-devtools-inspector';
+import { DATA_TYPE_KEY } from '../../../constants/dataTypes';
 import SubTabs from './SubTabs';
 import TestTab from './TestTab';
 
@@ -28,6 +29,7 @@ class InspectorWrapper extends Component {
 
     return (
       <InspectorMonitor
+        dataTypeKey={DATA_TYPE_KEY}
         shouldPersistState={false}
         invertTheme={false}
         theme="nicinabox"
