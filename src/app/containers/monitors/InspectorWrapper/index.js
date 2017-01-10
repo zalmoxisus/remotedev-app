@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import InspectorMonitor from 'redux-devtools-inspector';
+import InspectorMonitor from 'remotedev-inspector-monitor';
 import { DATA_TYPE_KEY } from '../../../constants/dataTypes';
 import SubTabs from './SubTabs';
 import TestTab from './TestTab';
