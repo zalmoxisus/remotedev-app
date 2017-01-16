@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import LockIcon from 'react-icons/lib/md/lock';
-import LockOpenIcon from 'react-icons/lib/md/lock-open';
-import Button from '../Button';
+import { Button } from 'remotedev-ui';
+import LockIcon from 'react-icons/lib/go/lock';
 import { lockChanges } from '../../actions';
 
 class LockButton extends Component {
@@ -18,9 +17,13 @@ class LockButton extends Component {
   render() {
     return (
       <Button
-        Icon={this.props.locked ? LockIcon : LockOpenIcon}
+        toolbar
+        mark={this.props.locked && 'base0D'}
+        title={this.props.locked ? 'Unlock changes' : 'Lock changes'}
         onClick={this.props.lockChanges}
-      >{this.props.locked ? 'Unlock changes' : 'Lock changes'}</Button>
+      >
+        <LockIcon />
+      </Button>
     );
   }
 }

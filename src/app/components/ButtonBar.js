@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import SettingsIcon from 'react-icons/lib/md/settings';
-import HelpIcon from 'react-icons/lib/fa/lightbulb-o';
-import Button from './Button';
+import SettingsIcon from 'react-icons/lib/go/gear';
+import HelpIcon from 'react-icons/lib/go/question';
+import { Button } from 'remotedev-ui';
 import DispatcherButton from './buttons/DispatcherButton';
 import ImportButton from './buttons/ImportButton';
 import ExportButton from './buttons/ExportButton';
@@ -65,9 +65,9 @@ export default class ButtonBar extends Component {
         <ExportButton />
         <PrintButton />
         {!this.props.noSettings &&
-          <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
+          <Button title="Settings" toolbar onClick={this.openSettings}><SettingsIcon /></Button>
         }
-        <Button Icon={HelpIcon} onClick={this.openHelp}>How to use</Button>
+        <Button title="How to use" toolbar onClick={this.openHelp}><HelpIcon /></Button>
         {!this.props.noSettings &&
           <Settings isOpen={this.state.settingsOpened} close={this.closeSettings} />
         }

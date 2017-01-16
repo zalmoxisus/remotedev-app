@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import { Button } from 'remotedev-ui';
 import RecordIcon from 'react-icons/lib/md/fiber-manual-record';
-import PauseIcon from 'react-icons/lib/md/pause-circle-filled';
-import Button from '../Button';
 import { pauseRecording } from '../../actions';
 
 class RecordButton extends Component {
@@ -18,9 +17,13 @@ class RecordButton extends Component {
   render() {
     return (
       <Button
-        Icon={this.props.paused ? RecordIcon : PauseIcon}
+        toolbar
+        mark={!this.props.paused && 'base08'}
+        title={this.props.paused ? 'Start recording' : 'Pause recording'}
         onClick={this.props.pauseRecording}
-      >{this.props.paused ? 'Start recording' : 'Pause recording'}</Button>
+      >
+        <RecordIcon />
+      </Button>
     );
   }
 }

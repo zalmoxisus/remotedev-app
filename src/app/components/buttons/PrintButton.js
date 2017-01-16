@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
+import { Button } from 'remotedev-ui';
 import PrintIcon from 'react-icons/lib/md/print';
-import Button from '../Button';
 
 export default class PrintButton extends Component {
   shouldComponentUpdate() {
@@ -33,7 +33,7 @@ export default class PrintButton extends Component {
 
   render() {
     return (
-      <Button Icon={PrintIcon} onClick={this.handlePrint}>Print</Button>
+      <Button title="Print" toolbar onClick={this.handlePrint}><PrintIcon /></Button>
     );
   }
 }

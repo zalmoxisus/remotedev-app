@@ -1,9 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import DispatchIcon from 'react-icons/lib/md/keyboard';
-import DispatchHideIcon from 'react-icons/lib/md/keyboard-hide';
-import Button from '../Button';
+import { Button } from 'remotedev-ui';
+import DispatchIcon from 'react-icons/lib/go/terminal';
 import { toggleDispatcher } from '../../actions';
 
 class DispatcherButton extends Component {
@@ -19,9 +18,13 @@ class DispatcherButton extends Component {
   render() {
     return (
       <Button
-        Icon={this.props.dispatcherIsOpen ? DispatchHideIcon : DispatchIcon}
+        toolbar
+        mark={this.props.dispatcherIsOpen && 'base0F'}
+        title={this.props.dispatcherIsOpen ? 'Hide dispatcher' : 'Show dispatcher'}
         onClick={this.props.toggleDispatcher}
-      >Dispatcher</Button>
+      >
+        <DispatchIcon />
+      </Button>
     );
   }
 }

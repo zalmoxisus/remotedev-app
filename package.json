@@ -107,6 +107,7 @@
     "remotedev-inspector-monitor": "^0.10.0",
     "remotedev-monitor-components": "^0.0.5",
     "remotedev-slider": "1.1.3",
+    "remotedev-ui": "^0.1.0",
     "socketcluster-client": "^5.0.0",
     "styled-components": "^1.1.1"
   },

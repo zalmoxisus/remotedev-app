@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Container } from 'remotedev-ui';
 import SliderMonitor from 'remotedev-slider/lib/Slider';
 import { liftedDispatch, getReport } from '../actions';
 import { getActiveInstance } from '../reducers/instances';
@@ -17,7 +18,7 @@ class App extends Component {
   render() {
     const { monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState } = this.props;
     return (
-      <div style={styles.container}>
+      <Container themeData={{ theme: 'default', scheme: 'default', invert: false }} style={styles.container}>
         <div style={styles.buttonBar}>
           <MonitorSelector selected={monitor}/>
           <Instances selected={this.props.selected} />
@@ -56,7 +57,7 @@ class App extends Component {
           lib={options.lib}
           noSettings={this.props.noSettings}
         />
-      </div>
+      </Container>
     );
   }
 }

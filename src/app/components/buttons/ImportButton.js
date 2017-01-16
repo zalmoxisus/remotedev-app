@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import UploadIcon from 'react-icons/lib/md/file-upload';
-import Button from '../Button';
+import { Button } from 'remotedev-ui';
+import UploadIcon from 'react-icons/lib/go/cloud-upload';
 import { importState, showNotification } from '../../actions';
 
 class ImportButton extends Component {
@@ -42,8 +42,12 @@ class ImportButton extends Component {
 
   render() {
     return (
-      <Button Icon={UploadIcon} onClick={this.handleImport}>
-        Import
+      <Button
+        toolbar
+        title="Import"
+        onClick={this.handleImport}
+      >
+        <UploadIcon />
         <input
           type="file" ref={this.mapRef} style={{ display: 'none' }}
           onChange={this.handleImportFile}

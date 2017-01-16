@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Button } from 'remotedev-ui';
 import { stringify } from 'jsan';
-import DownloadIcon from 'react-icons/lib/md/file-download';
+import DownloadIcon from 'react-icons/lib/go/cloud-download';
 import { exportState } from '../../actions';
-import Button from '../Button';
 
 class ExportButton extends Component {
   static propTypes = {
@@ -18,9 +18,12 @@ class ExportButton extends Component {
   render() {
     return (
       <Button
-        Icon={DownloadIcon}
+        toolbar
+        title="Export"
         onClick={this.props.exportState}
-      >Export</Button>
+      >
+        <DownloadIcon />
+      </Button>
     );
   }
 }
