@@ -9,7 +9,6 @@ import SliderButton from './buttons/SliderButton';
 import LockButton from './buttons/LockButton';
 import RecordButton from './buttons/RecordButton';
 import PrintButton from './buttons/PrintButton';
-import styles from '../styles';
 import Settings from './Settings';
 import MonitorSelector from './MonitorSelector';
 

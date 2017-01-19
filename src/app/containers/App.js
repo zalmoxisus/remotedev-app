@@ -8,7 +8,7 @@ import { getActiveInstance } from '../reducers/instances';
 import styles from '../styles';
 import DevTools from '../containers/DevTools';
 import Dispatcher from './monitors/Dispatcher';
-import ButtonBar from '../components/ButtonBar';
+import BottomButtons from '../components/BottomButtons';
 import Notification from '../components/Notification';
 import Instances from '../components/Instances';
 import SyncToggle from '../components/SyncToggle';
@@ -48,7 +48,7 @@ class App extends Component {
         {dispatcherIsOpen && options.connectionId &&
           <Dispatcher options={options} />
         }
-        <ButtonBar
+        <BottomButtons
           liftedState={liftedState}
           dispatcherIsOpen={dispatcherIsOpen}
           sliderIsOpen={sliderIsOpen}
