@@ -11,7 +11,6 @@ import Dispatcher from './monitors/Dispatcher';
 import ButtonBar from '../components/ButtonBar';
 import Notification from '../components/Notification';
 import Instances from '../components/Instances';
-import MonitorSelector from '../components/MonitorSelector';
 import SyncToggle from '../components/SyncToggle';
 
 class App extends Component {
@@ -20,7 +19,6 @@ class App extends Component {
     return (
       <Container themeData={{ theme: 'default', scheme: 'default', invert: false }} style={styles.container}>
         <div style={styles.buttonBar}>
-          <MonitorSelector selected={monitor}/>
           <Instances selected={this.props.selected} />
           <SyncToggle
             on={this.props.shouldSync}

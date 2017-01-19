@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import SettingsIcon from 'react-icons/lib/go/gear';
 import HelpIcon from 'react-icons/lib/go/question';
-import { Button } from 'remotedev-ui';
+import { Button, Toolbar, Divider, Spacer } from 'remotedev-ui';
 import DispatcherButton from './buttons/DispatcherButton';
 import ImportButton from './buttons/ImportButton';
 import ExportButton from './buttons/ExportButton';
@@ -11,6 +11,7 @@ import RecordButton from './buttons/RecordButton';
 import PrintButton from './buttons/PrintButton';
 import styles from '../styles';
 import Settings from './Settings';
+import MonitorSelector from './MonitorSelector';
 
 export default class ButtonBar extends Component {
   static propTypes = {
@@ -52,26 +53,29 @@ export default class ButtonBar extends Component {
   render() {
     const isRedux = this.props.lib === 'redux';
     return (
-      <div style={styles.buttonBar}>
+      <Toolbar>
         {isRedux &&
           <RecordButton paused={this.props.liftedState.isPaused} />
         }
         {isRedux &&
           <LockButton locked={this.props.liftedState.isLocked} />
         }
-        <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
-        <SliderButton isOpen={this.props.sliderIsOpen}/>
         <ImportButton />
         <ExportButton />
         <PrintButton />
+        <Button title="How to use" toolbar onClick={this.openHelp}><HelpIcon /></Button>
+        <Divider />
+        <Spacer />
+        <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
+        <SliderButton isOpen={this.props.sliderIsOpen}/>
+        <MonitorSelector />
         {!this.props.noSettings &&
           <Button title="Settings" toolbar onClick={this.openSettings}><SettingsIcon /></Button>
         }
-        <Button title="How to use" toolbar onClick={this.openHelp}><HelpIcon /></Button>
         {!this.props.noSettings &&
           <Settings isOpen={this.state.settingsOpened} close={this.closeSettings} />
         }
-      </div>
+      </Toolbar>
     );
   }
 }

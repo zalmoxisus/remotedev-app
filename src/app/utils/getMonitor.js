@@ -4,9 +4,9 @@ import ChartMonitorWrapper from '../containers/monitors/ChartMonitorWrapper';
 import InspectorWrapper from '../containers/monitors/InspectorWrapper';
 
 export const monitors = [
-  { key: 'LogMonitor', title: 'Log monitor' },
-  { key: 'InspectorMonitor', title: 'Inspector' },
-  { key: 'ChartMonitor', title: 'Chart' }
+  { value: 'InspectorMonitor', label: 'Inspector' },
+  { value: 'LogMonitor', label: 'Log monitor' },
+  { value: 'ChartMonitor', label: 'Chart' }
 ];
 
 export default function getMonitor({ monitor, lib }) {

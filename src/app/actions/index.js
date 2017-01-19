@@ -23,8 +23,8 @@ export function selectInstance(event, index, selected) {
   return { type: SELECT_INSTANCE, selected };
 }
 
-export function selectMonitor(event, index, value, nextMonitorState) {
-  return { type: SELECT_MONITOR, monitor: value, nextMonitorState };
+export function selectMonitor({ value }) {
+  return { type: SELECT_MONITOR, monitor: value };
 }
 
 export function selectMonitorWithState(value, monitorState) {
