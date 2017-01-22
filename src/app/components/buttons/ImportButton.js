@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'remotedev-ui';
-import UploadIcon from 'react-icons/lib/go/cloud-upload';
+import UploadIcon from 'react-icons/lib/ti/upload';
 import { importState, showNotification } from '../../actions';
 
 class ImportButton extends Component {
@@ -43,8 +43,7 @@ class ImportButton extends Component {
   render() {
     return (
       <Button
-        toolbar
-        title="Import"
+        title="Import from a file"
         onClick={this.handleImport}
       >
         <UploadIcon />

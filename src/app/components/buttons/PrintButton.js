@@ -33,7 +33,7 @@ export default class PrintButton extends Component {
 
   render() {
     return (
-      <Button title="Print" toolbar onClick={this.handlePrint}><PrintIcon /></Button>
+      <Button title="Print" onClick={this.handlePrint}><PrintIcon /></Button>
     );
   }
 }

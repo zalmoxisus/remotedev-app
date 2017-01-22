@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'remotedev-ui';
 import { stringify } from 'jsan';
-import DownloadIcon from 'react-icons/lib/go/cloud-download';
+import DownloadIcon from 'react-icons/lib/ti/download';
 import { exportState } from '../../actions';
 
 class ExportButton extends Component {
@@ -18,8 +18,7 @@ class ExportButton extends Component {
   render() {
     return (
       <Button
-        toolbar
-        title="Export"
+        title="Export to a file"
         onClick={this.props.exportState}
       >
         <DownloadIcon />

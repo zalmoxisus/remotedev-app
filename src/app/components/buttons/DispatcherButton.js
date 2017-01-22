@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'remotedev-ui';
-import DispatchIcon from 'react-icons/lib/go/terminal';
+import DispatchIcon from 'react-icons/lib/fa/terminal';
 import { toggleDispatcher } from '../../actions';
 
 class DispatcherButton extends Component {
@@ -18,7 +18,6 @@ class DispatcherButton extends Component {
   render() {
     return (
       <Button
-        toolbar
         mark={this.props.dispatcherIsOpen && 'base0F'}
         title={this.props.dispatcherIsOpen ? 'Hide dispatcher' : 'Show dispatcher'}
         onClick={this.props.toggleDispatcher}
