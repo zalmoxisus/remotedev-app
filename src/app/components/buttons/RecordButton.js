@@ -17,7 +17,7 @@ class RecordButton extends Component {
   render() {
     return (
       <Button
-        toolbar
+        tooltipPosition="bottom-right"
         mark={!this.props.paused && 'base08'}
         title={this.props.paused ? 'Start recording' : 'Pause recording'}
         onClick={this.props.pauseRecording}

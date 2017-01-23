@@ -8,23 +8,19 @@ import { getActiveInstance } from '../reducers/instances';
 import styles from '../styles';
 import DevTools from '../containers/DevTools';
 import Dispatcher from './monitors/Dispatcher';
+import TopButtons from '../components/TopButtons';
 import BottomButtons from '../components/BottomButtons';
 import Notification from '../components/Notification';
-import Instances from '../components/Instances';
-import SyncToggle from '../components/SyncToggle';
 
 class App extends Component {
   render() {
     const { monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState } = this.props;
     return (
-      <Container themeData={{ theme: 'default', scheme: 'default', invert: false }} style={styles.container}>
-        <div style={styles.buttonBar}>
-          <Instances selected={this.props.selected} />
-          <SyncToggle
-            on={this.props.shouldSync}
-            style={!this.props.selected ? { display: 'none' } : undefined}
-          />
-        </div>
+      <Container themeData={{ theme: 'default', scheme: 'default', light: true }} style={styles.container}>
+        <TopButtons
+          liftedState={liftedState}
+          lib={options.lib}
+        />
         <DevTools
           monitor={monitor}
           liftedState={liftedState}
@@ -49,10 +45,8 @@ class App extends Component {
           <Dispatcher options={options} />
         }
         <BottomButtons
-          liftedState={liftedState}
           dispatcherIsOpen={dispatcherIsOpen}
           sliderIsOpen={sliderIsOpen}
-          lib={options.lib}
           noSettings={this.props.noSettings}
         />
       </Container>
@@ -63,7 +57,6 @@ class App extends Component {
 App.propTypes = {
   liftedDispatch: PropTypes.func.isRequired,
   getReport: PropTypes.func.isRequired,
-  selected: PropTypes.string,
   liftedState: PropTypes.object.isRequired,
   monitorState: PropTypes.object,
   options: PropTypes.object.isRequired,
@@ -71,7 +64,6 @@ App.propTypes = {
   dispatcherIsOpen: PropTypes.bool,
   sliderIsOpen: PropTypes.bool,
   reports: PropTypes.array.isRequired,
-  shouldSync: PropTypes.bool,
   noSettings: PropTypes.bool
 };
 
@@ -79,15 +71,13 @@ function mapStateToProps(state) {
   const instances = state.instances;
   const id = getActiveInstance(instances);
   return {
-    selected: instances.selected,
     liftedState: instances.states[id],
     monitorState: state.monitor.monitorState,
     options: instances.options[id],
     monitor: state.monitor.selected,
     dispatcherIsOpen: state.monitor.dispatcherIsOpen,
     sliderIsOpen: state.monitor.sliderIsOpen,
-    reports: state.reports.data,
-    shouldSync: state.instances.sync
+    reports: state.reports.data
   };
 }
 

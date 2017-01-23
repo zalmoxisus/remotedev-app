@@ -19,8 +19,8 @@ export function liftedDispatch(action) {
   return { type: LIFTED_ACTION, message: 'DISPATCH', action };
 }
 
-export function selectInstance(event, index, selected) {
-  return { type: SELECT_INSTANCE, selected };
+export function selectInstance({ value }) {
+  return { type: SELECT_INSTANCE, selected: value };
 }
 
 export function selectMonitor({ value }) {

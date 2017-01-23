@@ -1,12 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'remotedev-ui';
-import LockIcon from 'react-icons/lib/go/lock';
+import LockIcon from 'react-icons/lib/ti/lock-closed';
 import { lockChanges } from '../../actions';
 
 class LockButton extends Component {
   static propTypes = {
     locked: PropTypes.bool,
+    disabled: PropTypes.bool,
     lockChanges: PropTypes.func.isRequired
   };
 
@@ -17,7 +18,8 @@ class LockButton extends Component {
   render() {
     return (
       <Button
-        toolbar
+        tooltipPosition="bottom"
+        disabled={this.props.disabled}
         mark={this.props.locked && 'base0D'}
         title={this.props.locked ? 'Unlock changes' : 'Lock changes'}
         onClick={this.props.lockChanges}

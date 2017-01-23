@@ -1,13 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import { Select } from 'remotedev-ui';
 import shallowCompare from 'react/lib/shallowCompare';
 import { selectInstance } from '../actions';
-import styles from '../styles';
 
-class Instances extends Component {
+class InstanceSelector extends Component {
   static propTypes = {
     selected: PropTypes.string,
     instances: PropTypes.object.isRequired,
@@ -19,34 +17,28 @@ class Instances extends Component {
   }
 
   render() {
-    this.select = [['Autoselect instances', null]];
+    this.select = [{ value: '', label: 'Autoselect instances' }];
     const instances = this.props.instances;
     let name;
     Object.keys(instances).forEach(key => {
       name = instances[key].name;
-      if (name !== undefined) this.select.push([instances[key].name, key]);
+      if (name !== undefined) this.select.push({ value: key, label: instances[key].name });
     });
 
     return (
-      <SelectField
-        style={styles.select}
-        labelStyle={styles.selectLabel}
-        iconStyle={styles.selectIcon}
+      <Select
+        toolbar
+        options={this.select}
         onChange={this.props.onSelect}
-        value={this.props.selected}
-      >
-        {
-          this.select.map(
-            option => <MenuItem key={option[1]} value={option[1]} primaryText={option[0]} />
-          )
-        }
-      </SelectField>
+        value={this.props.selected || ''}
+      />
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
+    selected: state.instances.selected,
     instances: state.instances.options
   };
 }
@@ -57,4 +49,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Instances);
+export default connect(mapStateToProps, mapDispatchToProps)(InstanceSelector);
