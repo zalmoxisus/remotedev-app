@@ -32,7 +32,6 @@ class InspectorWrapper extends Component {
         dataTypeKey={DATA_TYPE_KEY}
         shouldPersistState={false}
         invertTheme={false}
-        theme="nicinabox"
         tabs={tabs}
         {...rest}
       />

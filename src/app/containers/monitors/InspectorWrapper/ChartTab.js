@@ -1,8 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withTheme } from 'styled-components';
 import { tree } from 'd3-state-visualizer';
-import { tooltipOptions, getPath } from '../ChartMonitorWrapper';
+import { getPath } from '../ChartMonitorWrapper';
 import { updateMonitorState } from '../../../actions';
 
 const style = {
@@ -10,45 +11,23 @@ const style = {
   height: '100%'
 };
 
-const defaultOptions = {
-  heightBetweenNodesCoeff: 1,
-  widthBetweenNodesCoeff: 1.3,
-  tooltipOptions: {
-    ...tooltipOptions,
-    offset: { left: 30, top: 10 },
-    indentationSize: 2
-  },
-  style: {
-    width: '100%',
-    height: '100%',
-    node: {
-      colors: {
-        'default': '#A1C659',
-        collapsed: '#A1C659',
-        parent: '#D381C3'
-      },
-      radius: 7
-    },
-    text: {
-      colors: {
-        'default': '#6FB3D2',
-        hover: '#FFFFFF'
-      }
-    }
-  }
-};
-
 class ChartTab extends Component {
+  shouldComponentUpdate() {
+    return false;
+  }
+
   componentDidMount() {
-    this.renderChart = tree(
-      this.node,
-      { ...defaultOptions, onClickText: this.onClickText }
-    );
-    this.renderChart(this.props.data);
+    this.createChart(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.data !== this.props.data) {
+    if (
+      this.props.theme.scheme !== nextProps.theme.scheme ||
+      nextProps.theme.light !== this.props.theme.light
+    ) {
+      this.node.innerHTML = '';
+      this.createChart(nextProps);
+    } else if (nextProps.data !== this.props.data) {
       this.renderChart(nextProps.data);
     }
   }
@@ -56,6 +35,48 @@ class ChartTab extends Component {
   getRef = node => {
     this.node = node;
   };
+
+  createChart(props) {
+    this.renderChart = tree(this.node, this.getChartTheme(props.theme));
+    this.renderChart(props.data);
+  }
+
+  getChartTheme(theme) {
+    return {
+      heightBetweenNodesCoeff: 1,
+      widthBetweenNodesCoeff: 1.3,
+      tooltipOptions: {
+        style: {
+          color: theme.base06,
+          'background-color': theme.base01,
+          'opacity': '0.9',
+          'border-radius': '5px',
+          'padding': '5px'
+        },
+        offset: { left: 30, top: 10 },
+        indentationSize: 2
+      },
+      style: {
+        width: '100%',
+        height: '100%',
+        node: {
+          colors: {
+            default: theme.base0B,
+            collapsed: theme.base0B,
+            parent: theme.base0E
+          },
+          radius: 7
+        },
+        text: {
+          colors: {
+            default: theme.base0D,
+            hover: theme.base06
+          }
+        }
+      },
+      onClickText: this.onClickText
+    };
+  }
 
   onClickText = (data) => {
     const inspectedStatePath = [];
@@ -73,7 +94,8 @@ class ChartTab extends Component {
 
 ChartTab.propTypes = {
   data: PropTypes.object,
-  updateMonitorState: PropTypes.func.isRequired
+  updateMonitorState: PropTypes.func.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
 function mapDispatchToProps(dispatch) {
@@ -82,4 +104,5 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(ChartTab);
+const ConnectedChartTab = connect(null, mapDispatchToProps)(ChartTab);
+export default withTheme(ConnectedChartTab);

@@ -1,7 +1,8 @@
 import React, { Component, PropTypes, createElement } from 'react';
+import { withTheme } from 'styled-components';
 import getMonitor from '../utils/getMonitor';
 
-export default class DevTools extends Component {
+class DevTools extends Component {
   constructor(props) {
     super(props);
     this.getMonitor(props);
@@ -45,7 +46,8 @@ export default class DevTools extends Component {
       nextProps.monitor !== this.props.monitor ||
       nextProps.liftedState !== this.props.liftedState ||
       nextProps.monitorState !== this.props.liftedState ||
-      nextProps.lib !== this.props.lib
+      nextProps.lib !== this.props.lib ||
+      nextProps.theme.scheme !== this.props.theme.scheme
     );
   }
 
@@ -64,11 +66,14 @@ export default class DevTools extends Component {
       monitorState: this.props.monitorState
     };
     return (
-      <this.Monitor
-        dispatch={this.dispatch}
-        {...liftedState}
-        {...this.monitorProps}
-      />
+      <div className={`monitor monitor-${this.props.monitor}`}>
+        <this.Monitor
+          {...liftedState}
+          {...this.monitorProps}
+          dispatch={this.dispatch}
+          theme={this.props.theme}
+        />
+      </div>
     );
   }
 }
@@ -78,5 +83,8 @@ DevTools.propTypes = {
   monitorState: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   monitor: PropTypes.string,
-  lib: PropTypes.string
+  lib: PropTypes.string,
+  theme: PropTypes.object.isRequired
 };
+
+export default withTheme(DevTools);

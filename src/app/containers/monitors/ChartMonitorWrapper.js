@@ -4,16 +4,6 @@ import { connect } from 'react-redux';
 import ChartMonitor from 'redux-devtools-chart-monitor';
 import { selectMonitorWithState } from '../../actions';
 
-export const tooltipOptions = {
-  style: {
-    'background-color': '#ffffff',
-    'color': '#000000',
-    'opacity': '0.9',
-    'border-radius': '5px',
-    'padding': '5px'
-  }
-};
-
 export function getPath(obj, inspectedStatePath) {
   const parent = obj.parent;
   if (!parent) return;
@@ -44,7 +34,6 @@ class ChartMonitorWrapper extends Component {
     return (
       <ChartMonitor
         defaultIsVisible invertTheme
-        tooltipOptions={tooltipOptions}
         onClickText={this.onClickText}
         {...this.props}
       />

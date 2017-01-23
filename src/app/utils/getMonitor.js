@@ -12,7 +12,7 @@ export const monitors = [
 export default function getMonitor({ monitor, lib }) {
   switch (monitor) {
     case 'LogMonitor':
-      return <LogMonitor preserveScrollTop={false} markStateDiff />;
+      return <LogMonitor preserveScrollTop={false} hideMainButtons markStateDiff />;
     case 'ChartMonitor':
       return <ChartMonitorWrapper />;
     default:
