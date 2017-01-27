@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Select } from 'remotedev-ui';
+import { Tabs } from 'remotedev-ui';
 import { monitors } from '../utils/getMonitor';
 import { selectMonitor } from '../actions';
 
@@ -17,12 +17,11 @@ class MonitorSelector extends Component {
 
   render() {
     return (
-      <Select
-        toolbar
-        openOuterUp
-        options={monitors}
-        onChange={this.props.selectMonitor}
-        value={this.props.selected || 'InspectorMonitor'}
+      <Tabs
+        main
+        tabs={monitors}
+        onClick={this.props.selectMonitor}
+        selected={this.props.selected || 'InspectorMonitor'}
       />
     );
   }

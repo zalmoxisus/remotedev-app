@@ -78,7 +78,7 @@ class SubTabs extends Component {
     return (
       <Tabs
         tabs={this.tabs}
-        selected={selected}
+        selected={selected || 'Tree'}
         onClick={this.props.selectMonitorTab}
       />
     );
