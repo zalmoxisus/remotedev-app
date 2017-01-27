@@ -42,7 +42,7 @@ export default class ButtonBar extends Component {
     const noStates = computedStates.length < 2;
 
     return (
-      <Toolbar>
+      <Toolbar borderPosition="bottom">
         <RecordButton paused={isPaused} />
         <LockButton
           locked={isLocked}

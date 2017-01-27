@@ -43,7 +43,7 @@ export default class ButtonBar extends Component {
 
   render() {
     return (
-      <Toolbar>
+      <Toolbar borderPosition="top">
         <Button
           title="Save a report"
           tooltipPosition="top-right"
