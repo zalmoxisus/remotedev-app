@@ -50,7 +50,6 @@ class App extends Component {
         <BottomButtons
           dispatcherIsOpen={dispatcherIsOpen}
           sliderIsOpen={sliderIsOpen}
-          noSettings={this.props.noSettings}
         />
       </Container>
     );
@@ -66,8 +65,7 @@ App.propTypes = {
   monitor: PropTypes.string,
   dispatcherIsOpen: PropTypes.bool,
   sliderIsOpen: PropTypes.bool,
-  reports: PropTypes.array.isRequired,
-  noSettings: PropTypes.bool
+  reports: PropTypes.array.isRequired
 };
 
 function mapStateToProps(state) {

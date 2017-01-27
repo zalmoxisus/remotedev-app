@@ -13,8 +13,7 @@ import MonitorSelector from './MonitorSelector';
 export default class ButtonBar extends Component {
   static propTypes = {
     dispatcherIsOpen: PropTypes.bool,
-    sliderIsOpen: PropTypes.bool,
-    noSettings: PropTypes.bool
+    sliderIsOpen: PropTypes.bool
   };
 
   constructor() {
@@ -62,18 +61,14 @@ export default class ButtonBar extends Component {
         <Divider />
         <SliderButton isOpen={this.props.sliderIsOpen}/>
         <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
-        {!this.props.noSettings &&
-          <Button
-            title="Settings"
-            tooltipPosition="top-left"
-            onClick={this.openSettings}
-          >
-            <SettingsIcon />
-          </Button>
-        }
-        {!this.props.noSettings &&
-          <Settings isOpen={this.state.settingsOpened} close={this.closeSettings} />
-        }
+        <Button
+          title="Settings"
+          tooltipPosition="top-left"
+          onClick={this.openSettings}
+        >
+          <SettingsIcon />
+        </Button>
+        <Settings isOpen={this.state.settingsOpened} close={this.closeSettings} />
       </Toolbar>
     );
   }
