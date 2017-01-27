@@ -27,7 +27,6 @@ class InstanceSelector extends Component {
 
     return (
       <Select
-        toolbar
         options={this.select}
         onChange={this.props.onSelect}
         value={this.props.selected || ''}

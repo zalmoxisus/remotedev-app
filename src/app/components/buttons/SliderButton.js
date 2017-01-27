@@ -18,7 +18,7 @@ class SliderButton extends Component {
   render() {
     return (
       <Button
-        mark={this.props.isOpen && 'base0F'}
+        mark={this.props.isOpen && 'base0B'}
         title={this.props.isOpen ? 'Hide slider' : 'Show slider'}
         onClick={this.props.toggleSlider}
       >

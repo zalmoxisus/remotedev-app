@@ -18,7 +18,7 @@ class DispatcherButton extends Component {
   render() {
     return (
       <Button
-        mark={this.props.dispatcherIsOpen && 'base0F'}
+        mark={this.props.dispatcherIsOpen && 'base0B'}
         title={this.props.dispatcherIsOpen ? 'Hide dispatcher' : 'Show dispatcher'}
         onClick={this.props.toggleDispatcher}
       >

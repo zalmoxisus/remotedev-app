@@ -57,9 +57,11 @@ export default class ButtonBar extends Component {
         <PrintButton />
         <Divider />
         <Spacer />
-        <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
-        <SliderButton isOpen={this.props.sliderIsOpen}/>
         <MonitorSelector />
+        <Spacer />
+        <Divider />
+        <SliderButton isOpen={this.props.sliderIsOpen}/>
+        <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
         {!this.props.noSettings &&
           <Button
             title="Settings"
