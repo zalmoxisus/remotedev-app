@@ -14,10 +14,13 @@ import Notification from '../components/Notification';
 
 class App extends Component {
   render() {
-    const { monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState } = this.props;
+    const {
+      monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState, liftedDispatch
+    } = this.props;
     return (
       <Container themeData={{ theme: 'default', scheme: 'default', light: true }} style={styles.container}>
         <TopButtons
+          dispatch={liftedDispatch}
           liftedState={liftedState}
           lib={options.lib}
         />
@@ -25,7 +28,7 @@ class App extends Component {
           monitor={monitor}
           liftedState={liftedState}
           monitorState={this.props.monitorState}
-          dispatch={this.props.liftedDispatch}
+          dispatch={liftedDispatch}
           lib={options.lib}
         />
         <Notification />
@@ -33,7 +36,7 @@ class App extends Component {
           <SliderMonitor
             monitor="SliderMonitor"
             liftedState={liftedState}
-            dispatch={this.props.liftedDispatch}
+            dispatch={liftedDispatch}
             getReport={this.props.getReport}
             reports={this.props.reports}
             showActions={monitor === 'ChartMonitor'}
