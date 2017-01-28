@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'remotedev-ui';
-import LockIcon from 'react-icons/lib/ti/lock-closed';
+import LockIcon from 'react-icons/lib/io/ios-locked';
 import { lockChanges } from '../../actions';
 
 class LockButton extends Component {

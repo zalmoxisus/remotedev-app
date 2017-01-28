@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'remotedev-ui';
-import HistoryIcon from 'react-icons/lib/md/history';
+import HistoryIcon from 'react-icons/lib/md/av-timer';
 import { toggleSlider } from '../../actions';
 
 class SliderButton extends Component {
