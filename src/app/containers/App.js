@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Container } from 'remotedev-ui';
 import SliderMonitor from 'remotedev-slider/lib/Slider';
-import { liftedDispatch, getReport } from '../actions';
+import { liftedDispatch as liftedDispatchAction, getReport } from '../actions';
 import { getActiveInstance } from '../reducers/instances';
 import styles from '../styles';
 import DevTools from '../containers/DevTools';
@@ -84,7 +84,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    liftedDispatch: bindActionCreators(liftedDispatch, dispatch),
+    liftedDispatch: bindActionCreators(liftedDispatchAction, dispatch),
     getReport: bindActionCreators(getReport, dispatch)
   };
 }
