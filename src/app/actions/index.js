@@ -85,8 +85,8 @@ export function toggleDispatcher() {
   return { type: TOGGLE_DISPATCHER };
 }
 
-export function saveSocketSettings(isCustom, options) {
-  return { type: RECONNECT, isCustom, options };
+export function saveSocketSettings(options) {
+  return { type: RECONNECT, options };
 }
 
 export function showNotification(message) {

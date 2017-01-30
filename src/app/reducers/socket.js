@@ -2,8 +2,8 @@ import socketOptions from '../constants/socketOptions';
 import * as actions from '../constants/socketActionTypes';
 
 const initialState = {
+  connectionType: 'remotedev',
   options: socketOptions,
-  isCustom: false,
   id: null,
   channels: [],
   socketState: actions.CLOSED,
@@ -14,19 +14,20 @@ const initialState = {
 
 export default function socket(state = initialState, action) {
   switch (action.type) {
-    case actions.CONNECT_REQUEST:
+    case actions.CONNECT_REQUEST: {
       let options = state.options;
-      let isCustom = state.isCustom;
+      let connectionType = state.connectionType;
       if (action.options) {
-        isCustom = true;
+        connectionType = 'custom';
         options = action.options;
       }
       return {
         ...state,
-        isCustom,
+        connectionType,
         options,
         socketState: actions.CONNECTING
       };
+    }
     case actions.CONNECT_ERROR:
       return {
         ...state,
@@ -81,12 +82,14 @@ export default function socket(state = initialState, action) {
         ...initialState,
         options: state.options
       };
-    case actions.RECONNECT:
-      return {
-        ...state,
-        isCustom: action.isCustom,
-        options: action.isCustom ? action.options : socketOptions
-      };
+    case actions.RECONNECT: {
+      const { connectionType, ...data } = action.options;
+      let options;
+      if (connectionType === 'remotedev') options = socketOptions;
+      else if (connectionType === 'custom') options = data;
+      else options = {};
+      return { ...state, connectionType, options };
+    }
     default:
       return state;
   }
