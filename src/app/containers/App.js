@@ -6,6 +6,7 @@ import SliderMonitor from 'remotedev-slider/lib/Slider';
 import { liftedDispatch as liftedDispatchAction, getReport } from '../actions';
 import { getActiveInstance } from '../reducers/instances';
 import styles from '../styles';
+import Header from '../components/Header';
 import DevTools from '../containers/DevTools';
 import Dispatcher from './monitors/Dispatcher';
 import TopButtons from '../components/TopButtons';
@@ -15,10 +16,11 @@ import Notification from '../components/Notification';
 class App extends Component {
   render() {
     const {
-      monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState, liftedDispatch
+      section, monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState, liftedDispatch
     } = this.props;
     return (
-      <Container themeData={{ theme: 'default', scheme: 'default', light: true }} style={styles.container}>
+      <Container themeData={{ theme: 'default', scheme: 'default', light: true }}>
+        <Header section={section} />
         <TopButtons
           dispatch={liftedDispatch}
           liftedState={liftedState}
@@ -57,6 +59,7 @@ class App extends Component {
 }
 
 App.propTypes = {
+  section: PropTypes.string.isRequired,
   liftedDispatch: PropTypes.func.isRequired,
   getReport: PropTypes.func.isRequired,
   liftedState: PropTypes.object.isRequired,
@@ -72,6 +75,7 @@ function mapStateToProps(state) {
   const instances = state.instances;
   const id = getActiveInstance(instances);
   return {
+    section: state.section,
     liftedState: instances.states[id],
     monitorState: state.monitor.monitorState,
     options: instances.options[id],

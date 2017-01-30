@@ -1,12 +1,16 @@
 import {
-  LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR, UPDATE_MONITOR_STATE, EXPORT,
-  TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER, GET_REPORT_REQUEST,
+  CHANGE_SECTION, LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR, UPDATE_MONITOR_STATE,
+  EXPORT, TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER, GET_REPORT_REQUEST,
   SHOW_NOTIFICATION, CLEAR_NOTIFICATION
 } from '../constants/actionTypes';
 import { RECONNECT } from '../constants/socketActionTypes';
 
 let monitorReducer;
 let monitorProps = {};
+
+export function changeSection(section) {
+  return { type: CHANGE_SECTION, section };
+}
 
 export function liftedDispatch(action) {
   if (action.type[0] === '@') {
