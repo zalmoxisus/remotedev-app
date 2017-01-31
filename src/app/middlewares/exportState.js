@@ -1,4 +1,4 @@
-import { stringify } from 'jsan';
+import stringifyJSON from '../utils/stringifyJSON';
 import { UPDATE_STATE, LIFTED_ACTION, EXPORT } from '../constants/actionTypes';
 import { getActiveInstance } from '../reducers/instances';
 let toExport;
@@ -33,8 +33,9 @@ const exportState = store => next => action => {
   } else if (action.type === EXPORT) {
     const instances = store.getState().instances;
     const instanceId = getActiveInstance(instances);
-    if (instances.options[instanceId].explicitLib !== 'redux') {
-      download(stringify(instances.states[instanceId]));
+    const options = instances.options[instanceId];
+    if (options.explicitLib !== 'redux') {
+      download(stringifyJSON(instances.states[instanceId], options.serialize));
     } else {
       toExport = instanceId;
       next({ type: LIFTED_ACTION, message: 'EXPORT', toExport: true });
