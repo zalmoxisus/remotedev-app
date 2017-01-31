@@ -189,6 +189,11 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
     explicitLib: libConfig.type,
     lib,
     actionCreators,
+    features: libConfig.features ? libConfig.features :
+      {
+        record: true, lock: true, persist: true, import: true, reorder: true,
+        jump: true, dispatch: true, test: true
+      },
     serialize: libConfig.serialize
   };
 }

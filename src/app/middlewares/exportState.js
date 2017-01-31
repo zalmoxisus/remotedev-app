@@ -34,7 +34,7 @@ const exportState = store => next => action => {
     const instances = store.getState().instances;
     const instanceId = getActiveInstance(instances);
     const options = instances.options[instanceId];
-    if (options.explicitLib !== 'redux') {
+    if (options.explicitLib !== 'redux' || !options.import) {
       download(stringifyJSON(instances.states[instanceId], options.serialize));
     } else {
       toExport = instanceId;
