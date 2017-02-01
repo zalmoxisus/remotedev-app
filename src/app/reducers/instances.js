@@ -200,7 +200,7 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
     features: libConfig.features ? libConfig.features :
       {
         lock: isRedux, persist: isRedux, export: libConfig.type === 'redux' ? 'custom' : true,
-        import: true, pause: true, reorder: true, jump: true, dispatch: true, test: true
+        import: 'custom', pause: true, reorder: true, jump: true, dispatch: true, test: true
       },
     serialize: libConfig.serialize
   };
@@ -245,9 +245,22 @@ export default function instances(state = initialState, action) {
       return { ...state, selected: action.selected, sync: false };
     case REMOVE_INSTANCE:
       return removeState(state, action.id);
-    case LIFTED_ACTION:
+    case LIFTED_ACTION: {
       if (action.message === 'DISPATCH') return dispatchAction(state, action);
+      if (action.message === 'IMPORT') {
+        const id = state.selected || state.current;
+        if (state.options[id].features.import === true) {
+          return {
+            ...state,
+            states: {
+              ...state.states,
+              [id]: parseJSON(action.state)
+            }
+          };
+        }
+      }
       return state;
+    }
     case DISCONNECTED:
       return initialState;
     default:

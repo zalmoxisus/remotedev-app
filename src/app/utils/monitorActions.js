@@ -1,4 +1,4 @@
-import { stringify } from 'jsan';
+import stringifyJSON from './stringifyJSON';
 import difference from 'lodash/difference';
 import omit from 'lodash/omit';
 import { SET_STATE } from '../constants/actionTypes';
@@ -14,23 +14,31 @@ export function sweep(state) {
 }
 
 export function nonReduxDispatch(store, message, instanceId, action, initialState, preInstances) {
+  const instances = preInstances || store.getState().instances;
+  const state = instances.states[instanceId];
+  const options = instances.options[instanceId];
+
   if (message !== 'DISPATCH') {
-    if (message === 'IMPORT') return initialState;
+    if (message === 'IMPORT') {
+      if (options.features.import === true) {
+        return stringifyJSON(state.computedStates[state.currentStateIndex].state, true);
+      }
+      return initialState;
+    }
     return undefined;
   }
-  const instances = preInstances || store.getState().instances;
-  if (instances.options[instanceId].lib === 'redux') return undefined;
-  const state = instances.states[instanceId];
+
+  if (options.lib === 'redux') return undefined;
 
   switch (action.type) {
     case 'TOGGLE_ACTION':
-      return stringify(state);
+      return stringifyJSON(state, true);
     case 'JUMP_TO_STATE':
-      return stringify(state.computedStates[action.index].state);
+      return stringifyJSON(state.computedStates[action.index].state, true);
     case 'JUMP_TO_ACTION':
-      return stringify(state.computedStates[state.stagedActionIds.indexOf(action.actionId)].state);
+      return stringifyJSON(state.computedStates[state.stagedActionIds.indexOf(action.actionId)].state, true);
     case 'ROLLBACK':
-      return stringify(state.computedStates[0].state);
+      return stringifyJSON(state.computedStates[0].state, true);
     case 'SWEEP':
       store.dispatch({ type: SET_STATE, newState: sweep(state) });
       return undefined;
