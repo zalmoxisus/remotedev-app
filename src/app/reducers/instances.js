@@ -115,10 +115,14 @@ function updateState(state, request, id, serialize) {
         committedState
       };
       break;
+    case 'LIFTED':
+      newState = liftedState;
+      break;
     default:
       return state;
   }
 
+  if (request.liftedState) newState = { ...newState, ...request.liftedState };
   return { ...state, [id]: newState };
 }
 
@@ -179,10 +183,14 @@ function removeState(state, connectionId) {
 function init({ type, action, name, libConfig = {} }, connectionId, current) {
   let lib;
   let actionCreators;
+  let isRedux;
   let creators = libConfig.actionCreators || action;
   if (typeof creators === 'string') creators = JSON.parse(creators);
   if (Array.isArray(creators)) actionCreators = creators;
-  if (type === 'STATE') lib = 'redux';
+  if (type === 'STATE') {
+    lib = 'redux';
+    isRedux = true;
+  }
   return {
     name: libConfig.name || name || current,
     connectionId,
@@ -191,8 +199,8 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
     actionCreators,
     features: libConfig.features ? libConfig.features :
       {
-        record: true, lock: true, persist: true, import: true, reorder: true,
-        jump: true, dispatch: true, test: true
+        lock: isRedux, persist: isRedux, export: libConfig.type === 'redux' ? 'custom' : true,
+        import: true, pause: true, reorder: true, jump: true, dispatch: true, test: true
       },
     serialize: libConfig.serialize
   };
