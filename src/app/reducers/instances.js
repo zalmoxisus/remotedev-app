@@ -183,14 +183,10 @@ function removeState(state, connectionId) {
 function init({ type, action, name, libConfig = {} }, connectionId, current) {
   let lib;
   let actionCreators;
-  let isRedux;
   let creators = libConfig.actionCreators || action;
   if (typeof creators === 'string') creators = JSON.parse(creators);
   if (Array.isArray(creators)) actionCreators = creators;
-  if (type === 'STATE') {
-    lib = 'redux';
-    isRedux = true;
-  }
+  if (type === 'STATE') lib = 'redux';
   return {
     name: libConfig.name || name || current,
     connectionId,
@@ -199,8 +195,9 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
     actionCreators,
     features: libConfig.features ? libConfig.features :
       {
-        lock: isRedux, persist: isRedux, export: libConfig.type === 'redux' ? 'custom' : true,
-        import: 'custom', pause: true, reorder: true, jump: true, dispatch: true, test: true
+        lock: lib === 'redux', export: libConfig.type === 'redux' ? 'custom' : true,
+        import: 'custom', persist: true, pause: true, reorder: true, jump: true, dispatch: true,
+        test: true
       },
     serialize: libConfig.serialize
   };
