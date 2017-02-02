@@ -42,7 +42,6 @@ function updateState(state, request, id, serialize) {
 
   let newState;
   const liftedState = state[id] || state.default;
-  let isExcess;
   const action = request.action && parseJSON(request.action) || {};
 
   switch (request.type) {
@@ -53,17 +52,34 @@ function updateState(state, request, id, serialize) {
         { action: { type: '@@INIT' }, timestamp: action.timestamp || Date.now() }
       );
       break;
-    case 'ACTION':
-      isExcess = request.isExcess;
-      if (typeof isExcess === 'undefined') isExcess = request.nextActionId > request.maxAge;
-      newState = recompute(
-        liftedState,
-        payload,
-        action,
-        request.nextActionId || (liftedState.nextActionId + 1),
-        isExcess
-      );
+    case 'ACTION': {
+      let isExcess = request.isExcess;
+      const nextActionId = request.nextActionId || (liftedState.nextActionId + 1);
+      if (typeof isExcess === 'undefined') isExcess = nextActionId > request.maxAge;
+      console.log(action)
+      if (Array.isArray(action)) {
+        // Batched actions
+        newState = liftedState;
+        for (let i = 0; i < action.length; i++) {
+          newState = recompute(
+            newState,
+            request.batched ? payload : payload[i],
+            action[i],
+            newState.nextActionId + 1,
+            isExcess
+          );
+        }
+      } else {
+        newState = recompute(
+          liftedState,
+          payload,
+          action,
+          nextActionId,
+          isExcess
+        );
+      }
       break;
+    }
     case 'STATE':
       newState = payload;
       if (newState.computedStates.length <= newState.currentStateIndex) {
