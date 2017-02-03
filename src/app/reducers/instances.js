@@ -56,7 +56,6 @@ function updateState(state, request, id, serialize) {
       let isExcess = request.isExcess;
       const nextActionId = request.nextActionId || (liftedState.nextActionId + 1);
       if (typeof isExcess === 'undefined') isExcess = nextActionId > request.maxAge;
-      console.log(action)
       if (Array.isArray(action)) {
         // Batched actions
         newState = liftedState;
@@ -212,8 +211,8 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
     features: libConfig.features ? libConfig.features :
       {
         lock: lib === 'redux', export: libConfig.type === 'redux' ? 'custom' : true,
-        import: 'custom', persist: true, pause: true, reorder: true, jump: true, dispatch: true,
-        test: true
+        import: 'custom', persist: true, pause: true, reorder: true, jump: true, skip: true,
+        dispatch: true, test: true
       },
     serialize: libConfig.serialize
   };
