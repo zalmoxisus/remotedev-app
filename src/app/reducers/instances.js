@@ -42,7 +42,6 @@ function updateState(state, request, id, serialize) {
 
   let newState;
   const liftedState = state[id] || state.default;
-  let isExcess;
   const action = request.action && parseJSON(request.action) || {};
 
   switch (request.type) {
@@ -53,17 +52,33 @@ function updateState(state, request, id, serialize) {
         { action: { type: '@@INIT' }, timestamp: action.timestamp || Date.now() }
       );
       break;
-    case 'ACTION':
-      isExcess = request.isExcess;
-      if (typeof isExcess === 'undefined') isExcess = request.nextActionId > request.maxAge;
-      newState = recompute(
-        liftedState,
-        payload,
-        action,
-        request.nextActionId || (liftedState.nextActionId + 1),
-        isExcess
-      );
+    case 'ACTION': {
+      let isExcess = request.isExcess;
+      const nextActionId = request.nextActionId || (liftedState.nextActionId + 1);
+      if (typeof isExcess === 'undefined') isExcess = nextActionId > request.maxAge;
+      if (Array.isArray(action)) {
+        // Batched actions
+        newState = liftedState;
+        for (let i = 0; i < action.length; i++) {
+          newState = recompute(
+            newState,
+            request.batched ? payload : payload[i],
+            action[i],
+            newState.nextActionId + 1,
+            isExcess
+          );
+        }
+      } else {
+        newState = recompute(
+          liftedState,
+          payload,
+          action,
+          nextActionId,
+          isExcess
+        );
+      }
       break;
+    }
     case 'STATE':
       newState = payload;
       if (newState.computedStates.length <= newState.currentStateIndex) {
@@ -115,10 +130,14 @@ function updateState(state, request, id, serialize) {
         committedState
       };
       break;
+    case 'LIFTED':
+      newState = liftedState;
+      break;
     default:
       return state;
   }
 
+  if (request.liftedState) newState = { ...newState, ...request.liftedState };
   return { ...state, [id]: newState };
 }
 
@@ -189,6 +208,12 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
     explicitLib: libConfig.type,
     lib,
     actionCreators,
+    features: libConfig.features ? libConfig.features :
+      {
+        lock: lib === 'redux', export: libConfig.type === 'redux' ? 'custom' : true,
+        import: 'custom', persist: true, pause: true, reorder: true, jump: true, skip: true,
+        dispatch: true, test: true
+      },
     serialize: libConfig.serialize
   };
 }
@@ -232,9 +257,22 @@ export default function instances(state = initialState, action) {
       return { ...state, selected: action.selected, sync: false };
     case REMOVE_INSTANCE:
       return removeState(state, action.id);
-    case LIFTED_ACTION:
+    case LIFTED_ACTION: {
       if (action.message === 'DISPATCH') return dispatchAction(state, action);
+      if (action.message === 'IMPORT') {
+        const id = state.selected || state.current;
+        if (state.options[id].features.import === true) {
+          return {
+            ...state,
+            states: {
+              ...state.states,
+              [id]: parseJSON(action.state)
+            }
+          };
+        }
+      }
       return state;
+    }
     case DISCONNECTED:
       return initialState;
     default:
