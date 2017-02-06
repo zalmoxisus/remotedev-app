@@ -8,15 +8,17 @@ import DispatcherButton from './buttons/DispatcherButton';
 import SliderButton from './buttons/SliderButton';
 import MonitorSelector from './MonitorSelector';
 
-export default class ButtonBar extends Component {
+export default class BottomButtons extends Component {
   static propTypes = {
     dispatcherIsOpen: PropTypes.bool,
-    sliderIsOpen: PropTypes.bool
+    sliderIsOpen: PropTypes.bool,
+    options: PropTypes.object.isRequired
   };
 
   shouldComponentUpdate(nextProps, nextState) {
     return nextProps.dispatcherIsOpen !== this.props.dispatcherIsOpen
-      || nextProps.sliderIsOpen !== this.props.sliderIsOpen;
+      || nextProps.sliderIsOpen !== this.props.sliderIsOpen
+      || nextProps.options !== this.props.options;
   }
 
   openHelp() {
@@ -24,8 +26,10 @@ export default class ButtonBar extends Component {
   }
 
   render() {
+    const features = this.props.options.features;
     return (
       <Toolbar borderPosition="top">
+        {features.export &&
         <Button
           title="Save a report"
           tooltipPosition="top-right"
@@ -33,16 +37,25 @@ export default class ButtonBar extends Component {
         >
           <SaveIcon />
         </Button>
+        }
+        {features.export &&
         <ExportButton />
+        }
+        {features.import &&
         <ImportButton />
+        }
         <PrintButton />
         <Divider />
         <Spacer />
         <MonitorSelector />
         <Spacer />
         <Divider />
+        {features.jump &&
         <SliderButton isOpen={this.props.sliderIsOpen}/>
+        }
+        {features.dispatch &&
         <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
+        }
       </Toolbar>
     );
   }

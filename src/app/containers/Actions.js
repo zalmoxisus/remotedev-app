@@ -21,17 +21,17 @@ class Actions extends Component {
         <TopButtons
           dispatch={liftedDispatch}
           liftedState={liftedState}
-          lib={options.lib}
+          options={options}
         />
         <DevTools
           monitor={monitor}
           liftedState={liftedState}
           monitorState={this.props.monitorState}
           dispatch={liftedDispatch}
-          lib={options.lib}
+          options={options}
         />
         <Notification />
-        {sliderIsOpen && options.connectionId &&
+        {sliderIsOpen && options.connectionId && options.features.jump &&
         <SliderMonitor
           monitor="SliderMonitor"
           liftedState={liftedState}
@@ -43,12 +43,13 @@ class Actions extends Component {
           fillColor="rgb(120, 144, 156)"
         />
         }
-        {dispatcherIsOpen && options.connectionId &&
+        {dispatcherIsOpen && options.connectionId && options.features.dispatch &&
         <Dispatcher options={options} />
         }
         <BottomButtons
           dispatcherIsOpen={dispatcherIsOpen}
           sliderIsOpen={sliderIsOpen}
+          options={options}
         />
       </Container>
     );

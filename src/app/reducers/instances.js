@@ -11,7 +11,7 @@ export const initialState = {
   current: 'default',
   sync: false,
   connections: {},
-  options: { default: {} },
+  options: { default: { features: {} } },
   states: {
     default: {
       actionsById: {},
@@ -212,7 +212,7 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
       {
         lock: lib === 'redux', export: libConfig.type === 'redux' ? 'custom' : true,
         import: 'custom', persist: true, pause: true, reorder: true, jump: true, skip: true,
-        dispatch: true, test: true
+        dispatch: true, sync: true, test: true
       },
     serialize: libConfig.serialize
   };

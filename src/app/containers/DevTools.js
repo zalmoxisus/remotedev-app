@@ -37,7 +37,7 @@ class DevTools extends Component {
   componentWillUpdate(nextProps) {
     if (
       nextProps.monitor !== this.props.monitor ||
-      nextProps.lib !== this.props.lib
+      nextProps.options !== this.props.options
     ) this.getMonitor(nextProps);
   }
 
@@ -46,7 +46,7 @@ class DevTools extends Component {
       nextProps.monitor !== this.props.monitor ||
       nextProps.liftedState !== this.props.liftedState ||
       nextProps.monitorState !== this.props.liftedState ||
-      nextProps.lib !== this.props.lib ||
+      nextProps.options !== this.props.options ||
       nextProps.theme.scheme !== this.props.theme.scheme
     );
   }
@@ -83,7 +83,7 @@ DevTools.propTypes = {
   monitorState: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   monitor: PropTypes.string,
-  lib: PropTypes.string,
+  options: PropTypes.object.isRequired,
   theme: PropTypes.object.isRequired
 };
 

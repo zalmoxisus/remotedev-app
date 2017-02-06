@@ -8,16 +8,16 @@ import SyncButton from './buttons/SyncButton';
 
 const { reset, rollback, commit, sweep } = ActionCreators;
 
-export default class ButtonBar extends Component {
+export default class TopButtons extends Component {
   static propTypes = {
     shouldSync: PropTypes.bool,
     liftedState: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
-    lib: PropTypes.string
+    options: PropTypes.object.isRequired
   };
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.lib !== this.props.lib
+    return nextProps.options !== this.props.options
       || nextProps.liftedState !== this.props.liftedState;
   }
 
@@ -38,16 +38,22 @@ export default class ButtonBar extends Component {
   };
 
   render() {
+    const options = this.props.options;
+    const features = options.features;
     const { computedStates, skippedActionIds, isPaused, isLocked } = this.props.liftedState;
     const noStates = computedStates.length < 2;
 
     return (
       <Toolbar borderPosition="bottom">
-        <RecordButton paused={isPaused} />
+        {features.pause &&
+        <RecordButton paused={isPaused}/>
+        }
+        {features.lock &&
         <LockButton
           locked={isLocked}
-          disabled={this.props.lib !== 'redux'}
+          disabled={options.lib !== 'redux'}
         />
+        }
         <Divider />
         <Button
           title="Reset to the state you created the store with"
@@ -82,7 +88,9 @@ export default class ButtonBar extends Component {
         </Button>
         <Divider />
         <InstanceSelector />
+        {features.sync &&
         <SyncButton />
+        }
       </Toolbar>
     );
   }
