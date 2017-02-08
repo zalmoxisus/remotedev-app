@@ -6336,7 +6336,7 @@ regjsparser@^0.1.4:
   dependencies:
     jsesc "~0.5.0"
 
-remotedev-inspector-monitor@^0.10.0:
+remotedev-inspector-monitor@^0.10.2:
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/remotedev-inspector-monitor/-/remotedev-inspector-monitor-0.10.2.tgz#2f6618fc2a2d5aa9d57e97baa21b9cb4f330f638"
   dependencies:
