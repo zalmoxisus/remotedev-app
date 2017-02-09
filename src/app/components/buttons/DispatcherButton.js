@@ -21,6 +21,7 @@ class DispatcherButton extends Component {
         mark={this.props.dispatcherIsOpen && 'base0B'}
         title={this.props.dispatcherIsOpen ? 'Hide dispatcher' : 'Show dispatcher'}
         onClick={this.props.toggleDispatcher}
+        tooltipPosition="top-left"
       >
         <DispatchIcon />
       </Button>

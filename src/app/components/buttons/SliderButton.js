@@ -20,6 +20,7 @@ class SliderButton extends Component {
       <Button
         mark={this.props.isOpen && 'base0B'}
         title={this.props.isOpen ? 'Hide slider' : 'Show slider'}
+        tooltipPosition="top-left"
         onClick={this.props.toggleSlider}
       >
         <HistoryIcon />

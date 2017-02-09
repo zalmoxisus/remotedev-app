@@ -1,13 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { Tabs, Toolbar } from 'remotedev-ui';
+import { Tabs, Toolbar, Button, Divider, Spacer } from 'remotedev-ui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import DocsIcon from 'react-icons/lib/go/book';
+import FeedBackIcon from 'react-icons/lib/io/android-textsms';
+import TwitterIcon from 'react-icons/lib/ti/social-twitter';
+import SupportIcon from 'react-icons/lib/ti/heart-full-outline';
 import { changeSection } from '../actions';
 
 const tabs = [
   { name: 'Actions' },
-  { name: 'Effects' },
-  { name: 'Events' },
   { name: 'Reports' },
   { name: 'Settings' }
 ];
@@ -18,15 +20,50 @@ class Header extends Component {
     changeSection: PropTypes.func.isRequired
   };
 
+  openLink = url => () => {
+    window.open(url);
+  };
+
   render() {
     return (
-      <Toolbar compact borderPosition="bottom">
+      <Toolbar compact noBorder borderPosition="bottom">
         <Tabs
           main
+          collapsable
           tabs={tabs}
           onClick={this.props.changeSection}
           selected={this.props.section || 'Actions'}
         />
+        <Spacer />
+        <Divider />
+        <Button
+          title="Documentation"
+          tooltipPosition="bottom"
+          onClick={this.openLink('http://extension.remotedev.io')}
+        >
+          <DocsIcon />
+        </Button>
+        <Button
+          title="Feedback"
+          tooltipPosition="bottom"
+          onClick={this.openLink('http://extension.remotedev.io/docs/Feedback.html')}
+        >
+          <FeedBackIcon />
+        </Button>
+        <Button
+          title="Follow us"
+          tooltipPosition="bottom"
+          onClick={this.openLink('https://twitter.com/RemoteDev')}
+        >
+          <TwitterIcon />
+        </Button>
+        <Button
+          title="Support us"
+          tooltipPosition="bottom-left"
+          onClick={this.openLink('https://opencollective.com/redux-devtools-extension')}
+        >
+          <SupportIcon />
+        </Button>
       </Toolbar>
     );
   }

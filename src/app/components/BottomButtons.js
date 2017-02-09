@@ -21,10 +21,6 @@ export default class BottomButtons extends Component {
       || nextProps.options !== this.props.options;
   }
 
-  openHelp() {
-    window.open('https://github.com/zalmoxisus/remote-redux-devtools');
-  }
-
   render() {
     const features = this.props.options.features;
     return (
@@ -33,7 +29,6 @@ export default class BottomButtons extends Component {
         <Button
           title="Save a report"
           tooltipPosition="top-right"
-          onClick={this.openHelp}
         >
           <SaveIcon />
         </Button>
