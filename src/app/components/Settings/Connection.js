@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Container, Form, Button } from 'remotedev-ui';
-import { saveSocketSettings } from '../actions';
+import { saveSocketSettings } from '../../actions';
 
 const defaultSchema = {
   type: 'object',
@@ -32,7 +32,7 @@ const uiSchema = {
   }
 };
 
-class Settings extends Component {
+class Connection extends Component {
   static propTypes = {
     saveSettings: PropTypes.func.isRequired,
     options: PropTypes.object.isRequired,
@@ -125,4 +125,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Connection);

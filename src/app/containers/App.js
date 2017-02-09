@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Container } from 'remotedev-ui';
 import Header from '../components/Header';
 import Actions from '../containers/Actions';
-import Settings from '../containers/Settings';
+import Settings from '../components/Settings';
 
 class App extends Component {
   render() {
