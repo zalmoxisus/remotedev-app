@@ -181,7 +181,10 @@ export default function api(inStore) {
     const result = next(action);
     switch (action.type) { // eslint-disable-line default-case
       case actions.CONNECT_REQUEST: connect(); break;
-      case actions.RECONNECT: disconnect(); connect(); break;
+      case actions.RECONNECT:
+        disconnect();
+        if (action.options.connectionType !== 'disabled') connect();
+        break;
       case actions.AUTH_REQUEST: login(); break;
       case actions.SUBSCRIBE_REQUEST: subscribe(action.channel, action.subscription); break;
       case actions.SUBSCRIBE_SUCCESS: startMonitoring(action.channel); break;

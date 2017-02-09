@@ -80,6 +80,7 @@ export default function socket(state = initialState, action) {
     case actions.DISCONNECTED:
       return {
         ...initialState,
+        connectionType: state.connectionType,
         options: state.options
       };
     case actions.RECONNECT: {
