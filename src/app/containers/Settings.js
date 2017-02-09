@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Container, Form } from 'remotedev-ui';
+import { Container, Form, Button } from 'remotedev-ui';
 import { saveSocketSettings } from '../actions';
 
 const defaultSchema = {
@@ -41,7 +41,7 @@ class Settings extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { connectionType: props.connectionType };
+    this.state = this.setFormData(props.connectionType);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -50,36 +50,51 @@ class Settings extends Component {
 
   handleSave = data => {
     this.props.saveSettings(data.formData);
+    this.setState({ changed: false });
+  };
+
+  setFormData = (connectionType, changed) => {
+    let schema;
+    if (connectionType !== 'custom') {
+      schema = {
+        type: 'object',
+        properties: { connectionType: defaultSchema.properties.connectionType }
+      };
+    } else {
+      schema = defaultSchema;
+    }
+    return {
+      formData: {
+        connectionType,
+        ...this.props.options
+      },
+      connectionType, schema, changed
+    };
   };
 
   handleChange = data => {
-    let connectionType = data.formData.connectionType;
+    const formData = data.formData;
+    const connectionType = formData.connectionType;
     if (connectionType !== this.state.connectionType) {
-      this.setState({ connectionType });
+      this.setState(this.setFormData(connectionType, true));
+    } else if (!this.state.changed) {
+      this.setState({ changed: true, formData });
     }
   };
 
   render() {
     const connectionType = this.state.connectionType || 'disabled';
-    const formData = {
-      connectionType,
-      ...this.props.options
-    };
-
-    let schema = defaultSchema;
-    if (connectionType !== 'custom') {
-      schema = {
-        type: 'object',
-        properties: { connectionType: schema.properties.connectionType }
-      };
-    }
+    const changed = this.state.changed;
+    const disabled = connectionType === 'disabled';
 
     return (
       <Container>
         <Form
-          submitText="Apply"
-          formData={formData}
-          schema={schema}
+          primaryButton={changed}
+          noSubmit={disabled && !changed}
+          submitText={disabled ? 'Disconnect' : 'Connect'}
+          formData={this.state.formData}
+          schema={this.state.schema}
           uiSchema={uiSchema}
           onChange={this.handleChange}
           onSubmit={this.handleSave}
