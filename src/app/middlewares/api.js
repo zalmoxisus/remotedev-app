@@ -1,5 +1,6 @@
 import socketCluster from 'socketcluster-client';
 import { stringify } from 'jsan';
+import socketOptions from '../constants/socketOptions';
 import * as actions from '../constants/socketActionTypes';
 import { getActiveInstance } from '../reducers/instances';
 import {
@@ -130,8 +131,11 @@ function handleConnection() {
 
 function connect() {
   if (process.env.NODE_ENV === 'test') return;
+  const connection = store.getState().connection;
   try {
-    socket = socketCluster.connect(store.getState().socket.options);
+    socket = socketCluster.connect(
+      connection.type === 'remotedev' ? socketOptions : connection.options
+    );
     handleConnection(store);
   } catch (error) {
     store.dispatch({ type: actions.CONNECT_ERROR, error });
@@ -183,7 +187,7 @@ export default function api(inStore) {
       case actions.CONNECT_REQUEST: connect(); break;
       case actions.RECONNECT:
         disconnect();
-        if (action.options.connectionType !== 'disabled') connect();
+        if (action.options.type !== 'disabled') connect();
         break;
       case actions.AUTH_REQUEST: login(); break;
       case actions.SUBSCRIBE_REQUEST: subscribe(action.channel, action.subscription); break;

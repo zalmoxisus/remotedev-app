@@ -8,7 +8,7 @@ const defaultSchema = {
   type: 'object',
   required: [],
   properties: {
-    connectionType: {
+    type: {
       title: 'Connection settings (for getting reports and remote debugging)',
       type: 'string',
       enum: ['disabled', 'remotedev', 'custom'],
@@ -27,7 +27,7 @@ const defaultSchema = {
 };
 
 const uiSchema = {
-  connectionType: {
+  type: {
     'ui:widget': 'radio'
   }
 };
@@ -36,16 +36,22 @@ class Connection extends Component {
   static propTypes = {
     saveSettings: PropTypes.func.isRequired,
     options: PropTypes.object.isRequired,
-    connectionType: PropTypes.string
+    type: PropTypes.string
   };
 
   constructor(props) {
     super(props);
-    this.state = this.setFormData(props.connectionType);
+    this.state = this.setFormData(props.type);
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     return this.state !== nextState;
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.options !== nextProps.options) {
+      this.setState({ formData: { ...nextProps.options, type: nextProps.type } });
+    }
   }
 
   handleSave = data => {
@@ -53,39 +59,39 @@ class Connection extends Component {
     this.setState({ changed: false });
   };
 
-  setFormData = (connectionType, changed) => {
+  setFormData = (type, changed) => {
     let schema;
-    if (connectionType !== 'custom') {
+    if (type !== 'custom') {
       schema = {
         type: 'object',
-        properties: { connectionType: defaultSchema.properties.connectionType }
+        properties: { type: defaultSchema.properties.type }
       };
     } else {
       schema = defaultSchema;
     }
     return {
       formData: {
-        connectionType,
+        type,
         ...this.props.options
       },
-      connectionType, schema, changed
+      type, schema, changed
     };
   };
 
   handleChange = data => {
     const formData = data.formData;
-    const connectionType = formData.connectionType;
-    if (connectionType !== this.state.connectionType) {
-      this.setState(this.setFormData(connectionType, true));
+    const type = formData.type;
+    if (type !== this.state.type) {
+      this.setState(this.setFormData(type, true));
     } else if (!this.state.changed) {
       this.setState({ changed: true, formData });
     }
   };
 
   render() {
-    const connectionType = this.state.connectionType || 'disabled';
+    const type = this.state.type || 'disabled';
     const changed = this.state.changed;
-    const disabled = connectionType === 'disabled';
+    const disabled = type === 'disabled';
 
     return (
       <Container>
@@ -105,18 +111,7 @@ class Connection extends Component {
 }
 
 function mapStateToProps(state) {
-  const connectionType = state.socket.connectionType;
-  let options;
-  if (connectionType === 'custom') {
-    options = state.socket.options;
-  } else {
-    options = {
-      hostname: 'localhost',
-      port: 8000,
-      secure: false
-    };
-  }
-  return { options, connectionType };
+  return state.connection;
 }
 
 function mapDispatchToProps(dispatch) {

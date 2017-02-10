@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import section from './section';
+import connection from './connection';
 import socket from './socket';
 import monitor from './monitor';
 import notification from './notification';
@@ -11,6 +12,7 @@ import theme from './theme';
 const rootReducer = combineReducers({
   section,
   theme,
+  connection,
   socket,
   monitor,
   instances,

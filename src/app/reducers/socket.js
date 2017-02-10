@@ -1,9 +1,6 @@
-import socketOptions from '../constants/socketOptions';
 import * as actions from '../constants/socketActionTypes';
 
 const initialState = {
-  connectionType: 'remotedev',
-  options: socketOptions,
   id: null,
   channels: [],
   socketState: actions.CLOSED,
@@ -15,16 +12,8 @@ const initialState = {
 export default function socket(state = initialState, action) {
   switch (action.type) {
     case actions.CONNECT_REQUEST: {
-      let options = state.options;
-      let connectionType = state.connectionType;
-      if (action.options) {
-        connectionType = 'custom';
-        options = action.options;
-      }
       return {
         ...state,
-        connectionType,
-        options,
         socketState: actions.CONNECTING
       };
     }
@@ -78,19 +67,7 @@ export default function socket(state = initialState, action) {
         )
       };
     case actions.DISCONNECTED:
-      return {
-        ...initialState,
-        connectionType: state.connectionType,
-        options: state.options
-      };
-    case actions.RECONNECT: {
-      const { connectionType, ...data } = action.options;
-      let options;
-      if (connectionType === 'remotedev') options = socketOptions;
-      else if (connectionType === 'custom') options = data;
-      else options = {};
-      return { ...state, connectionType, options };
-    }
+      return initialState;
     default:
       return state;
   }
