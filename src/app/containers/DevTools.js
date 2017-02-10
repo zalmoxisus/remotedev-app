@@ -5,10 +5,10 @@ import getMonitor from '../utils/getMonitor';
 class DevTools extends Component {
   constructor(props) {
     super(props);
-    this.getMonitor(props);
+    this.getMonitor(props, props.monitorState);
   }
 
-  getMonitor(props) {
+  getMonitor(props, skipUpdate) {
     const monitorElement = getMonitor(props);
     this.monitorProps = monitorElement.props;
     this.Monitor = monitorElement.type;
@@ -17,7 +17,7 @@ class DevTools extends Component {
     if (update) {
       let newMonitorState;
       const monitorState = props.monitorState;
-      if (monitorState && monitorState.__overwritten__ === props.monitor) {
+      if (skipUpdate || monitorState && monitorState.__overwritten__ === props.monitor) {
         newMonitorState = monitorState;
       } else {
         newMonitorState = update(this.monitorProps, undefined, {});
