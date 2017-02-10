@@ -9,13 +9,13 @@ export const monitors = [
   { value: 'ChartMonitor', name: 'Chart' }
 ];
 
-export default function getMonitor({ monitor, options }) {
+export default function getMonitor({ monitor }) {
   switch (monitor) {
     case 'LogMonitor':
       return <LogMonitor preserveScrollTop={false} hideMainButtons markStateDiff />;
     case 'ChartMonitor':
       return <ChartMonitorWrapper />;
     default:
-      return <InspectorWrapper options={options} />;
+      return <InspectorWrapper />;
   }
 }

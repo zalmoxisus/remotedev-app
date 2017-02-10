@@ -28,7 +28,7 @@ class Actions extends Component {
           liftedState={liftedState}
           monitorState={this.props.monitorState}
           dispatch={liftedDispatch}
-          options={options}
+          features={options.features}
         />
         <Notification />
         {sliderIsOpen && options.connectionId && options.features.jump &&

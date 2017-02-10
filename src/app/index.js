@@ -3,28 +3,23 @@ import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import enhance from './hoc';
 import configureStore from './store/configureStore';
-import {
-  getMonitorSettings, getSocketSettings, getTestTemplates, getTemplatesSelected
-} from './utils/localStorage';
 import { CONNECT_REQUEST } from './constants/socketActionTypes';
 import App from './containers/App';
 
 class Root extends Component {
   componentWillMount() {
-    this.store = configureStore({
-      monitor: getMonitorSettings() || this.props.monitorOptions,
-      test: {
-        selected: getTemplatesSelected(),
-        templates: getTestTemplates() || this.props.testTemplates
-      }
-    });
-    this.store.dispatch({
-      type: CONNECT_REQUEST,
-      options: getSocketSettings() || this.props.socketOptions
+    configureStore((store, preloadedState) => {
+      this.store = store;
+      store.dispatch({
+        type: CONNECT_REQUEST,
+        options: preloadedState.connection || this.props.socketOptions
+      });
+      this.forceUpdate();
     });
   }
 
   render() {
+    if (!this.store) return null;
     return (
       <Provider store={this.store}>
         <App {...this.props} />
