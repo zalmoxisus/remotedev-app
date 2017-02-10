@@ -7,7 +7,7 @@ import Settings from '../components/Settings';
 
 class App extends Component {
   render() {
-    const { section } = this.props;
+    const { section, theme } = this.props;
     let body;
     switch (section) {
       case 'Settings': body = <Settings />; break;
@@ -15,7 +15,7 @@ class App extends Component {
     }
 
     return (
-      <Container themeData={{ theme: 'default', scheme: 'default', light: true }}>
+      <Container themeData={theme}>
         <Header section={section} />
         {body}
       </Container>
@@ -24,12 +24,14 @@ class App extends Component {
 }
 
 App.propTypes = {
-  section: PropTypes.string.isRequired
+  section: PropTypes.string.isRequired,
+  theme: PropTypes.object.isRequired
 };
 
 function mapStateToProps(state) {
   return {
-    section: state.section
+    section: state.section,
+    theme: state.theme
   };
 }
 

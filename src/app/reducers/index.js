@@ -6,9 +6,11 @@ import notification from './notification';
 import instances from './instances';
 import test from './test';
 import reports from './reports';
+import theme from './theme';
 
 const rootReducer = combineReducers({
   section,
+  theme,
   socket,
   monitor,
   instances,

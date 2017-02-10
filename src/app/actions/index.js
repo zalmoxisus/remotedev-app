@@ -1,6 +1,6 @@
 import {
-  CHANGE_SECTION, LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR, UPDATE_MONITOR_STATE,
-  EXPORT, TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER, GET_REPORT_REQUEST,
+  CHANGE_SECTION, CHANGE_THEME, SELECT_INSTANCE, SELECT_MONITOR, UPDATE_MONITOR_STATE,
+  LIFTED_ACTION, MONITOR_ACTION, EXPORT, TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER, GET_REPORT_REQUEST,
   SHOW_NOTIFICATION, CLEAR_NOTIFICATION
 } from '../constants/actionTypes';
 import { RECONNECT } from '../constants/socketActionTypes';
@@ -10,6 +10,10 @@ let monitorProps = {};
 
 export function changeSection(section) {
   return { type: CHANGE_SECTION, section };
+}
+
+export function changeTheme(data) {
+  return { type: CHANGE_THEME, ...data.formData };
 }
 
 export function liftedDispatch(action) {

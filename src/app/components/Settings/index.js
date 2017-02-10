@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Tabs } from 'remotedev-ui';
 import Connection from './Connection';
+import Themes from './Themes';
 
 class Settings extends Component {
   constructor(props) {
     super(props);
     this.tabs = [
-      { name: 'Connection', component: Connection }
+      { name: 'Connection', component: Connection },
+      { name: 'Themes', component: Themes }
     ];
     this.state = { selected: 'Connection' };
   }
