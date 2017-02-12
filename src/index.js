@@ -7,14 +7,19 @@ render(
   document.getElementById('root')
 );
 
-/*
 if (module.hot) {
-  module.hot.accept('./app', () => {
-    const NextApp = require('./app').default;
-    render(
-      <NextApp />,
-      document.getElementById('root')
-    );
+  // https://github.com/webpack/webpack/issues/418#issuecomment-53398056
+  module.hot.accept(err => {
+    if (err) console.error(err.message);
   });
+
+  /*
+    module.hot.accept('./app', () => {
+      const NextApp = require('./app').default;
+      render(
+        <NextApp />,
+        document.getElementById('root')
+      );
+    });
+   */
 }
-*/
