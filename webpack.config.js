@@ -6,7 +6,18 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = (env = {}) => (
   {
     entry: {
-      app: ['./src/index.js']
+      app: './src/index.js',
+      common: [
+        'react',
+        'react-dom',
+        'react-redux',
+        'redux',
+        'redux-persist',
+        'localforage',
+        'styled-components',
+        'jsan',
+        'socketcluster-client'
+      ]
     },
     output: {
       path: path.resolve(__dirname, 'build/' + env.platform),
@@ -50,6 +61,9 @@ module.exports = (env = {}) => (
           NODE_ENV: JSON.stringify(env.development ? 'development' : 'production'),
           PLATFORM: JSON.stringify(env.platform)
         }
+      }),
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['common'],
       }),
       new HtmlWebpackPlugin({
         template: 'assets/index.html'
