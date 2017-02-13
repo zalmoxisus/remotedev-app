@@ -116,7 +116,9 @@ class Dispatcher extends Component {
       }
       this.props.dispatch({
         name: this.props.options.actionCreators[selected].name,
-        selected, args, rest
+        selected,
+        args,
+        rest
       });
     } else {
       this.props.dispatch(customAction);
@@ -141,7 +143,7 @@ class Dispatcher extends Component {
       actionElement = (
         <ActionContainer>
           {actionCreators[this.state.selected].args.map((param, i) => (
-            <div key={i}>
+            <div key={`${param}${i}`}>
               <div>{param}</div>
               <Editor
                 lineNumbers={false}

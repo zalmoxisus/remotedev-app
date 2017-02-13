@@ -81,7 +81,8 @@ export default class Button extends React.Component {
       };
     }
     return (
-      <a onMouseEnter={this.handleMouseEnter}
+      <a
+        onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}

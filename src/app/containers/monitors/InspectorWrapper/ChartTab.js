@@ -49,9 +49,9 @@ class ChartTab extends Component {
         style: {
           color: theme.base06,
           'background-color': theme.base01,
-          'opacity': '0.9',
+          opacity: '0.9',
           'border-radius': '5px',
-          'padding': '5px'
+          padding: '5px'
         },
         offset: { left: 30, top: 10 },
         indentationSize: 2

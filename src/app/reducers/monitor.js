@@ -22,7 +22,7 @@ export default function monitor(state = initialState, action) {
   switch (action.type) {
     case MONITOR_ACTION:
       return dispatchMonitorAction(state, action);
-    case SELECT_MONITOR:
+    case SELECT_MONITOR: {
       let monitorState = state.monitorState;
       if (action.monitorState) {
         monitorState = {
@@ -35,7 +35,8 @@ export default function monitor(state = initialState, action) {
         monitorState,
         selected: action.monitor
       };
-    case UPDATE_MONITOR_STATE:
+    }
+    case UPDATE_MONITOR_STATE: {
       let inspectedStatePath = state.monitorState.inspectedStatePath;
       if (action.nextState.inspectedStatePath) {
         inspectedStatePath = [
@@ -51,6 +52,7 @@ export default function monitor(state = initialState, action) {
           inspectedStatePath
         }
       };
+    }
     case TOGGLE_SLIDER:
       return {
         ...state,

@@ -46,7 +46,7 @@ export default class BottomButtons extends Component {
         <Spacer />
         <Divider />
         {features.jump &&
-        <SliderButton isOpen={this.props.sliderIsOpen}/>
+        <SliderButton isOpen={this.props.sliderIsOpen} />
         }
         {features.dispatch &&
         <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />

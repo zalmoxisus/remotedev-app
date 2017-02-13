@@ -1,5 +1,7 @@
 import commitExcessActions from './commitExcessActions';
 
+/* eslint-disable import/prefer-default-export */
+
 export function recompute(previousLiftedState, storeState, action, nextActionId = 1, isExcess) {
   const actionId = nextActionId - 1;
   const liftedState = { ...previousLiftedState };

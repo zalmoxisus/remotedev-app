@@ -29,17 +29,12 @@ class Root extends Component {
 }
 
 Root.propTypes = {
-  hash: PropTypes.bool,
   socketOptions: PropTypes.shape({
     hostname: PropTypes.string,
     port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
     autoReconnect: PropTypes.bool,
     secure: PropTypes.bool
-  }),
-  monitorOptions: PropTypes.shape({
-    selected: PropTypes.string
-  }),
-  testTemplates: PropTypes.array
+  })
 };
 
 export default enhance(Root);

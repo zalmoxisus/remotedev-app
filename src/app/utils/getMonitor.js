@@ -9,7 +9,7 @@ export const monitors = [
   { value: 'ChartMonitor', name: 'Chart' }
 ];
 
-export default function getMonitor({ monitor }) {
+export default function getMonitor({ monitor }) { // eslint-disable-line react/prop-types
   switch (monitor) {
     case 'LogMonitor':
       return <LogMonitor preserveScrollTop={false} hideMainButtons markStateDiff />;

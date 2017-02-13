@@ -3,12 +3,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'remotedev-ui';
 import UploadIcon from 'react-icons/lib/ti/upload';
-import { importState, showNotification } from '../../actions';
+import { importState } from '../../actions';
 
 class ImportButton extends Component {
   static propTypes = {
-    importState: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired
+    importState: PropTypes.func.isRequired
   };
 
   constructor() {
@@ -37,7 +36,7 @@ class ImportButton extends Component {
       this.props.importState(reader.result);
     };
     reader.readAsText(file);
-    e.target.value = '';
+    e.target.value = ''; // eslint-disable-line no-param-reassign
   }
 
   render() {
@@ -58,8 +57,7 @@ class ImportButton extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    importState: bindActionCreators(importState, dispatch),
-    showNotification: bindActionCreators(showNotification, dispatch)
+    importState: bindActionCreators(importState, dispatch)
   };
 }
 

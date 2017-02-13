@@ -10,7 +10,7 @@ const { reset, rollback, commit, sweep } = ActionCreators;
 
 export default class TopButtons extends Component {
   static propTypes = {
-    shouldSync: PropTypes.bool,
+    // shouldSync: PropTypes.bool,
     liftedState: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     options: PropTypes.object.isRequired
@@ -46,7 +46,7 @@ export default class TopButtons extends Component {
     return (
       <Toolbar borderPosition="bottom">
         {features.pause &&
-        <RecordButton paused={isPaused}/>
+        <RecordButton paused={isPaused} />
         }
         {features.lock &&
         <LockButton

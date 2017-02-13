@@ -74,7 +74,9 @@ class Connection extends Component {
         type,
         ...this.props.options
       },
-      type, schema, changed
+      type,
+      schema,
+      changed
     };
   };
 

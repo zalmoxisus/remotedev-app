@@ -17,15 +17,15 @@ class SyncButton extends Component {
 
   render() {
     return (
-    <Button
-      title="Sync actions"
-      tooltipPosition="bottom-left"
-      onClick={this.props.onClick}
-      mark={this.props.sync && 'base0B'}
-    >
-      <SyncIcon />
-    </Button>
-   );
+      <Button
+        title="Sync actions"
+        tooltipPosition="bottom-left"
+        onClick={this.props.onClick}
+        mark={this.props.sync && 'base0B'}
+      >
+        <SyncIcon />
+      </Button>
+    );
   }
 }
 

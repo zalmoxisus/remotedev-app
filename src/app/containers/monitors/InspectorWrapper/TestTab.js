@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import Button from '../../../components/Button';
 import AddButton from 'react-icons/lib/md/add';
 import EditButton from 'react-icons/lib/md/edit';
 import TestGenerator from 'redux-devtools-test-generator';
@@ -10,6 +9,7 @@ import jestTemplate from 'redux-devtools-test-generator/lib/redux/jest/template'
 import mochaTemplate from 'redux-devtools-test-generator/lib/redux/mocha/template';
 import tapeTemplate from 'redux-devtools-test-generator/lib/redux/tape/template';
 import avaTemplate from 'redux-devtools-test-generator/lib/redux/ava/template';
+import Button from '../../../components/Button';
 /*
 import mochaVTemplate from 'redux-devtools-test-generator/lib/vanilla/mocha/template';
 import tapeVTemplate from 'redux-devtools-test-generator/lib/vanilla/tape/template';
@@ -96,17 +96,19 @@ class TestTab extends Component {
               value={selected}
             >
               {templates.map((item, i) =>
-                <MenuItem key={i} value={i} primaryText={item.name} />
+                <MenuItem key={`${item.name}${i}`} value={i} primaryText={item.name} />
               )}
             </SelectField>
             <Button Icon={EditButton} onClick={this.editTemplate} />
             <Button Icon={AddButton} onClick={this.addTemplate} />
-            <TestForm { ...{
-              template, dialogStatus,
-              onSave: this.handleSave,
-              onRemove: this.handleRemove,
-              onClose: this.handleCloseDialog
-            } }
+            <TestForm
+              {...{
+                template,
+                dialogStatus,
+                onSave: this.handleSave,
+                onRemove: this.handleRemove,
+                onClose: this.handleCloseDialog
+              }}
             />
           </div>
         }

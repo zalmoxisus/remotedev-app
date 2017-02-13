@@ -18,7 +18,14 @@ class Settings extends Component {
   };
 
   render() {
-    return <Tabs tabs={this.tabs} selected={this.state.selected} onClick={this.handleSelect} />;
+    return (
+      <Tabs
+        toRight
+        tabs={this.tabs}
+        selected={this.state.selected}
+        onClick={this.handleSelect}
+      />
+    );
   }
 }
 
