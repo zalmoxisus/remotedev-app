@@ -5,7 +5,7 @@ export default function notification(state = null, action) {
     case SHOW_NOTIFICATION:
       return action.notification;
     case ERROR:
-      return { type: ERROR, message: action.payload };
+      return { type: 'error', message: action.payload };
     case LIFTED_ACTION:
       return null;
     case CLEAR_NOTIFICATION:

@@ -94,7 +94,7 @@ export function saveSocketSettings(options) {
 }
 
 export function showNotification(message) {
-  return { type: SHOW_NOTIFICATION, notification: { type: 'ERROR', message } };
+  return { type: SHOW_NOTIFICATION, notification: { type: 'error', message } };
 }
 
 export function clearNotification() {

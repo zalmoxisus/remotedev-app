@@ -9,7 +9,6 @@ import DevTools from '../containers/DevTools';
 import Dispatcher from './monitors/Dispatcher';
 import TopButtons from '../components/TopButtons';
 import BottomButtons from '../components/BottomButtons';
-import Notification from '../components/Notification';
 
 class Actions extends Component {
   render() {
@@ -30,7 +29,6 @@ class Actions extends Component {
           dispatch={liftedDispatch}
           features={options.features}
         />
-        <Notification />
         {sliderIsOpen && options.connectionId && options.features.jump &&
         <SliderMonitor
           monitor="SliderMonitor"
