@@ -19,7 +19,7 @@ class MonitorSelector extends Component {
     return (
       <Tabs
         main
-        collapsable
+        collapsible
         tabs={monitors}
         onClick={this.props.selectMonitor}
         selected={this.props.selected || 'InspectorMonitor'}

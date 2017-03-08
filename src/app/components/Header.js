@@ -29,7 +29,7 @@ class Header extends Component {
       <Toolbar compact noBorder borderPosition="bottom">
         <Tabs
           main
-          collapsable
+          collapsible
           tabs={tabs}
           onClick={this.props.changeSection}
           selected={this.props.section || 'Actions'}
