@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Container, Form, Button } from 'remotedev-ui';
+import { Container, Form, Button } from 'devui';
 import { saveSocketSettings } from '../../actions';
 
 const defaultSchema = {

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Container, Notification } from 'remotedev-ui';
+import { Container, Notification } from 'devui';
 import { clearNotification } from '../actions';
 import Header from '../components/Header';
 import Actions from '../containers/Actions';
@@ -32,7 +32,11 @@ class App extends Component {
 
 App.propTypes = {
   section: PropTypes.string.isRequired,
-  theme: PropTypes.object.isRequired
+  theme: PropTypes.object.isRequired,
+  notification: PropTypes.shape({
+    message: PropTypes.string,
+    type: PropTypes.string
+  })
 };
 
 function mapStateToProps(state) {

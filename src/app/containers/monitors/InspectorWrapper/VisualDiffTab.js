@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { format } from 'jsondiffpatch/src/formatters/html';
 import styled from 'styled-components';
-import { effects } from 'remotedev-ui';
+import { effects } from 'devui';
 
 export const StyledContainer = styled.div`
   .jsondiffpatch-delta {

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Tabs } from 'remotedev-ui';
+import { Tabs } from 'devui';
 import StateTree from 'remotedev-inspector-monitor/lib/tabs/StateTab';
 import ActionTree from 'remotedev-inspector-monitor/lib/tabs/ActionTab';
 import DiffTree from 'remotedev-inspector-monitor/lib/tabs/DiffTab';

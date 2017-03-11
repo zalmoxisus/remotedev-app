@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Tabs } from 'remotedev-ui';
+import { Tabs } from 'devui';
 import Connection from './Connection';
 import Themes from './Themes';
 

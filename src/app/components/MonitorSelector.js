@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Tabs } from 'remotedev-ui';
+import { Tabs } from 'devui';
 import { monitors } from '../utils/getMonitor';
 import { selectMonitor } from '../actions';
 

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Editor } from 'remotedev-ui';
+import { Editor } from 'devui';
 import stringify from 'javascript-stringify';
 
 export default class RawTab extends Component {

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button } from 'remotedev-ui';
+import { Button } from 'devui';
 import PrintIcon from 'react-icons/lib/md/print';
 
 export default class PrintButton extends Component {

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Button, Toolbar, Divider, Spacer } from 'remotedev-ui';
+import { Button, Toolbar, Divider, Spacer } from 'devui';
 import SaveIcon from 'react-icons/lib/md/save';
 import ExportButton from './buttons/ExportButton';
 import ImportButton from './buttons/ImportButton';

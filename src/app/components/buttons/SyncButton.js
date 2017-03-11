@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'remotedev-ui';
+import { Button } from 'devui';
 import SyncIcon from 'react-icons/lib/ti/arrow-sync';
 import { toggleSync } from '../../actions';
 

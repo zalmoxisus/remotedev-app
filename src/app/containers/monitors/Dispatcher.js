@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import styled from 'styled-components';
-import { Button, Select, Editor, Toolbar } from 'remotedev-ui';
+import { Button, Select, Editor, Toolbar } from 'devui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dispatchRemotely } from '../../actions';

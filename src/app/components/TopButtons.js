@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { ActionCreators } from 'redux-devtools-instrument';
-import { Button, Toolbar, Divider, Spacer } from 'remotedev-ui';
+import { Button, Toolbar, Divider, Spacer } from 'devui';
 import RecordButton from './buttons/RecordButton';
 import LockButton from './buttons/LockButton';
 import InstanceSelector from './InstanceSelector';

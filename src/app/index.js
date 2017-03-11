@@ -1,4 +1,4 @@
-import 'remotedev-ui/lib/presets';
+import 'devui/lib/presets';
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import enhance from './hoc';

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'remotedev-ui';
+import { Button } from 'devui';
 import LockIcon from 'react-icons/lib/io/ios-locked';
 import { lockChanges } from '../../actions';
 

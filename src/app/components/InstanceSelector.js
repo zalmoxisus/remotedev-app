@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Select } from 'remotedev-ui';
+import { Select } from 'devui';
 import shallowCompare from 'react/lib/shallowCompare';
 import { selectInstance } from '../actions';
 

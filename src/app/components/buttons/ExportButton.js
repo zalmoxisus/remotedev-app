@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'remotedev-ui';
+import { Button } from 'devui';
 import { stringify } from 'jsan';
 import DownloadIcon from 'react-icons/lib/ti/download';
 import { exportState } from '../../actions';

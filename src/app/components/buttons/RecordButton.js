@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Button } from 'remotedev-ui';
+import { Button } from 'devui';
 import RecordIcon from 'react-icons/lib/md/fiber-manual-record';
 import { pauseRecording } from '../../actions';
 

@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Container, Form, Button } from 'remotedev-ui';
-import { listSchemes, listThemes } from 'remotedev-ui/lib/utils/theme';
+import { Container, Form, Button } from 'devui';
+import { listSchemes, listThemes } from 'devui/lib/utils/theme';
 import { changeTheme } from '../../actions';
 
 class Themes extends Component {

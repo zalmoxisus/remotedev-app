@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Tabs, Toolbar, Button, Divider, Spacer } from 'remotedev-ui';
+import { Tabs, Toolbar, Button, Divider, Spacer } from 'devui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import DocsIcon from 'react-icons/lib/go/book';

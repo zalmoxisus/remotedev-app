@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'remotedev-ui';
+import { Button } from 'devui';
 import DispatchIcon from 'react-icons/lib/fa/terminal';
 import { toggleDispatcher } from '../../actions';
 
