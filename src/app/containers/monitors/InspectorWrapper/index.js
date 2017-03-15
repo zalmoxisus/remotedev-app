@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import InspectorMonitor from 'remotedev-inspector-monitor';
+import TestTab from 'redux-devtools-test-generator';
 import { DATA_TYPE_KEY } from '../../../constants/dataTypes';
 import SubTabs from './SubTabs';
-import TestTab from './TestTab';
 
 const DEFAULT_TABS = [{
   name: 'Action',
