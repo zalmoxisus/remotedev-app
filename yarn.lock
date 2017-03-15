@@ -1960,7 +1960,7 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-classnames@^2.2.3, classnames@^2.2.4:
+classnames@^2.2.4:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -2410,6 +2410,10 @@ css-color-names@0.0.4:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/css-color-names/-/css-color-names-0.0.4.tgz#808adc2e79cf84738069b646cb20ec27beb629e0"
 
+css-element-queries@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/css-element-queries/-/css-element-queries-0.3.2.tgz#535d80891b3af21395d005f19905fe5154b5ccff"
+
 css-loader@^0.26.1:
   version "0.26.1"
   resolved "https://registry.yarnpkg.com/css-loader/-/css-loader-0.26.1.tgz#2ba7f20131b93597496b3e9bb500785a49cd29ea"
@@ -2718,16 +2722,16 @@ detect-indent@^4.0.0:
   dependencies:
     repeating "^2.0.0"
 
-devui@^0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/devui/-/devui-0.0.1.tgz#e2d6661d67d6bfa522e5f0c76f5f5525ca67d960"
+devui@^1.0.0-0:
+  version "1.0.0-0"
+  resolved "https://registry.yarnpkg.com/devui/-/devui-1.0.0-0.tgz#46e0f08dafb9c2b63ed37449c863a2e9bd377ec4"
   dependencies:
     base16 "^1.0.0"
     codemirror "^5.21.0"
     color "^1.0.1"
     react-icons "^2.2.0"
-    react-jsonschema-form "^0.41.2"
-    react-select "1.0.0-rc.1"
+    react-jsonschema-form "^0.43.0"
+    react-select "1.0.0-rc.3"
     redux-devtools-themes "^1.0.0"
     styled-components "^1.4.0"
 
@@ -6734,9 +6738,9 @@ react-json-tree@0.10.0, react-json-tree@^0.10.0:
     react-base16-styling "^0.4.1"
     react-pure-render "^1.0.2"
 
-react-jsonschema-form@^0.41.2:
-  version "0.41.2"
-  resolved "https://registry.yarnpkg.com/react-jsonschema-form/-/react-jsonschema-form-0.41.2.tgz#a77921ceff102fc5d04344e50b8e622a7e0373c2"
+react-jsonschema-form@^0.43.0:
+  version "0.43.0"
+  resolved "https://registry.yarnpkg.com/react-jsonschema-form/-/react-jsonschema-form-0.43.0.tgz#586b69de7bda6d3a9cd9f74c1bee9b7fa353d1e5"
   dependencies:
     jsonschema "^1.0.2"
     lodash.topath "^4.5.2"
@@ -6755,9 +6759,9 @@ react-redux@^4.0.0, react-redux@^4.0.6:
     lodash "^4.2.0"
     loose-envify "^1.1.0"
 
-react-select@1.0.0-rc.1:
-  version "1.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/react-select/-/react-select-1.0.0-rc.1.tgz#56d0c8db0ce7b822f3f8ababe3fb491ff8e9c7cf"
+react-select@1.0.0-rc.3:
+  version "1.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/react-select/-/react-select-1.0.0-rc.3.tgz#94ade090522153067eff09282d0525249ea1d9e3"
   dependencies:
     classnames "^2.2.4"
     react-input-autosize "^1.1.0"
@@ -6896,13 +6900,6 @@ readline2@^1.0.1:
     is-fullwidth-code-point "^1.0.0"
     mute-stream "0.0.5"
 
-rebass@0.4.0-beta.6:
-  version "0.4.0-beta.6"
-  resolved "https://registry.yarnpkg.com/rebass/-/rebass-0.4.0-beta.6.tgz#4b282d412f209406bec4be2bc2e9f4abe30c73ba"
-  dependencies:
-    classnames "^2.2.3"
-    understyle "^1.3.0"
-
 recast@^0.10.1:
   version "0.10.43"
   resolved "https://registry.yarnpkg.com/recast/-/recast-0.10.43.tgz#b95d50f6d60761a5f6252e15d80678168491ce7f"
@@ -7036,6 +7033,13 @@ redux-persist@^4.3.0:
     lodash "^4.11.1"
     lodash-es "^4.16.0"
 
+redux-slider-monitor@^1.0.7:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/redux-slider-monitor/-/redux-slider-monitor-1.0.7.tgz#6ad06af012381d58edfd1cc0361c7e2c258b3940"
+  dependencies:
+    css-element-queries "^0.3.2"
+    redux-devtools-themes "^1.0.0"
+
 redux@^3.0.5, redux@^3.5.2:
   version "3.6.0"
   resolved "https://registry.yarnpkg.com/redux/-/redux-3.6.0.tgz#887c2b3d0b9bd86eca2be70571c27654c19e188d"
@@ -7044,13 +7048,6 @@ redux@^3.0.5, redux@^3.5.2:
     lodash-es "^4.2.1"
     loose-envify "^1.1.0"
     symbol-observable "^1.0.2"
-
-reflexbox@^2.2.2:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/reflexbox/-/reflexbox-2.2.3.tgz#9b9ce983dbe677cebf3a94cf2c50b8157f50c0d1"
-  dependencies:
-    robox "^1.0.0-beta.8"
-    ruled "^1.0.1"
 
 regenerate@^1.2.1:
   version "1.3.2"
@@ -7142,15 +7139,6 @@ remotedev-monitor-components@^0.0.5:
   dependencies:
     codemirror "^5.21.0"
     styled-components "^1.1.1"
-
-remotedev-slider@1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/remotedev-slider/-/remotedev-slider-1.1.3.tgz#3ecb14ad9afb8ac5b7b7a0b86825a3a08ba19d46"
-  dependencies:
-    react "^15.1.0"
-    react-icons "^2.2.1"
-    rebass "0.4.0-beta.6"
-    reflexbox "^2.2.2"
 
 renderkid@~2.0.0:
   version "2.0.0"
@@ -7287,16 +7275,6 @@ rimraf@~2.4.0:
 ripemd160@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/ripemd160/-/ripemd160-1.0.1.tgz#93a4bbd4942bc574b69a8fa57c71de10ecca7d6e"
-
-robox@^1.0.0-beta.8:
-  version "1.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/robox/-/robox-1.0.0-beta.8.tgz#9aaee1dacf38a8c4ca4584a80012aebab5711c73"
-  dependencies:
-    understyle "^1.2.0"
-
-ruled@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/ruled/-/ruled-1.0.1.tgz#8301a1accc9d2e14b6502fca7033582335c2c0f4"
 
 run-async@^0.1.0:
   version "0.1.0"
@@ -8066,12 +8044,6 @@ ultron@1.0.x:
 underscore@~1.4.4:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/underscore/-/underscore-1.4.4.tgz#61a6a32010622afa07963bf325203cf12239d604"
-
-understyle@^1.2.0, understyle@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/understyle/-/understyle-1.3.0.tgz#df3f9a9be96779d718c3da9598fad1c2f90f24ee"
-  dependencies:
-    object-assign "^4.1.0"
 
 uniq@^1.0.1:
   version "1.0.1"

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Container } from 'devui';
-import SliderMonitor from 'remotedev-slider/lib/Slider';
+import SliderMonitor from './monitors/Slider';
 import { liftedDispatch as liftedDispatchAction, getReport } from '../actions';
 import { getActiveInstance } from '../reducers/instances';
 import DevTools from '../containers/DevTools';
@@ -30,16 +30,7 @@ class Actions extends Component {
           features={options.features}
         />
         {sliderIsOpen && options.connectionId && options.features.jump &&
-        <SliderMonitor
-          monitor="SliderMonitor"
-          liftedState={liftedState}
-          dispatch={liftedDispatch}
-          getReport={this.props.getReport}
-          reports={this.props.reports}
-          showActions={monitor === 'ChartMonitor'}
-          style={{ padding: '15px 5px' }}
-          fillColor="rgb(120, 144, 156)"
-        />
+        <SliderMonitor liftedState={liftedState} dispatch={liftedDispatch} />
         }
         {dispatcherIsOpen && options.connectionId && options.features.dispatch &&
         <Dispatcher options={options} />
@@ -56,14 +47,12 @@ class Actions extends Component {
 
 Actions.propTypes = {
   liftedDispatch: PropTypes.func.isRequired,
-  getReport: PropTypes.func.isRequired,
   liftedState: PropTypes.object.isRequired,
   monitorState: PropTypes.object,
   options: PropTypes.object.isRequired,
   monitor: PropTypes.string,
   dispatcherIsOpen: PropTypes.bool,
-  sliderIsOpen: PropTypes.bool,
-  reports: PropTypes.array.isRequired
+  sliderIsOpen: PropTypes.bool
 };
 
 function mapStateToProps(state) {
