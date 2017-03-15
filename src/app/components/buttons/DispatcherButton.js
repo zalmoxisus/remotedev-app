@@ -18,7 +18,7 @@ class DispatcherButton extends Component {
   render() {
     return (
       <Button
-        mark={this.props.dispatcherIsOpen && 'base0B'}
+        mark={this.props.dispatcherIsOpen && 'base0D'}
         title={this.props.dispatcherIsOpen ? 'Hide dispatcher' : 'Show dispatcher'}
         onClick={this.props.toggleDispatcher}
         tooltipPosition="top-left"

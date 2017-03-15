@@ -36,7 +36,8 @@ App.propTypes = {
   notification: PropTypes.shape({
     message: PropTypes.string,
     type: PropTypes.string
-  })
+  }),
+  clearNotification: PropTypes.func
 };
 
 function mapStateToProps(state) {
