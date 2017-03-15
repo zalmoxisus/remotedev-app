@@ -1,7 +1,6 @@
 import 'devui/lib/presets';
 import React, { Component, PropTypes } from 'react';
 import { Provider } from 'react-redux';
-import enhance from './hoc';
 import configureStore from './store/configureStore';
 import { CONNECT_REQUEST } from './constants/socketActionTypes';
 import App from './containers/App';
@@ -37,4 +36,4 @@ Root.propTypes = {
   })
 };
 
-export default enhance(Root);
+export default Root;
