@@ -33,6 +33,8 @@ class InspectorWrapper extends Component {
         shouldPersistState={false}
         invertTheme={false}
         tabs={tabs}
+        hideActionButtons={!features.skip}
+        hideMainButtons
         {...rest}
       />
     );
