@@ -1,7 +1,7 @@
 import {
   CHANGE_SECTION, CHANGE_THEME, SELECT_INSTANCE, SELECT_MONITOR, UPDATE_MONITOR_STATE,
   LIFTED_ACTION, MONITOR_ACTION, EXPORT, TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER,
-  GET_REPORT_REQUEST, SHOW_NOTIFICATION, CLEAR_NOTIFICATION
+  TOGGLE_PERSIST, GET_REPORT_REQUEST, SHOW_NOTIFICATION, CLEAR_NOTIFICATION
 } from '../constants/actionTypes';
 import { RECONNECT } from '../constants/socketActionTypes';
 
@@ -75,6 +75,10 @@ export function pauseRecording(status) {
 
 export function dispatchRemotely(action) {
   return { type: LIFTED_ACTION, message: 'ACTION', action };
+}
+
+export function togglePersist() {
+  return { type: TOGGLE_PERSIST };
 }
 
 export function toggleSync() {

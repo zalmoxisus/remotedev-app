@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { ActionCreators } from 'redux-devtools-instrument';
 import { Button, Toolbar, Divider, Spacer } from 'devui';
 import RecordButton from './buttons/RecordButton';
+import PersistButton from './buttons/PersistButton';
 import LockButton from './buttons/LockButton';
 import InstanceSelector from './InstanceSelector';
 import SyncButton from './buttons/SyncButton';
@@ -47,6 +48,9 @@ export default class TopButtons extends Component {
       <Toolbar borderPosition="bottom">
         {features.pause &&
         <RecordButton paused={isPaused} />
+        }
+        {features.persist &&
+        <PersistButton />
         }
         {features.lock &&
         <LockButton

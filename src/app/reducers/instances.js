@@ -1,6 +1,6 @@
 import {
   UPDATE_STATE, SET_STATE, LIFTED_ACTION,
-  SELECT_INSTANCE, REMOVE_INSTANCE, TOGGLE_SYNC
+  SELECT_INSTANCE, REMOVE_INSTANCE, TOGGLE_PERSIST, TOGGLE_SYNC
 } from '../constants/actionTypes';
 import { DISCONNECTED } from '../constants/socketActionTypes';
 import parseJSON from '../utils/parseJSON';
@@ -261,6 +261,8 @@ export default function instances(state = initialState, action) {
           [getActiveInstance(state)]: action.newState
         }
       };
+    case TOGGLE_PERSIST:
+      return { ...state, persisted: !state.persisted };
     case TOGGLE_SYNC:
       return { ...state, sync: !state.sync };
     case SELECT_INSTANCE:
