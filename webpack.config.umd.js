@@ -4,7 +4,7 @@ const webpack = require('webpack');
 module.exports = (env = {}) => (
   {
     entry: {
-      app: ['./src/index.js']
+      app: ['./src/app/index.js']
     },
     output: {
       library: 'RemoteDevApp',
