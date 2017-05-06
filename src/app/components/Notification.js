@@ -18,7 +18,9 @@ class Notification extends Component {
   }
 
   render() {
-    if (!this.props.notification) return null;
+    const { notification } = this.props;
+
+    if (!notification) return null;
     const theme = themes.nicinabox;
     const buttonStyle = {
       color: theme.base06, backgroundColor: theme.base00,
@@ -31,7 +33,7 @@ class Notification extends Component {
     return (
       <div style={containerStyle}>
         <div style={{ flex: '1', alignItems: 'center' }}>
-          <p style={{ margin: '0px' }}>{this.props.notification.message}</p>
+          <p style={{ margin: '0px' }}>{notification.message}</p>
         </div>
         <div style={{ alignItems: 'center' }}>
           <button

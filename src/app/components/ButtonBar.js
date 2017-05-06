@@ -50,25 +50,33 @@ export default class ButtonBar extends Component {
   }
 
   render() {
-    const isRedux = this.props.lib === 'redux';
+    const {
+      lib,
+      dispatcherIsOpen,
+      sliderIsOpen,
+      noSettings,
+      liftedState
+    } = this.props;
+
+    const isRedux = lib === 'redux';
     return (
       <div style={styles.buttonBar}>
         {isRedux &&
-          <RecordButton paused={this.props.liftedState.isPaused} />
+          <RecordButton paused={liftedState.isPaused} />
         }
         {isRedux &&
-          <LockButton locked={this.props.liftedState.isLocked} />
+          <LockButton locked={liftedState.isLocked} />
         }
-        <DispatcherButton dispatcherIsOpen={this.props.dispatcherIsOpen} />
-        <SliderButton isOpen={this.props.sliderIsOpen}/>
+        <DispatcherButton dispatcherIsOpen={dispatcherIsOpen} />
+        <SliderButton isOpen={sliderIsOpen}/>
         <ImportButton />
         <ExportButton />
         <PrintButton />
-        {!this.props.noSettings &&
+        {!noSettings &&
           <Button Icon={SettingsIcon} onClick={this.openSettings}>Settings</Button>
         }
         <Button Icon={HelpIcon} onClick={this.openHelp}>How to use</Button>
-        {!this.props.noSettings &&
+        {!noSettings &&
           <Settings isOpen={this.state.settingsOpened} close={this.closeSettings} />
         }
       </div>

@@ -17,9 +17,11 @@ class DispatcherButton extends Component {
   }
 
   render() {
+    const { dispatcherIsOpen } = this.props;
+
     return (
       <Button
-        Icon={this.props.dispatcherIsOpen ? DispatchHideIcon : DispatchIcon}
+        Icon={dispatcherIsOpen ? DispatchHideIcon : DispatchIcon}
         onClick={this.props.toggleDispatcher}
       >Dispatcher</Button>
     );

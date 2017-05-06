@@ -44,11 +44,13 @@ export default class Button extends React.Component {
   }
 
   onClick() {
-    if (!this.props.enabled) {
+    const { enabled, onClick } = this.props;
+
+    if (!enabled) {
       return;
     }
-    if (this.props.onClick) {
-      this.props.onClick();
+    if (onClick) {
+      onClick();
     }
   }
 

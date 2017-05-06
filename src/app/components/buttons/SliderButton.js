@@ -17,9 +17,11 @@ class SliderButton extends Component {
   }
 
   render() {
+    const { isOpen } = this.props;
+
     return (
       <Button
-        Icon={this.props.isOpen ? TimerOffIcon : TimerIcon}
+        Icon={isOpen ? TimerOffIcon : TimerIcon}
         onClick={this.props.toggleSlider}
       >Slider</Button>
     );

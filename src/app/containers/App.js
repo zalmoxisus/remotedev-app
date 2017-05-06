@@ -15,21 +15,33 @@ import SyncToggle from '../components/SyncToggle';
 
 class App extends Component {
   render() {
-    const { monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState } = this.props;
+    const {
+      monitor,
+      monitorState,
+      dispatcherIsOpen,
+      sliderIsOpen,
+      options,
+      liftedState,
+      selected,
+      shouldSync,
+      reports,
+      noSettings
+    } = this.props;
+
     return (
       <div style={styles.container}>
         <div style={styles.buttonBar}>
           <MonitorSelector selected={monitor}/>
-          <Instances selected={this.props.selected} />
+          <Instances selected={selected} />
           <SyncToggle
-            on={this.props.shouldSync}
-            style={!this.props.selected ? { display: 'none' } : undefined}
+            on={shouldSync}
+            style={!selected ? { display: 'none' } : undefined}
           />
         </div>
         <DevTools
           monitor={monitor}
           liftedState={liftedState}
-          monitorState={this.props.monitorState}
+          monitorState={monitorState}
           dispatch={this.props.liftedDispatch}
           lib={options.lib}
         />
@@ -38,9 +50,9 @@ class App extends Component {
           <SliderMonitor
             monitor="SliderMonitor"
             liftedState={liftedState}
-            dispatch={this.props.liftedDispatch}
+            dispatch={liftedDispatch}
             getReport={this.props.getReport}
-            reports={this.props.reports}
+            reports={reports}
             showActions={monitor === 'ChartMonitor'}
             style={{ padding: '15px 5px' }}
             fillColor="rgb(120, 144, 156)"
@@ -54,7 +66,7 @@ class App extends Component {
           dispatcherIsOpen={dispatcherIsOpen}
           sliderIsOpen={sliderIsOpen}
           lib={options.lib}
-          noSettings={this.props.noSettings}
+          noSettings={noSettings}
         />
       </div>
     );

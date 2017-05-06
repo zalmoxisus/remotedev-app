@@ -19,8 +19,10 @@ class Instances extends Component {
   }
 
   render() {
+    const { instances, selected, onSelect } = this.props;
+
     this.select = [['Autoselect instances', null]];
-    const instances = this.props.instances;
+
     let name;
     Object.keys(instances).forEach(key => {
       name = instances[key].name;
@@ -32,8 +34,8 @@ class Instances extends Component {
         style={styles.select}
         labelStyle={styles.selectLabel}
         iconStyle={styles.selectIcon}
-        onChange={this.props.onSelect}
-        value={this.props.selected}
+        onChange={onSelect}
+        value={selected}
       >
         {
           this.select.map(

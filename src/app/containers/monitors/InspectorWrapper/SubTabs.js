@@ -23,13 +23,15 @@ class SubTabs extends Component {
   }
 
   selector = () => {
-    switch (this.props.parentTab) {
+    const { parentTab, action, delta, nextState } = this.props;
+
+    switch (parentTab) {
       case 'Action':
-        return { data: this.props.action };
+        return { data: action };
       case 'Diff':
-        return { data: this.props.delta };
+        return { data: delta };
       default:
-        return { data: this.props.nextState };
+        return { data: nextState };
     }
   };
 
@@ -72,8 +74,10 @@ class SubTabs extends Component {
   }
 
   render() {
+    const { parentTab } = this.props;
+
     let selected = this.props.selected;
-    if (selected === 'Chart' && this.props.parentTab === 'Diff') selected = 'Tree';
+    if (selected === 'Chart' && parentTab === 'Diff') selected = 'Tree';
 
     return (
       <Tabs
