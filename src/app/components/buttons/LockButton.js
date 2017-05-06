@@ -16,11 +16,13 @@ class LockButton extends Component {
   }
 
   render() {
+    const { locked } = this.props;
+
     return (
       <Button
-        Icon={this.props.locked ? LockIcon : LockOpenIcon}
+        Icon={locked ? LockIcon : LockOpenIcon}
         onClick={this.props.lockChanges}
-      >{this.props.locked ? 'Unlock changes' : 'Lock changes'}</Button>
+      >{locked ? 'Unlock changes' : 'Lock changes'}</Button>
     );
   }
 }

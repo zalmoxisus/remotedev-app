@@ -16,11 +16,13 @@ class RecordButton extends Component {
   }
 
   render() {
+    const { paused } = this.props;
+
     return (
       <Button
-        Icon={this.props.paused ? RecordIcon : PauseIcon}
+        Icon={paused ? RecordIcon : PauseIcon}
         onClick={this.props.pauseRecording}
-      >{this.props.paused ? 'Start recording' : 'Pause recording'}</Button>
+      >{paused ? 'Start recording' : 'Pause recording'}</Button>
     );
   }
 }

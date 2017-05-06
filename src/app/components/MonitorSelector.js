@@ -22,13 +22,15 @@ class MonitorSelector extends Component {
   }
 
   render() {
+    const { selected } = this.props;
+
     return (
       <SelectField
         style={styles.select}
         labelStyle={styles.selectLabel}
         iconStyle={styles.selectIcon}
         onChange={this.props.selectMonitor}
-        value={this.props.selected || 'InspectorMonitor'}
+        value={selected || 'InspectorMonitor'}
       >
         {this.items}
       </SelectField>
