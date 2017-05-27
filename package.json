@@ -107,7 +107,7 @@
     "remotedev-inspector-monitor": "^0.10.2",
     "remotedev-monitor-components": "^0.0.5",
     "remotedev-slider": "1.1.3",
-    "socketcluster-client": "^5.0.0",
+    "socketcluster-client": "^5.5.0",
     "styled-components": "^1.1.1"
   },
   "peerDependencies": {
