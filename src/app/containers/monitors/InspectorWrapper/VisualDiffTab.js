@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { format } from 'jsondiffpatch/src/formatters/html';
 import styled from 'styled-components';
 import { effects } from 'devui';

@@ -1,6 +1,7 @@
 // Based on https://github.com/YoruNoHikage/redux-devtools-dispatch
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Button, Select, Editor, Toolbar } from 'devui';
 import { bindActionCreators } from 'redux';

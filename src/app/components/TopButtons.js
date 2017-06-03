@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ActionCreators } from 'redux-devtools-instrument';
 import { Button, Toolbar, Divider, Spacer } from 'devui';
 import RecordButton from './buttons/RecordButton';

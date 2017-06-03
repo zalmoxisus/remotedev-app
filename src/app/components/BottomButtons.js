@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Toolbar, Divider, Spacer } from 'devui';
 import SaveIcon from 'react-icons/lib/md/save';
 import ExportButton from './buttons/ExportButton';
@@ -41,9 +42,7 @@ export default class BottomButtons extends Component {
         }
         <PrintButton />
         <Divider />
-        <Spacer />
         <MonitorSelector />
-        <Spacer />
         <Divider />
         {features.jump &&
         <SliderButton isOpen={this.props.sliderIsOpen} />

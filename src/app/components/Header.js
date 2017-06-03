@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Tabs, Toolbar, Button, Divider, Spacer } from 'devui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -34,7 +35,6 @@ class Header extends Component {
           onClick={this.props.changeSection}
           selected={this.props.section || 'Actions'}
         />
-        <Spacer />
         <Divider />
         <Button
           title="Documentation"

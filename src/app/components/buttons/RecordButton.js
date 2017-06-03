@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Button } from 'devui';
 import RecordIcon from 'react-icons/lib/md/fiber-manual-record';

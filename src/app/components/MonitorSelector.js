@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Tabs } from 'devui';
@@ -20,6 +21,7 @@ class MonitorSelector extends Component {
       <Tabs
         main
         collapsible
+        position="center"
         tabs={monitors}
         onClick={this.props.selectMonitor}
         selected={this.props.selected || 'InspectorMonitor'}

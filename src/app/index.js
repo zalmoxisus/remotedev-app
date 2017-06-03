@@ -1,5 +1,6 @@
 import 'devui/lib/presets';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import configureStore from './store/configureStore';
 import { CONNECT_REQUEST } from './constants/socketActionTypes';
@@ -30,7 +31,7 @@ class Root extends Component {
 Root.propTypes = {
   socketOptions: PropTypes.shape({
     hostname: PropTypes.string,
-    port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    port: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoReconnect: PropTypes.bool,
     secure: PropTypes.bool
   })

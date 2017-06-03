@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import LogMonitor from 'redux-devtools-log-monitor';
 import ChartMonitorWrapper from '../containers/monitors/ChartMonitorWrapper';
 import InspectorWrapper from '../containers/monitors/InspectorWrapper';
