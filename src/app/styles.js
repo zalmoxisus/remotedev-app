@@ -26,7 +26,7 @@ const styles = {
     backgroundColor: '#353B46',
     fontFamily: 'monaco, Consolas, Lucida Console, monospace',
     minWidth: '300px',
-    minHeight: '30px',
+    flex: '0 0 25px',
     fontSize: '13px',
     overflow: 'hidden'
   },
