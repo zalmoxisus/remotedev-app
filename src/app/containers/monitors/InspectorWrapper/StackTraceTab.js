@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import Stacktrace from "stacktrace-js";
 import ErrorStackParser from "error-stack-parser";
+
+import {getStackFrames} from "./react-error-overlay/utils/getStackFrames";
+import StackTrace from "./react-error-overlay/containers/StackTrace";
 
 
 // Inlined function from https://github.com/shokai/deserialize-error
@@ -53,7 +55,7 @@ export default class StackTraceTab extends Component {
         if(liftedAction && liftedAction.stack) {
             const deserializedError = deserializeError(liftedAction.stack);
 
-            Stacktrace.fromError(deserializedError)
+            getStackFrames(deserializedError)
                 .then(stackFrames => {
                     //console.log("Stack frames: ", stackFrames);
                     this.setState({stackFrames, currentError : deserializedError});
@@ -91,30 +93,17 @@ export default class StackTraceTab extends Component {
 
     render() {
         const {stackFrames} = this.state;
-        //console.log("Stack frames: ", stackFrames);
-        //console.log("Props: ", this.props);
-
-        let renderedFrames;
-
-        if(stackFrames.length > 0) {
-            renderedFrames = stackFrames.map( (stackFrame, i) => {
-                return (
-                    <div key={i}>
-                        <a href="#" onClick={() => this.onStackFrameClicked(i)}>
-                            {stackFrame.toString()}
-                        </a>
-                    </div>
-                );
-            })
-        }
-        else {
-            renderedFrames = "No stack trace available";
-        }
 
         return (
-            <div>
-                <h2>Stack Trace</h2>
-                {renderedFrames}
+            <div style={{backgroundColor : "white", color : "black"}}>
+                <h2>Dispatched Action Stack Trace</h2>
+                <div style={{display : "flex", flexDirection : "column"}}>
+                    <StackTrace
+                        stackFrames={stackFrames}
+                        errorName={"N/A"}
+                        contextSize={3}
+                    />
+                </div>
             </div>
         )
     }
