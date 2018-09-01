@@ -57,7 +57,7 @@ export default class StackTraceTab extends Component {
 
             getStackFrames(deserializedError)
                 .then(stackFrames => {
-                    //console.log("Stack frames: ", stackFrames);
+                    console.log("Stack frames: ", stackFrames);
                     this.setState({stackFrames, currentError : deserializedError});
                 })
         }
@@ -66,28 +66,74 @@ export default class StackTraceTab extends Component {
         }
     }
 
+    /*
     onStackFrameClicked = (i) => {
         const stackFrame = this.state.stackFrames[i];
 
         if(stackFrame) {
             const parsedFramesNoSourcemaps = ErrorStackParser.parse(this.state.currentError)
-            //console.log("Parsed stack frames: ", parsedFramesNoSourcemaps);
+            console.log("Parsed stack frames: ", parsedFramesNoSourcemaps);
 
             if(chrome && chrome.devtools.panels.openResource) {
                 const frameWithoutSourcemap = parsedFramesNoSourcemaps[i];
                 const {fileName, lineNumber} = frameWithoutSourcemap;
-                //console.log("Parsed stack frame: ", stackFrame);
-                //console.log("Original stack frame: ", frameWithoutSourcemap);
+                console.log("Parsed stack frame: ", stackFrame);
+                console.log("Original stack frame: ", frameWithoutSourcemap);
 
                 const adjustedLineNumber = Math.max(lineNumber - 1, 0);
 
 
                 chrome.devtools.panels.openResource(fileName, adjustedLineNumber, (...callbackArgs) => {
-                    //console.log("openResource callback args: ", callbackArgs);
+                    console.log("openResource callback args: ", callbackArgs);
                     //console.log("Testing");
                 });
             }
         }
+    }
+    */
+
+    onStackLocationClicked = (fileLocation = {}) => {
+        //console.log("Stack location args: ", ...args);
+
+        const parsedFramesNoSourcemaps = ErrorStackParser.parse(this.state.currentError)
+        //console.log("Parsed stack frames: ", parsedFramesNoSourcemaps);
+
+        const {fileName, lineNumber} = fileLocation;
+
+        if(fileName && lineNumber) {
+            const matchingStackFrame = this.state.stackFrames.find(stackFrame => {
+                const matches = (
+                    (stackFrame._originalFileName === fileName && stackFrame._originalLineNumber === lineNumber) ||
+                    (stackFrame.fileName === fileName && stackFrame.lineNumber === lineNumber)
+                );
+                return matches;
+            })
+
+            //console.log("Matching stack frame: ", matchingStackFrame);
+
+            if(matchingStackFrame) {
+                /*
+                const frameIndex = this.state.stackFrames.indexOf(matchingStackFrame);
+                const originalStackFrame = parsedFramesNoSourcemaps[frameIndex];
+                console.log("Original stack frame: ", originalStackFrame);
+                */
+                const adjustedLineNumber = Math.max(lineNumber - 1, 0);
+
+
+                chrome.devtools.panels.openResource(fileName, adjustedLineNumber, (result) => {
+                    //console.log("openResource callback args: ", callbackArgs);
+                    //console.log("Testing");
+                    if(result.isError) {
+                        const {fileName : finalFileName, lineNumber : finalLineNumber} = matchingStackFrame;
+                        const adjustedLineNumber = Math.max(finalLineNumber - 1, 0);
+                        chrome.devtools.panels.openResource(finalFileName, adjustedLineNumber, (result) => {
+                            //console.log("openResource result: ", result);
+                        });
+                    }
+                });
+            }
+        }
+
     }
 
 
@@ -102,6 +148,7 @@ export default class StackTraceTab extends Component {
                         stackFrames={stackFrames}
                         errorName={"N/A"}
                         contextSize={3}
+                        editorHandler={this.onStackLocationClicked}
                     />
                 </div>
             </div>
