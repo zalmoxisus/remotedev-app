@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Stacktrace from "stacktrace-js";
+import ErrorStackParser from "error-stack-parser";
 
 
 // Inlined function from https://github.com/shokai/deserialize-error
@@ -55,7 +56,7 @@ export default class StackTraceTab extends Component {
             Stacktrace.fromError(deserializedError)
                 .then(stackFrames => {
                     //console.log("Stack frames: ", stackFrames);
-                    this.setState({stackFrames});
+                    this.setState({stackFrames, currentError : deserializedError});
                 })
         }
         else {
@@ -63,21 +64,56 @@ export default class StackTraceTab extends Component {
         }
     }
 
+    onStackFrameClicked = (i) => {
+        const stackFrame = this.state.stackFrames[i];
+
+        if(stackFrame) {
+            const parsedFramesNoSourcemaps = ErrorStackParser.parse(this.state.currentError)
+            //console.log("Parsed stack frames: ", parsedFramesNoSourcemaps);
+
+            if(chrome && chrome.devtools.panels.openResource) {
+                const frameWithoutSourcemap = parsedFramesNoSourcemaps[i];
+                const {fileName, lineNumber} = frameWithoutSourcemap;
+                //console.log("Parsed stack frame: ", stackFrame);
+                //console.log("Original stack frame: ", frameWithoutSourcemap);
+
+                const adjustedLineNumber = Math.max(lineNumber - 1, 0);
+
+
+                chrome.devtools.panels.openResource(fileName, adjustedLineNumber, (...callbackArgs) => {
+                    //console.log("openResource callback args: ", callbackArgs);
+                    //console.log("Testing");
+                });
+            }
+        }
+    }
+
 
     render() {
-        //const contents = JSON.stringify(this.props);
-
-        //console.log("Stack trace props: ", this.props);
-
         const {stackFrames} = this.state;
+        //console.log("Stack frames: ", stackFrames);
+        //console.log("Props: ", this.props);
 
-        const renderedFrames = stackFrames.map( (stackFrame, i) => {
-            return <div key={i}>{stackFrame.toString()}</div>;
-        })
+        let renderedFrames;
+
+        if(stackFrames.length > 0) {
+            renderedFrames = stackFrames.map( (stackFrame, i) => {
+                return (
+                    <div key={i}>
+                        <a href="#" onClick={() => this.onStackFrameClicked(i)}>
+                            {stackFrame.toString()}
+                        </a>
+                    </div>
+                );
+            })
+        }
+        else {
+            renderedFrames = "No stack trace available";
+        }
 
         return (
             <div>
-                Stack trace:
+                <h2>Stack Trace</h2>
                 {renderedFrames}
             </div>
         )
