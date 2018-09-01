@@ -1,4 +1,10 @@
 {
-  "presets": [ "es2015", "stage-0", "react" ],
-  "plugins": [ "add-module-exports", "transform-decorators-legacy" ]
+  "presets": [ ["env", {
+    "targets": {
+      "firefox" : 56,
+      "chrome" : 64
+    },
+    //"debug" : true
+  }], "react", "flow"],
+  "plugins": [ "transform-class-properties", "transform-object-rest-spread", "add-module-exports", "transform-decorators-legacy" ]
 }
