@@ -4,22 +4,6 @@ import ErrorStackParser from "error-stack-parser";
 import {getStackFrames} from "./react-error-overlay/utils/getStackFrames";
 import StackTrace from "./react-error-overlay/containers/StackTrace";
 
-
-// Inlined function from https://github.com/shokai/deserialize-error
-function deserializeError (obj) {
-    if (!isSerializedError(obj)) return obj
-    return Object.assign(new Error(), {stack: undefined}, obj)
-}
-
-export function isSerializedError (obj) {
-    return obj &&
-        typeof obj === 'object' &&
-        typeof obj.name === 'string' &&
-        (typeof obj.message === 'string' || typeof obj.stack === 'string')
-}
-
-
-
 export default class StackTraceTab extends Component {
     constructor(props) {
         super(props);
@@ -52,8 +36,8 @@ export default class StackTraceTab extends Component {
         const liftedAction = liftedActions.find(liftedAction => liftedAction.action === action);
 
 
-        if(liftedAction && liftedAction.stack) {
-            const deserializedError = deserializeError(liftedAction.stack);
+        if(liftedAction && typeof liftedAction.stack === 'string') {
+            const deserializedError = Object.assign(new Error(), {stack: liftedAction.stack});
 
             getStackFrames(deserializedError)
                 .then(stackFrames => {
