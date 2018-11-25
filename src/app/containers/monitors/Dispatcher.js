@@ -1,117 +1,65 @@
 // Based on https://github.com/YoruNoHikage/redux-devtools-dispatch
 
-import React, { Component, PropTypes } from 'react';
-import * as themes from 'redux-devtools-themes';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import styled from 'styled-components';
+import { Button, Select, Editor, Toolbar } from 'devui';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dispatchRemotely } from '../../actions';
 
-const styles = {
-  button: {
-    cursor: 'pointer',
-    fontWeight: 'bold',
-    borderRadius: '3px',
-    padding: '3px',
-    margin: '5px',
-    fontSize: '0.8em',
-    textDecoration: 'none',
-    border: 'none',
-  },
-  content: {
-    margin: '5px',
-    padding: '5px',
-    borderRadius: '3px',
-    outline: 'none',
-    flex: '1 1 80%',
-    overflow: 'auto',
-  },
-  label: {
-    margin: '5px',
-    padding: '5px',
-    flex: '1 1 20%',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    direction: 'rtl',
-    textAlign: 'left',
+export const DispatcherContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  padding-top: 2px;
+  background: ${props => props.theme.base01};
+`;
+
+export const CodeContainer = styled.div`
+  height: 75px;
+  padding-right: 6px;
+  overflow: auto;
+`;
+
+export const ActionContainer = styled.div`
+  display: table;
+  width: 100%;
+  color: ${props => props.theme.base06};
+
+  > div {
+  display: table-row;
+
+    > div:first-child {
+      width: 1px;
+      padding-left: 8px;
+      display: table-cell;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    > div:nth-child(2) {
+      display: table-cell;
+      width: 100%;
+      padding: 6px;
+    }
   }
-};
+`;
 
 class Dispatcher extends Component {
   static propTypes = {
     options: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    theme: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.string,
-    ])
+    dispatch: PropTypes.func.isRequired
   };
 
-  static defaultProps = {
-    theme: 'nicinabox'
+  state = {
+    selected: 'default',
+    customAction: this.props.options.lib === 'redux' ? '{\n  type: \'\'\n}' : 'this.',
+    args: [],
+    rest: '[]',
+    changed: false
   };
-
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      selected: 'default',
-      args: []
-    };
-  }
-
-  selectActionCreator(e) {
-    const selected = e.target.value;
-    let args = [];
-    if (selected !== 'default') {
-      // Shrink the number args to the number of the new ones
-      args = this.state.args.slice(
-        0, this.props.options.actionCreators[selected].args.length
-      );
-    }
-    this.setState({
-      selected,
-      args
-    });
-  }
-
-  handleArg(e, argIndex) {
-    let value = this.refs['arg' + argIndex].textContent.trim();
-    if (value === '') value = undefined;
-    const args = [
-      ...this.state.args.slice(0, argIndex),
-      value,
-      ...this.state.args.slice(argIndex + 1),
-    ];
-    this.setState({ args });
-  }
-
-  launchAction() {
-    if (this.state.selected !== 'default') {
-      let rest = this.refs.restArgs.textContent.trim();
-      if (rest === '') rest = undefined;
-      const { selected, args } = this.state;
-      this.props.dispatch({
-        name: this.props.options.actionCreators[selected].name,
-        selected, args, rest
-      });
-    } else {
-      if (this.refs.action.textContent !== '') {
-        this.props.dispatch(this.refs.action.textContent);
-      }
-    }
-  }
-
-  componentDidMount() {
-    this.resetCustomAction();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.state.selected === 'default' &&
-      prevState.selected !== 'default'
-    ) {
-      this.resetCustomAction();
-    }
-  }
 
   componentWillReceiveProps(nextProps) {
     if (this.state.selected !== 'default' && !nextProps.options.actionCreators) {
@@ -122,96 +70,124 @@ class Dispatcher extends Component {
     }
   }
 
-  resetCustomAction() {
-    this.refs.action.innerHTML = (
-      this.props.options.lib === 'redux' ? '{<br/>type: \'\'<br/>}' : 'this.'
-    );
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state ||
+      nextProps.options.actionCreators !== this.props.options.actionCreators;
   }
 
-  getTheme() {
-    let { theme } = this.props;
-    if (typeof theme !== 'string') {
-      return theme;
+  selectActionCreator = selected => {
+    if (selected === 'actions-help') {
+      window.open('https://github.com/zalmoxisus/redux-devtools-extension/blob/master/docs/' +
+        'basics/Dispatcher.md');
+      return;
     }
 
-    if (typeof themes[theme] !== 'undefined') {
-      return themes[theme];
+    const args = [];
+    if (selected !== 'default') {
+      args.length = this.props.options.actionCreators[selected].args.length;
     }
+    this.setState({ selected, args, rest: '[]', changed: false });
+  };
 
-    console.warn('DevTools theme ' + theme + ' not found, defaulting to nicinabox');
-    return themes.nicinabox;
-  }
+  handleArg = argIndex => value => {
+    const args = [
+      ...this.state.args.slice(0, argIndex),
+      value || undefined,
+      ...this.state.args.slice(argIndex + 1),
+    ];
+    this.setState({ args, changed: true });
+  };
+
+  handleRest = rest => {
+    this.setState({ rest, changed: true });
+  };
+
+  handleCustomAction = customAction => {
+    this.setState({ customAction, changed: true });
+  };
+
+  dispatchAction = () => {
+    const { selected, customAction, args, rest } = this.state;
+
+    if (this.state.selected !== 'default') {
+      // remove trailing `undefined` arguments
+      let i = args.length - 1;
+      while (i >= 0 && typeof args[i] === 'undefined') {
+        args.pop(i); i--;
+      }
+      this.props.dispatch({
+        name: this.props.options.actionCreators[selected].name,
+        selected,
+        args,
+        rest
+      });
+    } else {
+      this.props.dispatch(customAction);
+    }
+    this.setState({ changed: false });
+  };
 
   render() {
-    const theme = this.getTheme();
-    const contentEditableStyle = {
-      ...styles.content, color: theme.base06, backgroundColor: theme.base00
-    };
-    const buttonStyle = {
-      ...styles.button, color: theme.base06, backgroundColor: theme.base00
-    };
     const actionCreators = this.props.options.actionCreators;
+    let actionElement;
 
-    let fields = <div contentEditable style={contentEditableStyle} ref="action"></div>;
-    if (this.state.selected !== 'default' && actionCreators) {
-      const fieldStyles = { ...styles.label, color: theme.base06 };
-      fields = actionCreators[this.state.selected].args.map((param, i) => (
-        <div key={i} style={{ display: 'flex' }}>
-          <span style={fieldStyles}>{param}</span>
-          <div
-            contentEditable style={contentEditableStyle} ref={'arg' + i}
-            onInput={(e) => this.handleArg(e, i)}
+    if (this.state.selected === 'default' || !actionCreators) {
+      actionElement = (
+        <CodeContainer>
+          <Editor
+            value={this.state.customAction}
+            onChange={this.handleCustomAction}
           />
-        </div>
-      ));
-      fields.push(
-        <div key="action" style={{ display: 'flex' }}>
-          <span style={fieldStyles}>args...</span>
-          <div contentEditable style={contentEditableStyle} ref="restArgs" />
-        </div>
+        </CodeContainer>
+      );
+    } else {
+      actionElement = (
+        <ActionContainer>
+          {actionCreators[this.state.selected].args.map((param, i) => (
+            <div key={`${param}${i}`}>
+              <div>{param}</div>
+              <Editor
+                lineNumbers={false}
+                value={this.state.args[i]}
+                onChange={this.handleArg(i)}
+              />
+            </div>
+          ))}
+          <div>
+            <div>...rest</div>
+            <Editor
+              lineNumbers={false}
+              value={this.state.rest}
+              onChange={this.handleRest}
+            />
+          </div>
+        </ActionContainer>
       );
     }
 
-    let dispatchButtonStyle = buttonStyle;
-    if (!actionCreators || actionCreators.length <= 0) {
-      dispatchButtonStyle = {
-        ...buttonStyle,
-        position: 'absolute',
-        bottom: '3px',
-        right: '5px',
-        background: theme.base02,
-      };
+    let options = [{ value: 'default', label: 'Custom action' }];
+    if (actionCreators && actionCreators.length > 0) {
+      options = options.concat(actionCreators.map(({ name, func, args }, i) => ({
+        value: i,
+        label: `${name}(${args.join(', ')})`
+      })));
+    } else {
+      options.push({ value: 'actions-help', label: 'Add your app built-in actions…' });
     }
 
-    const dispatchButton = (
-      <button style={dispatchButtonStyle} onClick={this.launchAction.bind(this)}>Dispatch</button>
-    );
-
     return (
-      <div
-        style={{
-          background: theme.base02,
-          fontFamily: 'monaco,Consolas,Lucida Console,monospace',
-          position: 'relative'
-        }}
-      >
-        {fields}
-        {actionCreators && actionCreators.length > 0 ? <div style={{ display: 'flex' }}>
-          <select
-            onChange={this.selectActionCreator.bind(this)}
-            style={{ flex: '1', margin: '5px 0 0 5px', height: '1.5em' }}
-            defaultValue={this.state.selected || 'default'}
-          >
-            <option value="default">Custom action</option>
-            {actionCreators.map(({ name, func, args }, i) => (
-              <option key={i} value={i}>
-                {name + '(' + args.join(', ') + ')'}
-              </option>
-            ))}
-          </select>
-          {dispatchButton}
-        </div> : dispatchButton}
-      </div>
+      <DispatcherContainer>
+        {actionElement}
+        <Toolbar>
+          <Select
+            openOuterUp
+            onChange={this.selectActionCreator}
+            value={this.state.selected || 'default'}
+            options={options}
+          />
+          <Button onClick={this.dispatchAction} primary={this.state.changed}>Dispatch</Button>
+        </Toolbar>
+      </DispatcherContainer>
     );
   }
 }

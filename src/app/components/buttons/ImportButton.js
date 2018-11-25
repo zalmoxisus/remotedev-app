@@ -1,14 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import UploadIcon from 'react-icons/lib/md/file-upload';
-import Button from '../Button';
-import { importState, showNotification } from '../../actions';
+import { Button } from 'devui';
+import UploadIcon from 'react-icons/lib/ti/upload';
+import { importState } from '../../actions';
 
 class ImportButton extends Component {
   static propTypes = {
-    importState: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired
+    importState: PropTypes.func.isRequired
   };
 
   constructor() {
@@ -37,13 +37,16 @@ class ImportButton extends Component {
       this.props.importState(reader.result);
     };
     reader.readAsText(file);
-    e.target.value = '';
+    e.target.value = ''; // eslint-disable-line no-param-reassign
   }
 
   render() {
     return (
-      <Button Icon={UploadIcon} onClick={this.handleImport}>
-        Import
+      <Button
+        title="Import from a file"
+        onClick={this.handleImport}
+      >
+        <UploadIcon />
         <input
           type="file" ref={this.mapRef} style={{ display: 'none' }}
           onChange={this.handleImportFile}
@@ -55,8 +58,7 @@ class ImportButton extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    importState: bindActionCreators(importState, dispatch),
-    showNotification: bindActionCreators(showNotification, dispatch)
+    importState: bindActionCreators(importState, dispatch)
   };
 }
 

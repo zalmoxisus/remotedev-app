@@ -1,101 +1,57 @@
-import React, { Component, PropTypes } from 'react';
-import { bindActionCreators } from 'redux';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import SliderMonitor from 'remotedev-slider/lib/Slider';
-import { liftedDispatch, getReport } from '../actions';
-import { getActiveInstance } from '../reducers/instances';
-import styles from '../styles';
-import DevTools from '../containers/DevTools';
-import Dispatcher from './monitors/Dispatcher';
-import ButtonBar from '../components/ButtonBar';
-import Notification from '../components/Notification';
-import Instances from '../components/Instances';
-import MonitorSelector from '../components/MonitorSelector';
-import SyncToggle from '../components/SyncToggle';
+import { bindActionCreators } from 'redux';
+import { Container, Notification } from 'devui';
+import { clearNotification } from '../actions';
+import Header from '../components/Header';
+import Actions from '../containers/Actions';
+import Settings from '../components/Settings';
 
 class App extends Component {
   render() {
-    const { monitor, dispatcherIsOpen, sliderIsOpen, options, liftedState } = this.props;
+    const { section, theme, notification } = this.props;
+    let body;
+    switch (section) {
+      case 'Settings': body = <Settings />; break;
+      default: body = <Actions />;
+    }
+
     return (
-      <div style={styles.container}>
-        <div style={styles.buttonBar}>
-          <MonitorSelector selected={monitor}/>
-          <Instances selected={this.props.selected} />
-          <SyncToggle
-            on={this.props.shouldSync}
-            style={!this.props.selected ? { display: 'none' } : undefined}
-          />
-        </div>
-        <DevTools
-          monitor={monitor}
-          liftedState={liftedState}
-          monitorState={this.props.monitorState}
-          dispatch={this.props.liftedDispatch}
-          lib={options.lib}
-        />
-        <Notification />
-        {sliderIsOpen && options.connectionId &&
-          <SliderMonitor
-            monitor="SliderMonitor"
-            liftedState={liftedState}
-            dispatch={this.props.liftedDispatch}
-            getReport={this.props.getReport}
-            reports={this.props.reports}
-            showActions={monitor === 'ChartMonitor'}
-            style={{ padding: '15px 5px' }}
-            fillColor="rgb(120, 144, 156)"
-          />
+      <Container themeData={theme}>
+        <Header section={section} />
+        {body}
+        {notification &&
+          <Notification type={notification.type} onClose={this.props.clearNotification}>
+            {notification.message}
+          </Notification>
         }
-        {dispatcherIsOpen && options.connectionId &&
-          <Dispatcher options={options} />
-        }
-        <ButtonBar
-          liftedState={liftedState}
-          dispatcherIsOpen={dispatcherIsOpen}
-          sliderIsOpen={sliderIsOpen}
-          lib={options.lib}
-          noSettings={this.props.noSettings}
-        />
-      </div>
+      </Container>
     );
   }
 }
 
 App.propTypes = {
-  liftedDispatch: PropTypes.func.isRequired,
-  getReport: PropTypes.func.isRequired,
-  selected: PropTypes.string,
-  liftedState: PropTypes.object.isRequired,
-  monitorState: PropTypes.object,
-  options: PropTypes.object.isRequired,
-  monitor: PropTypes.string,
-  dispatcherIsOpen: PropTypes.bool,
-  sliderIsOpen: PropTypes.bool,
-  reports: PropTypes.array.isRequired,
-  shouldSync: PropTypes.bool,
-  noSettings: PropTypes.bool
+  section: PropTypes.string.isRequired,
+  theme: PropTypes.object.isRequired,
+  notification: PropTypes.shape({
+    message: PropTypes.string,
+    type: PropTypes.string
+  }),
+  clearNotification: PropTypes.func
 };
 
 function mapStateToProps(state) {
-  const instances = state.instances;
-  const id = getActiveInstance(instances);
   return {
-    selected: instances.selected,
-    liftedState: instances.states[id],
-    monitorState: state.monitor.monitorState,
-    options: instances.options[id],
-    monitor: state.monitor.selected,
-    dispatcherIsOpen: state.monitor.dispatcherIsOpen,
-    sliderIsOpen: state.monitor.sliderIsOpen,
-    reports: state.reports.data,
-    shouldSync: state.instances.sync
+    section: state.section,
+    theme: state.theme,
+    notification: state.notification
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    liftedDispatch: bindActionCreators(liftedDispatch, dispatch),
-    getReport: bindActionCreators(getReport, dispatch)
+    clearNotification: bindActionCreators(clearNotification, dispatch)
   };
 }
 

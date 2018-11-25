@@ -1,10 +1,12 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { format } from 'jsondiffpatch/src/formatters/html';
 import styled from 'styled-components';
+import { effects } from 'devui';
 
 export const StyledContainer = styled.div`
   .jsondiffpatch-delta {
-    font-family: monaco, Consolas, "Lucida Console", monospace;
+    line-height: 14px;
     font-size: 12px;
     padding: 12px;
     margin: 0;
@@ -12,13 +14,12 @@ export const StyledContainer = styled.div`
   }
 
   .jsondiffpatch-delta pre {
-    font-family: monaco, Consolas, "Lucida Console", monospace;
     font-size: 12px;
     margin: 0;
     padding: 2px 3px;
     border-radius: 3px;
     position: relative;
-    color: #FFFFFF;
+    color: ${props => props.theme.base07};
     display: inline-block;
   }
 
@@ -41,20 +42,20 @@ export const StyledContainer = styled.div`
   .jsondiffpatch-modified .jsondiffpatch-right-value:before {
     vertical-align: top;
     padding: 2px;
-    color: #D381C3;
+    color: ${props => props.theme.base0E};
     content: ' => ';
   }
 
   .jsondiffpatch-added .jsondiffpatch-value pre,
   .jsondiffpatch-modified .jsondiffpatch-right-value pre,
   .jsondiffpatch-textdiff-added {
-    background: rgba(161, 198 ,89, 0.4);
+    background: ${props => effects.color(props.theme.base0B, 'alpha', 0.2)};
   }
 
   .jsondiffpatch-deleted pre,
   .jsondiffpatch-modified .jsondiffpatch-left-value pre,
   .jsondiffpatch-textdiff-deleted {
-    background: rgba(251, 159 ,177, 0.4);
+    background: ${props => effects.color(props.theme.base08, 'alpha', 0.2)};
     text-decoration: line-through;
   }
 
@@ -109,12 +110,12 @@ export const StyledContainer = styled.div`
     padding: 2px 0;
     padding-right: 5px;
     vertical-align: top;
-    color: rgb(111, 179, 210);
+    color: ${props => props.theme.base0D};
   }
 
   .jsondiffpatch-property-name:after {
     content: ': ';
-    color: #FFFFFF;
+    color: ${props => props.theme.base07};
   }
 
   .jsondiffpatch-child-node-type-array > .jsondiffpatch-property-name:after {
@@ -150,7 +151,7 @@ export const StyledContainer = styled.div`
   }
 
   .jsondiffpatch-value pre:after {
-    color: #FFFFFF;
+    color: ${props => props.theme.base07};
     content: ',';
   }
 
@@ -173,9 +174,8 @@ export const StyledContainer = styled.div`
 
   .jsondiffpatch-moved .jsondiffpatch-moved-destination {
     display: inline-block;
-    background: #ffffbb;
-    color: #888;
-  }
+    background: ${props => props.theme.base0A};
+ }
 
   .jsondiffpatch-moved .jsondiffpatch-moved-destination:before {
     content: ' => ';
@@ -186,7 +186,6 @@ export const StyledContainer = styled.div`
   }
 
   .jsondiffpatch-textdiff-location {
-    color: #bbb;
     display: inline-block;
     min-width: 60px;
   }
@@ -196,7 +195,6 @@ export const StyledContainer = styled.div`
   }
 
   .jsondiffpatch-textdiff-line-number:after {
-    color: #FFFFFF;
     content: ',';
   }
 

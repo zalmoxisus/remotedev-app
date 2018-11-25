@@ -1,10 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Button } from 'devui';
 import { stringify } from 'jsan';
-import DownloadIcon from 'react-icons/lib/md/file-download';
+import DownloadIcon from 'react-icons/lib/ti/download';
 import { exportState } from '../../actions';
-import Button from '../Button';
 
 class ExportButton extends Component {
   static propTypes = {
@@ -18,9 +19,11 @@ class ExportButton extends Component {
   render() {
     return (
       <Button
-        Icon={DownloadIcon}
+        title="Export to a file"
         onClick={this.props.exportState}
-      >Export</Button>
+      >
+        <DownloadIcon />
+      </Button>
     );
   }
 }

@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import TimerIcon from 'react-icons/lib/md/timer';
-import TimerOffIcon from 'react-icons/lib/md/timer-off';
-import Button from '../Button';
+import { Button } from 'devui';
+import HistoryIcon from 'react-icons/lib/md/av-timer';
 import { toggleSlider } from '../../actions';
 
 class SliderButton extends Component {
@@ -19,9 +19,13 @@ class SliderButton extends Component {
   render() {
     return (
       <Button
-        Icon={this.props.isOpen ? TimerOffIcon : TimerIcon}
+        mark={this.props.isOpen && 'base0D'}
+        title={this.props.isOpen ? 'Hide slider' : 'Show slider'}
+        tooltipPosition="top-left"
         onClick={this.props.toggleSlider}
-      >Slider</Button>
+      >
+        <HistoryIcon />
+      </Button>
     );
   }
 }

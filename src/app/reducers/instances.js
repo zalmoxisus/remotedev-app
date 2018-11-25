@@ -1,6 +1,6 @@
 import {
   UPDATE_STATE, SET_STATE, LIFTED_ACTION,
-  SELECT_INSTANCE, REMOVE_INSTANCE, TOGGLE_SYNC
+  SELECT_INSTANCE, REMOVE_INSTANCE, TOGGLE_PERSIST, TOGGLE_SYNC
 } from '../constants/actionTypes';
 import { DISCONNECTED } from '../constants/socketActionTypes';
 import parseJSON from '../utils/parseJSON';
@@ -11,7 +11,7 @@ export const initialState = {
   current: 'default',
   sync: false,
   connections: {},
-  options: { default: {} },
+  options: { default: { features: {} } },
   states: {
     default: {
       actionsById: {},
@@ -87,7 +87,7 @@ function updateState(state, request, id, serialize) {
         newState.currentStateIndex = newState.computedStates.length - 1;
       }
       break;
-    case 'PARTIAL_STATE':
+    case 'PARTIAL_STATE': {
       const maxAge = request.maxAge;
       const nextActionId = payload.nextActionId;
       const stagedActionIds = payload.stagedActionIds;
@@ -132,6 +132,7 @@ function updateState(state, request, id, serialize) {
         committedState
       };
       break;
+    }
     case 'LIFTED':
       newState = liftedState;
       break;
@@ -211,18 +212,26 @@ function init({ type, action, name, libConfig = {} }, connectionId, current) {
     lib,
     actionCreators,
     features: libConfig.features ? libConfig.features :
-      {
-        lock: lib === 'redux', export: libConfig.type === 'redux' ? 'custom' : true,
-        import: 'custom', persist: true, pause: true, reorder: true, jump: true, skip: true,
-        dispatch: true, test: true
-      },
+    {
+      lock: lib === 'redux',
+      export: libConfig.type === 'redux' ? 'custom' : true,
+      import: 'custom',
+      persist: true,
+      pause: true,
+      reorder: true,
+      jump: true,
+      skip: true,
+      dispatch: true,
+      sync: true,
+      test: true
+    },
     serialize: libConfig.serialize
   };
 }
 
 export default function instances(state = initialState, action) {
   switch (action.type) {
-    case UPDATE_STATE:
+    case UPDATE_STATE: {
       const { request } = action;
       if (!request) return state;
       const connectionId = action.id || request.id;
@@ -245,6 +254,7 @@ export default function instances(state = initialState, action) {
         options,
         states: updateState(state.states, request, current, options[current].serialize)
       };
+    }
     case SET_STATE:
       return {
         ...state,
@@ -253,6 +263,8 @@ export default function instances(state = initialState, action) {
           [getActiveInstance(state)]: action.newState
         }
       };
+    case TOGGLE_PERSIST:
+      return { ...state, persisted: !state.persisted };
     case TOGGLE_SYNC:
       return { ...state, sync: !state.sync };
     case SELECT_INSTANCE:

@@ -1,12 +1,20 @@
 import {
-  LIFTED_ACTION, MONITOR_ACTION, SELECT_INSTANCE, SELECT_MONITOR, UPDATE_MONITOR_STATE, EXPORT,
-  TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER, GET_REPORT_REQUEST,
-  SHOW_NOTIFICATION, CLEAR_NOTIFICATION
+  CHANGE_SECTION, CHANGE_THEME, SELECT_INSTANCE, SELECT_MONITOR, UPDATE_MONITOR_STATE,
+  LIFTED_ACTION, MONITOR_ACTION, EXPORT, TOGGLE_SYNC, TOGGLE_SLIDER, TOGGLE_DISPATCHER,
+  TOGGLE_PERSIST, GET_REPORT_REQUEST, SHOW_NOTIFICATION, CLEAR_NOTIFICATION
 } from '../constants/actionTypes';
 import { RECONNECT } from '../constants/socketActionTypes';
 
 let monitorReducer;
 let monitorProps = {};
+
+export function changeSection(section) {
+  return { type: CHANGE_SECTION, section };
+}
+
+export function changeTheme(data) {
+  return { type: CHANGE_THEME, ...data.formData };
+}
 
 export function liftedDispatch(action) {
   if (action.type[0] === '@') {
@@ -19,12 +27,12 @@ export function liftedDispatch(action) {
   return { type: LIFTED_ACTION, message: 'DISPATCH', action };
 }
 
-export function selectInstance(event, index, selected) {
+export function selectInstance(selected) {
   return { type: SELECT_INSTANCE, selected };
 }
 
-export function selectMonitor(event, index, value, nextMonitorState) {
-  return { type: SELECT_MONITOR, monitor: value, nextMonitorState };
+export function selectMonitor(monitor) {
+  return { type: SELECT_MONITOR, monitor };
 }
 
 export function selectMonitorWithState(value, monitorState) {
@@ -69,6 +77,10 @@ export function dispatchRemotely(action) {
   return { type: LIFTED_ACTION, message: 'ACTION', action };
 }
 
+export function togglePersist() {
+  return { type: TOGGLE_PERSIST };
+}
+
 export function toggleSync() {
   return { type: TOGGLE_SYNC };
 }
@@ -81,12 +93,12 @@ export function toggleDispatcher() {
   return { type: TOGGLE_DISPATCHER };
 }
 
-export function saveSocketSettings(isCustom, options) {
-  return { type: RECONNECT, isCustom, options };
+export function saveSocketSettings(options) {
+  return { type: RECONNECT, options };
 }
 
 export function showNotification(message) {
-  return { type: SHOW_NOTIFICATION, notification: { type: 'ERROR', message } };
+  return { type: SHOW_NOTIFICATION, notification: { type: 'error', message } };
 }
 
 export function clearNotification() {

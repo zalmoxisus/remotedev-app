@@ -1,13 +1,23 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
 import { mount } from 'enzyme';
 // import { mountToJson } from 'enzyme-to-json';
-import 'mock-local-storage';
-import App from '../src/app';
+import App from '../src/app/containers/App';
+import api from '../src/app/middlewares/api';
+import exportState from '../src/app/middlewares/exportState';
+import rootReducer from '../src/app/reducers';
 let wrapper;
+
+const store = createStore(rootReducer, applyMiddleware(exportState, api));
 
 describe('App container', () => {
   beforeAll(() => {
-    wrapper = mount(<App />);
+    wrapper = mount(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
   });
 
 /*

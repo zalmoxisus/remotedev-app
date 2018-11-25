@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import InspectorMonitor from 'remotedev-inspector-monitor';
+import TestTab from 'redux-devtools-test-generator';
 import { DATA_TYPE_KEY } from '../../../constants/dataTypes';
 import SubTabs from './SubTabs';
-import TestTab from './TestTab';
 
 const DEFAULT_TABS = [{
   name: 'Action',
@@ -19,9 +20,9 @@ class InspectorWrapper extends Component {
   static update = InspectorMonitor.update;
 
   render() {
-    const { lib, ...rest } = this.props;
+    const { features, ...rest } = this.props;
     let tabs;
-    if (lib === 'redux') {
+    if (features && features.test) {
       tabs = () => [...DEFAULT_TABS, { name: 'Test', component: TestTab }];
     } else {
       tabs = () => DEFAULT_TABS;
@@ -32,8 +33,9 @@ class InspectorWrapper extends Component {
         dataTypeKey={DATA_TYPE_KEY}
         shouldPersistState={false}
         invertTheme={false}
-        theme="nicinabox"
         tabs={tabs}
+        hideActionButtons={!features.skip}
+        hideMainButtons
         {...rest}
       />
     );
@@ -41,7 +43,7 @@ class InspectorWrapper extends Component {
 }
 
 InspectorWrapper.propTypes = {
-  lib: PropTypes.string
+  features: PropTypes.object
 };
 
 export default InspectorWrapper;

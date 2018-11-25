@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { Button } from 'devui';
 import PrintIcon from 'react-icons/lib/md/print';
-import Button from '../Button';
 
 export default class PrintButton extends Component {
   shouldComponentUpdate() {
@@ -33,7 +34,7 @@ export default class PrintButton extends Component {
 
   render() {
     return (
-      <Button Icon={PrintIcon} onClick={this.handlePrint}>Print</Button>
+      <Button title="Print" onClick={this.handlePrint}><PrintIcon /></Button>
     );
   }
 }

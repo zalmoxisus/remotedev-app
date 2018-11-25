@@ -1,13 +1,14 @@
 import React, { Component, PropTypes, createElement } from 'react';
+import { withTheme } from 'styled-components';
 import getMonitor from '../utils/getMonitor';
 
-export default class DevTools extends Component {
+class DevTools extends Component {
   constructor(props) {
     super(props);
-    this.getMonitor(props);
+    this.getMonitor(props, props.monitorState);
   }
 
-  getMonitor(props) {
+  getMonitor(props, skipUpdate) {
     const monitorElement = getMonitor(props);
     this.monitorProps = monitorElement.props;
     this.Monitor = monitorElement.type;
@@ -16,7 +17,7 @@ export default class DevTools extends Component {
     if (update) {
       let newMonitorState;
       const monitorState = props.monitorState;
-      if (monitorState && monitorState.__overwritten__ === props.monitor) {
+      if (skipUpdate || monitorState && monitorState.__overwritten__ === props.monitor) {
         newMonitorState = monitorState;
       } else {
         newMonitorState = update(this.monitorProps, undefined, {});
@@ -34,10 +35,7 @@ export default class DevTools extends Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (
-      nextProps.monitor !== this.props.monitor ||
-      nextProps.lib !== this.props.lib
-    ) this.getMonitor(nextProps);
+    if (nextProps.monitor !== this.props.monitor) this.getMonitor(nextProps);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -45,7 +43,8 @@ export default class DevTools extends Component {
       nextProps.monitor !== this.props.monitor ||
       nextProps.liftedState !== this.props.liftedState ||
       nextProps.monitorState !== this.props.liftedState ||
-      nextProps.lib !== this.props.lib
+      nextProps.features !== this.props.features ||
+      nextProps.theme.scheme !== this.props.theme.scheme
     );
   }
 
@@ -64,11 +63,15 @@ export default class DevTools extends Component {
       monitorState: this.props.monitorState
     };
     return (
-      <this.Monitor
-        dispatch={this.dispatch}
-        {...liftedState}
-        {...this.monitorProps}
-      />
+      <div className={`monitor monitor-${this.props.monitor}`}>
+        <this.Monitor
+          {...liftedState}
+          {...this.monitorProps}
+          features={this.props.features}
+          dispatch={this.dispatch}
+          theme={this.props.theme}
+        />
+      </div>
     );
   }
 }
@@ -78,5 +81,8 @@ DevTools.propTypes = {
   monitorState: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   monitor: PropTypes.string,
-  lib: PropTypes.string
+  features: PropTypes.object.isRequired,
+  theme: PropTypes.object.isRequired
 };
+
+export default withTheme(DevTools);

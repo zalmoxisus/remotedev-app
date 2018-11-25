@@ -1,21 +1,22 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import LogMonitor from 'redux-devtools-log-monitor';
 import ChartMonitorWrapper from '../containers/monitors/ChartMonitorWrapper';
 import InspectorWrapper from '../containers/monitors/InspectorWrapper';
 
 export const monitors = [
-  { key: 'LogMonitor', title: 'Log monitor' },
-  { key: 'InspectorMonitor', title: 'Inspector' },
-  { key: 'ChartMonitor', title: 'Chart' }
+  { value: 'InspectorMonitor', name: 'Inspector' },
+  { value: 'LogMonitor', name: 'Log monitor' },
+  { value: 'ChartMonitor', name: 'Chart' }
 ];
 
-export default function getMonitor({ monitor, lib }) {
+export default function getMonitor({ monitor }) { // eslint-disable-line react/prop-types
   switch (monitor) {
     case 'LogMonitor':
-      return <LogMonitor preserveScrollTop={false} markStateDiff />;
+      return <LogMonitor preserveScrollTop={false} hideMainButtons markStateDiff />;
     case 'ChartMonitor':
       return <ChartMonitorWrapper />;
     default:
-      return <InspectorWrapper lib={lib} />;
+      return <InspectorWrapper />;
   }
 }

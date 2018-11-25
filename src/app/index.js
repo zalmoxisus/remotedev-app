@@ -1,30 +1,25 @@
-import 'remotedev-monitor-components/lib/presets';
-import React, { Component, PropTypes } from 'react';
+import 'devui/lib/presets';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import enhance from './hoc';
 import configureStore from './store/configureStore';
-import {
-  getMonitorSettings, getSocketSettings, getTestTemplates, getTemplatesSelected
-} from './utils/localStorage';
 import { CONNECT_REQUEST } from './constants/socketActionTypes';
 import App from './containers/App';
 
 class Root extends Component {
   componentWillMount() {
-    this.store = configureStore({
-      monitor: getMonitorSettings() || this.props.monitorOptions,
-      test: {
-        selected: getTemplatesSelected(),
-        templates: getTestTemplates() || this.props.testTemplates
-      }
-    });
-    this.store.dispatch({
-      type: CONNECT_REQUEST,
-      options: getSocketSettings() || this.props.socketOptions
+    configureStore((store, preloadedState) => {
+      this.store = store;
+      store.dispatch({
+        type: CONNECT_REQUEST,
+        options: preloadedState.connection || this.props.socketOptions
+      });
+      this.forceUpdate();
     });
   }
 
   render() {
+    if (!this.store) return null;
     return (
       <Provider store={this.store}>
         <App {...this.props} />
@@ -34,17 +29,12 @@ class Root extends Component {
 }
 
 Root.propTypes = {
-  hash: PropTypes.bool,
   socketOptions: PropTypes.shape({
     hostname: PropTypes.string,
-    port: PropTypes.oneOfType([React.PropTypes.string, React.PropTypes.number]),
+    port: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     autoReconnect: PropTypes.bool,
     secure: PropTypes.bool
-  }),
-  monitorOptions: PropTypes.shape({
-    selected: PropTypes.string
-  }),
-  testTemplates: PropTypes.array
+  })
 };
 
-export default enhance(Root);
+export default Root;

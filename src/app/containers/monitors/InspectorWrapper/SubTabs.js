@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Tabs } from 'remotedev-monitor-components';
+import { Tabs } from 'devui';
 import StateTree from 'remotedev-inspector-monitor/lib/tabs/StateTab';
 import ActionTree from 'remotedev-inspector-monitor/lib/tabs/ActionTab';
 import DiffTree from 'remotedev-inspector-monitor/lib/tabs/DiffTab';
@@ -78,7 +79,7 @@ class SubTabs extends Component {
     return (
       <Tabs
         tabs={this.tabs}
-        selected={selected}
+        selected={selected || 'Tree'}
         onClick={this.props.selectMonitorTab}
       />
     );

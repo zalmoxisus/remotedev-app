@@ -1,6 +1,7 @@
 import stringifyJSON from '../utils/stringifyJSON';
 import { UPDATE_STATE, LIFTED_ACTION, EXPORT } from '../constants/actionTypes';
 import { getActiveInstance } from '../reducers/instances';
+
 let toExport;
 
 function download(state) {

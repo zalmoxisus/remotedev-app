@@ -1,7 +1,8 @@
 {
   "extends": "eslint-config-airbnb",
   "globals": {
-    "chrome": true
+    "chrome": true,
+    "electron": true
   },
   "env": {
     "jest": true,
@@ -10,6 +11,11 @@
   },
   "parser": "babel-eslint",
   "rules": {
+    "react/prefer-stateless-function": 0,
+    "react/no-array-index-key": 0,
+    "react/forbid-prop-types": 0,
+    "react/require-default-props": 0,
+    "react/jsx-filename-extension": 0,
     "react/jsx-uses-react": 2,
     "react/jsx-uses-vars": 2,
     "react/react-in-jsx-scope": 2,
@@ -28,7 +34,13 @@
     "id-length": 0,
     "no-use-before-define": 0,
     "indent": [2, 2, {"SwitchCase": 1}],
-    "new-cap": [2, { "capIsNewExceptions": ["Test"] }]
+    "new-cap": [2, { "capIsNewExceptions": ["Test"] }],
+    "no-underscore-dangle": 0,
+    "no-plusplus": 0,
+    "arrow-parens": 0,
+    "prefer-template": 0,
+    "class-methods-use-this": 0,
+    "no-mixed-operators": 0
   },
   "plugins": [
     "react"

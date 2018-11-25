@@ -1,13 +1,14 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import LockIcon from 'react-icons/lib/md/lock';
-import LockOpenIcon from 'react-icons/lib/md/lock-open';
-import Button from '../Button';
+import { Button } from 'devui';
+import LockIcon from 'react-icons/lib/io/ios-locked';
 import { lockChanges } from '../../actions';
 
 class LockButton extends Component {
   static propTypes = {
     locked: PropTypes.bool,
+    disabled: PropTypes.bool,
     lockChanges: PropTypes.func.isRequired
   };
 
@@ -18,9 +19,14 @@ class LockButton extends Component {
   render() {
     return (
       <Button
-        Icon={this.props.locked ? LockIcon : LockOpenIcon}
+        tooltipPosition="bottom"
+        disabled={this.props.disabled}
+        mark={this.props.locked && 'base0D'}
+        title={this.props.locked ? 'Unlock changes' : 'Lock changes'}
         onClick={this.props.lockChanges}
-      >{this.props.locked ? 'Unlock changes' : 'Lock changes'}</Button>
+      >
+        <LockIcon />
+      </Button>
     );
   }
 }
