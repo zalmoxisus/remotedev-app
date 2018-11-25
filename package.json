@@ -14,7 +14,7 @@
     "compress:app": "npm run build:app && gulp compress:app",
     "clean": "rm -rf build/ && rm -rf dev/",
     "build": "rm -rf ./lib && babel ./src/app --out-dir lib",
-    "prepublish": "eslint ./src/app && npm run test && npm run build && npm run build:umd && npm run build:umd:min",
+    "prepublishOnly": "eslint ./src/app && npm run test && npm run build && npm run build:umd && npm run build:umd:min",
     "lint": "eslint .",
     "test": "NODE_ENV=test jest --no-cache"
   },
