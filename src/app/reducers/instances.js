@@ -42,7 +42,7 @@ function updateState(state, request, id, serialize) {
 
   let newState;
   const liftedState = state[id] || state.default;
-  const action = request.action && parseJSON(request.action) || {};
+  const action = request.action && parseJSON(request.action, serialize) || {};
 
   switch (request.type) {
     case 'INIT':
