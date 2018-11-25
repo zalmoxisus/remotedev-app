@@ -1,6 +1,6 @@
 import commitExcessActions from './commitExcessActions';
 
-export function recompute(previousLiftedState, storeState, action, nextActionId = 1, isExcess) {
+export function recompute(previousLiftedState, storeState, action, nextActionId = 1, maxAge, isExcess) {
   const actionId = nextActionId - 1;
   const liftedState = { ...previousLiftedState };
 
@@ -22,6 +22,10 @@ export function recompute(previousLiftedState, storeState, action, nextActionId 
   liftedState.computedStates = [...liftedState.computedStates, { state: storeState }];
 
   if (isExcess) commitExcessActions(liftedState);
+  else if (maxAge) {
+    const excess = liftedState.stagedActionIds.length - maxAge;
+    if (excess > 0) commitExcessActions(liftedState, excess);
+  }
 
   return liftedState;
 }

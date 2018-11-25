@@ -55,7 +55,7 @@ function updateState(state, request, id, serialize) {
     case 'ACTION': {
       let isExcess = request.isExcess;
       const nextActionId = request.nextActionId || (liftedState.nextActionId + 1);
-      if (typeof isExcess === 'undefined') isExcess = nextActionId > request.maxAge;
+      const maxAge = request.maxAge;
       if (Array.isArray(action)) {
         // Batched actions
         newState = liftedState;
@@ -65,6 +65,7 @@ function updateState(state, request, id, serialize) {
             request.batched ? payload : payload[i],
             action[i],
             newState.nextActionId + 1,
+            maxAge,
             isExcess
           );
         }
@@ -74,6 +75,7 @@ function updateState(state, request, id, serialize) {
           payload,
           action,
           nextActionId,
+          maxAge,
           isExcess
         );
       }
