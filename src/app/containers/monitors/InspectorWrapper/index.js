@@ -19,9 +19,10 @@ class InspectorWrapper extends Component {
   static update = InspectorMonitor.update;
 
   render() {
-    const { lib, ...rest } = this.props;
+    const { options, ...rest } = this.props;
+    console.log(options);
     let tabs;
-    if (lib === 'redux') {
+    if (options.lib === 'redux' && (!options.features || options.features.test !== false)) {
       tabs = () => [...DEFAULT_TABS, { name: 'Test', component: TestTab }];
     } else {
       tabs = () => DEFAULT_TABS;
@@ -41,7 +42,7 @@ class InspectorWrapper extends Component {
 }
 
 InspectorWrapper.propTypes = {
-  lib: PropTypes.string
+  options: PropTypes.object.isRequired
 };
 
 export default InspectorWrapper;
