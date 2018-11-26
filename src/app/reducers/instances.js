@@ -106,7 +106,7 @@ function updateState(state, request, id, serialize) {
             key = oldStagedActionIds[i];
             if (key) delete oldActionsById[key];
           }
-          committedState = computedStates[0].state;
+          committedState = (oldComputedStates[0] ? oldComputedStates : computedStates)[0].state;
         } else {
           oldActionsById = liftedState.actionsById;
           oldComputedStates = liftedState.computedStates;
