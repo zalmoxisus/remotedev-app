@@ -36,7 +36,7 @@ export default class DevTools extends Component {
   componentWillUpdate(nextProps) {
     if (
       nextProps.monitor !== this.props.monitor ||
-      nextProps.lib !== this.props.lib
+      nextProps.options.lib !== this.props.options.lib
     ) this.getMonitor(nextProps);
   }
 
@@ -45,7 +45,7 @@ export default class DevTools extends Component {
       nextProps.monitor !== this.props.monitor ||
       nextProps.liftedState !== this.props.liftedState ||
       nextProps.monitorState !== this.props.liftedState ||
-      nextProps.lib !== this.props.lib
+      nextProps.options.lib !== this.props.options.lib
     );
   }
 
@@ -78,5 +78,5 @@ DevTools.propTypes = {
   monitorState: PropTypes.object,
   dispatch: PropTypes.func.isRequired,
   monitor: PropTypes.string,
-  lib: PropTypes.string
+  options: PropTypes.object.isRequired
 };

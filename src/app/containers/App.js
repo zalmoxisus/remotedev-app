@@ -30,8 +30,8 @@ class App extends Component {
           monitor={monitor}
           liftedState={liftedState}
           monitorState={this.props.monitorState}
+          options={options}
           dispatch={this.props.liftedDispatch}
-          lib={options.lib}
         />
         <Notification />
         {sliderIsOpen && options.connectionId &&
