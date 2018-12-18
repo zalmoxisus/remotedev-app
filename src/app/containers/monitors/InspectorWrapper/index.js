@@ -23,7 +23,7 @@ class InspectorWrapper extends Component {
     const { lib, ...rest } = this.props;
     let tabs;
     if (lib === 'redux') {
-      tabs = () => [...DEFAULT_TABS, { name: 'Stack', component: StackTraceTab }, { name: 'Test', component: TestTab }];
+      tabs = () => [...DEFAULT_TABS, { name: 'Trace', component: StackTraceTab }, { name: 'Test', component: TestTab }];
     } else {
       tabs = () => DEFAULT_TABS;
     }
