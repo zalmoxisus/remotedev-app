@@ -16,6 +16,7 @@ export default class Button extends React.Component {
     onMouseUp: PropTypes.func,
     Icon: PropTypes.func.isRequired,
     children: PropTypes.node,
+    title: PropTypes.string,
     theme: PropTypes.oneOfType([
       PropTypes.object,
       PropTypes.string
@@ -89,6 +90,7 @@ export default class Button extends React.Component {
         href={href}
         download={download}
         style={style}
+        title={title}
       >
         <Icon />
         {children && <span style={styles.buttonText}>{children}</span>}
