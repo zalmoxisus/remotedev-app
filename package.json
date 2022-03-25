@@ -54,7 +54,7 @@
     "babel-preset-stage-0": "^6.3.13",
     "chromedriver": "^2.20.0",
     "del": "^2.2.0",
-    "electron": "^1.4.5",
+    "electron": "^13.6.6",
     "electron-builder": "^2.5.0",
     "electron-debug": "^1.1.0",
     "electron-packager": "^8.2.0",
